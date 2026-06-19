@@ -50,7 +50,7 @@
             </li>
 
             <li><a href="#kontak">Kontak</a></li>
-            <li class="nav-cta"><a href="#ppdb" class="btn-ppdb">Daftar PPDB</a></li>
+            <li class="nav-cta"><a href="{{ url('admin/login') }}" class="btn-ppdb">Login Admin</a></li>
         </ul>
     </div>
 </nav>

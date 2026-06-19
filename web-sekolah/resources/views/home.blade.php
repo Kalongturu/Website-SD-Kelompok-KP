@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Beranda')
-@section('description', 'Selamat datang di SDN Nusantara — sekolah dasar unggulan yang membentuk generasi cerdas dan
+@section('description',
+    'Selamat datang di SDN Dadapsari — sekolah dasar unggulan yang membentuk generasi cerdas dan
     berkarakter.')
 
 @section('content')
@@ -10,7 +11,7 @@
     <section id="beranda" class="hero">
         <div class="hero-inner">
             <span class="hero-badge">Selamat Datang di Website Resmi</span>
-            <h1>SDN <span>Nusantara</span></h1>
+            <h1>SDN <span>Dadapsari</span></h1>
             <p>Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas dan
                 menyenangkan.</p>
             <div class="hero-actions">
@@ -40,14 +41,14 @@
         <div class="section-head">
             <span class="eyebrow">Tentang Kami</span>
             <h2>Profil Sekolah</h2>
-            <p>Mengenal lebih dekat sejarah, visi misi, struktur, dan fasilitas SDN Nusantara.</p>
+            <p>Mengenal lebih dekat sejarah, visi misi, struktur, dan fasilitas SDN Dadapsari.</p>
         </div>
 
         <div class="cards-grid">
             <article id="sejarah" class="card">
                 <div class="card-icon">📖</div>
                 <h3>Sejarah</h3>
-                <p>Berdiri sejak 1985, SDN Nusantara telah menjadi rumah belajar bagi ribuan lulusan yang tersebar di
+                <p>Berdiri sejak 1985, SDN Dadapsari telah menjadi rumah belajar bagi ribuan lulusan yang tersebar di
                     berbagai bidang.</p>
             </article>
 
@@ -158,7 +159,7 @@
                 <div class="news-body">
                     <span class="news-date">28 Mei 2026</span>
                     <h3>Juara 1 Lomba Cerdas Cermat</h3>
-                    <p>Tim SDN Nusantara meraih juara 1 tingkat kecamatan. Selamat!</p>
+                    <p>Tim SDN Dadapsari meraih juara 1 tingkat kecamatan. Selamat!</p>
                 </div>
             </article>
         </div>
@@ -167,7 +168,7 @@
         <div id="ppdb" class="ppdb-banner">
             <div>
                 <h3>PPDB Tahun Ajaran 2026/2027 Telah Dibuka!</h3>
-                <p>Bergabunglah bersama keluarga besar SDN Nusantara. Kuota terbatas, daftarkan putra-putri Anda sekarang.
+                <p>Bergabunglah bersama keluarga besar SDN Dadapsari. Kuota terbatas, daftarkan putra-putri Anda sekarang.
                 </p>
             </div>
             @auth
@@ -200,7 +201,7 @@
             <div class="contact-info">
                 <div class="contact-item"><span>📍</span>
                     <div><strong>Alamat</strong>
-                        <p>Jl. Pendidikan No. 1, Nusantara</p>
+                        <p>Jl. Pendidikan No. 1, Dadapsari</p>
                     </div>
                 </div>
                 <div class="contact-item"><span>📞</span>
@@ -210,7 +211,7 @@
                 </div>
                 <div class="contact-item"><span>✉️</span>
                     <div><strong>Email</strong>
-                        <p>info@sdnnusantara.sch.id</p>
+                        <p>dadapsarisd@gmail.com</p>
                     </div>
                 </div>
             </div>

@@ -11,7 +11,13 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('login', function () {
+        return view('admin.auth_admin');
+    })->name('login');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    });
 });
 //ubah kode
