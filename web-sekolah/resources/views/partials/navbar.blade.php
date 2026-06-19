@@ -19,7 +19,7 @@
                     <li><a href="#sejarah">Sejarah</a></li>
                     <li><a href="#visi-misi">Visi &amp; Misi</a></li>
                     <li><a href="#struktur">Struktur Organisasi</a></li>
-                    <li><a href="#fasilitas">Fasilitas</a></li>
+                    <li><a href="{{ route('profil.fasilitas') }}">Fasilitas</a></li>
                 </ul>
             </li>
 
