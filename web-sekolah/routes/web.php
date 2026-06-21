@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\KontakController;
+use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\PengumumanController;
+use App\Http\Controllers\Admin\GaleriController;
+use App\Http\Controllers\Admin\PpdbController;
 use App\Http\Controllers\KesiswaanController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Models\PpdbSetting;
 
-Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('admin.dashboard');
-    }
-
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('profil')->name('profil.')->group(function () {
     Route::get('fasilitas', function () {
@@ -130,7 +131,9 @@ Route::prefix('informasi')->name('informasi.')->group(function () {
 
 Route::prefix('ppdb')->name('ppdb.')->group(function () {
     Route::get('/', function () {
-        // 4 poin utama PPDB — nantinya bisa diisi/diubah lewat dashboard admin.
+        $ppdb = PpdbSetting::getData();
+
+        // 4 poin utama PPDB — template panduan statis.
         $poin = [
             [
                 'key' => 'pendaftaran',
@@ -189,7 +192,8 @@ Route::prefix('ppdb')->name('ppdb.')->group(function () {
 
         return view('ppdb.index', [
             'judul' => 'Penerimaan Peserta Didik Baru',
-            'poin' => $poin,
+            'poin'  => $poin,
+            'ppdb'  => $ppdb,
         ]);
     })->name('index');
 });
@@ -201,5 +205,40 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Kontak & Footer
+        Route::get('kontak', [KontakController::class, 'edit'])->name('kontak');
+        Route::put('kontak', [KontakController::class, 'update'])->name('kontak.update');
+
+        // Berita
+        Route::get('berita',                  [BeritaController::class, 'index'])->name('berita.index');
+        Route::get('berita/create',           [BeritaController::class, 'create'])->name('berita.create');
+        Route::post('berita',                 [BeritaController::class, 'store'])->name('berita.store');
+        Route::get('berita/{berita}/edit',    [BeritaController::class, 'edit'])->name('berita.edit');
+        Route::put('berita/{berita}',         [BeritaController::class, 'update'])->name('berita.update');
+        Route::delete('berita/{berita}',      [BeritaController::class, 'destroy'])->name('berita.destroy');
+        Route::patch('berita/{berita}/toggle',[BeritaController::class, 'toggle'])->name('berita.toggle');
+
+        // Pengumuman
+        Route::get('pengumuman',                        [PengumumanController::class, 'index'])->name('pengumuman.index');
+        Route::get('pengumuman/create',                 [PengumumanController::class, 'create'])->name('pengumuman.create');
+        Route::post('pengumuman',                       [PengumumanController::class, 'store'])->name('pengumuman.store');
+        Route::get('pengumuman/{pengumuman}/edit',      [PengumumanController::class, 'edit'])->name('pengumuman.edit');
+        Route::put('pengumuman/{pengumuman}',           [PengumumanController::class, 'update'])->name('pengumuman.update');
+        Route::delete('pengumuman/{pengumuman}',        [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
+        Route::patch('pengumuman/{pengumuman}/toggle',  [PengumumanController::class, 'toggle'])->name('pengumuman.toggle');
+
+        // Galeri
+        Route::get('galeri',                  [GaleriController::class, 'index'])->name('galeri.index');
+        Route::get('galeri/create',           [GaleriController::class, 'create'])->name('galeri.create');
+        Route::post('galeri',                 [GaleriController::class, 'store'])->name('galeri.store');
+        Route::get('galeri/{galeri}/edit',    [GaleriController::class, 'edit'])->name('galeri.edit');
+        Route::put('galeri/{galeri}',         [GaleriController::class, 'update'])->name('galeri.update');
+        Route::delete('galeri/{galeri}',      [GaleriController::class, 'destroy'])->name('galeri.destroy');
+        Route::patch('galeri/{galeri}/toggle',[GaleriController::class, 'toggle'])->name('galeri.toggle');
+
+        // PPDB Settings
+        Route::get('ppdb',  [PpdbController::class, 'index'])->name('ppdb.index');
+        Route::put('ppdb',  [PpdbController::class, 'update'])->name('ppdb.update');
     });
 });

@@ -1,9 +1,9 @@
 <nav class="navbar" id="navbar">
     {{-- this is navbar links for template this website --}}
     <div class="nav-container">
-        <a href="#beranda" class="logo">
+        <a href="{{ route('home') }}" class="logo">
             <span class="logo-mark">SD</span>
-            <span class="logo-text">SDN <strong>Dadapsari</strong></span>
+            <span class="logo-text"><strong>SDN Dadapsari</strong></span>
         </a>
 
         <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
@@ -11,14 +11,14 @@
         </button>
 
         <ul class="nav-links" id="navLinks">
-            <li><a href="#beranda">Beranda</a></li>
+            <li><a href="{{ route('home') }}">Beranda</a></li>
 
             <li class="dropdown">
                 <a href="#profil">Profil</a>
                 <ul class="dropdown-menu">
                     <li><a href="#sejarah">Sejarah</a></li>
                     <li><a href="#visi-misi">Visi &amp; Misi</a></li>
-                    <li><a href="#struktur">Struktur Organisasi</a></li>
+                    <li><a href="#transparansi-dana-bos">Transparansi Dana BOS</a></li>
                     <li><a href="{{ route('profil.fasilitas') }}">Fasilitas</a></li>
                 </ul>
             </li>
@@ -47,11 +47,10 @@
                     <li><a href="{{ route('informasi.index') }}">Berita &amp; Pengumuman</a></li>
                     <li><a href="{{ route('ppdb.index') }}">PPDB</a></li>
                     <li><a href="{{ route('informasi.galeri') }}">Galeri Foto</a></li>
+                    <li><a href="{{ route('home') }}#kontak">Kontak</a></li>
                 </ul>
             </li>
-
-            <li><a href="#kontak">Kontak</a></li>
-            <li class="nav-cta"><a href="{{ url('admin/login') }}" class="btn-ppdb">Login Admin</a></li>
+            <li class="nav-cta"><a href="{{ url('admin/login') }}" class="btn-ppdb">Login</a></li>
         </ul>
     </div>
 </nav>
