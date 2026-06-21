@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use App\Models\Galeri;
 use App\Models\PpdbSetting;
+use App\Models\Ekstrakurikuler;
+use App\Models\Prestasi;
 
 class HomeController extends Controller
 {
@@ -29,6 +31,21 @@ class HomeController extends Controller
 
         $ppdb = PpdbSetting::getData();
 
-        return view('home', compact('berita', 'galeriPreview', 'ppdb'));
+        $ekskulPreview = Ekstrakurikuler::where('is_active', true)
+            ->orderBy('urutan')
+            ->orderBy('nama')
+            ->limit(3)
+            ->get();
+
+        $prestasiPreview = Prestasi::where('is_active', true)
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id')
+            ->limit(3)
+            ->get();
+
+        return view('home', compact(
+            'berita', 'galeriPreview', 'ppdb',
+            'ekskulPreview', 'prestasiPreview'
+        ));
     }
 }

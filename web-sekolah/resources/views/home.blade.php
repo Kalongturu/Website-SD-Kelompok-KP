@@ -106,24 +106,111 @@
         <div class="section-head">
             <span class="eyebrow">Aktivitas Siswa</span>
             <h2>Kesiswaan</h2>
-            <p>Ruang berkembang bagi minat, bakat, dan prestasi siswa.</p>
+            <p>Ruang berkembang bagi minat, bakat, dan prestasi siswa SDN Dadapsari.</p>
         </div>
 
-        <div class="cards-grid cards-3">
-            <a href="{{ route('kesiswaan.ekstrakurikuler') }}" id="ekstrakurikuler" class="card">
-                <div class="card-icon">⚽</div>
-                <h3>Ekstrakurikuler</h3>
-                <p>Pramuka, futsal, seni tari, paduan suara, dan robotik untuk menyalurkan bakat siswa.</p>
-            </a>
-            <a href="{{ route('kesiswaan.prestasi') }}" id="prestasi" class="card">
-                <div class="card-icon">🏆</div>
-                <h3>Prestasi Siswa</h3>
-                <p>Berbagai juara olimpiade, lomba seni, dan kompetisi olahraga tingkat kota hingga nasional.</p>
-            </a>
-            <a href="{{ route('kesiswaan.tata-tertib') }}" id="tata-tertib" class="card">
-                <div class="card-icon">📋</div>
-                <h3>Tata Tertib</h3>
-                <p>Aturan sekolah yang menumbuhkan kedisiplinan, tanggung jawab, dan akhlak mulia.</p>
+        {{-- Ekstrakurikuler preview — 3 dari DB, klik → halaman Ekstrakurikuler --}}
+        <div id="ekstrakurikuler" style="margin-bottom:2rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">⚽ Ekstrakurikuler</span>
+                <a href="{{ route('kesiswaan.ekstrakurikuler') }}"
+                   style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+            </div>
+            <div class="news-grid">
+                @forelse ($ekskulPreview as $e)
+                    <a href="{{ route('kesiswaan.ekstrakurikuler') }}" class="news-card"
+                       style="text-decoration:none;color:inherit;display:block;">
+                        <div class="news-thumb"
+                             style="--c1:#0f766e;--c2:#14b8a6;position:relative;overflow:hidden;">
+                            @if ($e->foto)
+                                <img src="{{ $e->fotoUrl() }}" alt="{{ $e->nama }}"
+                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                            @else
+                                <span>{{ $e->icon ?: '🎯' }}</span>
+                            @endif
+                        </div>
+                        <div class="news-body">
+                            @if ($e->kategori)
+                                <span class="news-date">{{ $e->kategori }}</span>
+                            @endif
+                            <h3>{{ $e->nama }}</h3>
+                            <p>{{ $e->deskripsi_singkat ?: \Illuminate\Support\Str::limit(strip_tags($e->deskripsi), 90) ?: 'Kegiatan ekstrakurikuler unggulan SDN Dadapsari.' }}</p>
+                        </div>
+                    </a>
+                @empty
+                    @foreach ([['⚽','Olahraga','Futsal & Pramuka','Pengembangan jiwa sportivitas dan kedisiplinan siswa.'],['🎨','Seni','Seni Tari & Musik','Menyalurkan kreativitas siswa di bidang seni budaya.'],['🔬','Akademik','KIR & Olimpiade','Kompetisi ilmu pengetahuan antar sekolah.']] as [$ico,$kat,$nm,$desk])
+                        <article class="news-card">
+                            <div class="news-thumb" style="--c1:#0f766e;--c2:#14b8a6;"><span>{{ $ico }}</span></div>
+                            <div class="news-body">
+                                <span class="news-date">{{ $kat }}</span>
+                                <h3>{{ $nm }}</h3>
+                                <p>{{ $desk }}</p>
+                            </div>
+                        </article>
+                    @endforeach
+                @endforelse
+            </div>
+        </div>
+
+        {{-- Prestasi preview — 3 terbaru dari DB, klik → halaman Prestasi --}}
+        <div id="prestasi" style="margin-bottom:2rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">🏆 Prestasi Terbaru</span>
+                <a href="{{ route('kesiswaan.prestasi') }}"
+                   style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+            </div>
+            <div class="news-grid">
+                @forelse ($prestasiPreview as $p)
+                    <a href="{{ route('kesiswaan.prestasi') }}" class="news-card"
+                       style="text-decoration:none;color:inherit;display:block;">
+                        <div class="news-thumb"
+                             style="--c1:#78350f;--c2:#f59e0b;position:relative;overflow:hidden;">
+                            @if ($p->foto)
+                                <img src="{{ $p->fotoUrl() }}" alt="{{ $p->nama_kejuaraan }}"
+                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                            @else
+                                <span>🏆</span>
+                            @endif
+                        </div>
+                        <div class="news-body">
+                            @if ($p->tanggal)
+                                <span class="news-date">{{ $p->tanggal->translatedFormat('d F Y') }}</span>
+                            @endif
+                            <h3>{{ $p->nama_kejuaraan }}</h3>
+                            <p>
+                                @if ($p->peringkat) <strong>{{ $p->peringkat }}</strong> @endif
+                                @if ($p->peringkat && $p->tingkat) — @endif
+                                @if ($p->tingkat) Tingkat {{ $p->tingkat }} @endif
+                                @if ($p->nama_siswa) · {{ $p->nama_siswa }} @endif
+                            </p>
+                        </div>
+                    </a>
+                @empty
+                    @foreach ([['🥇','Juara 1 OSN Matematika','Tingkat Kota'],['🥈','Juara 2 MAPSI','Tingkat Provinsi'],['🏅','Juara 1 Futsal','Tingkat Kecamatan']] as [$ico,$nm,$tk])
+                        <article class="news-card">
+                            <div class="news-thumb" style="--c1:#78350f;--c2:#f59e0b;"><span>{{ $ico }}</span></div>
+                            <div class="news-body">
+                                <span class="news-date">Prestasi Siswa</span>
+                                <h3>{{ $nm }}</h3>
+                                <p>{{ $tk }} — SDN Dadapsari</p>
+                            </div>
+                        </article>
+                    @endforeach
+                @endforelse
+            </div>
+        </div>
+
+        {{-- Tata Tertib — card statis, klik → halaman Tata Tertib --}}
+        <div id="tata-tertib">
+            <a href="{{ route('kesiswaan.tata-tertib') }}" class="card"
+               style="display:flex;flex-direction:row;align-items:center;gap:1.5rem;padding:1.5rem 2rem;
+                      text-decoration:none;color:inherit;max-width:480px;margin:0 auto;">
+                <div class="card-icon" style="font-size:2.5rem;flex-shrink:0;">📋</div>
+                <div>
+                    <h3 style="margin-bottom:.3rem;">Tata Tertib</h3>
+                    <p style="margin:0;font-size:.88rem;">Aturan sekolah yang menumbuhkan kedisiplinan, tanggung jawab, dan akhlak mulia.</p>
+                </div>
+                <span style="margin-left:auto;font-size:1.25rem;color:var(--accent);flex-shrink:0;">→</span>
             </a>
         </div>
     </section>

@@ -12,6 +12,7 @@ class TataTertib extends Model
         'kategori',
         'icon',
         'isi',
+        'dokumen',
         'urutan',
         'is_active',
     ];
@@ -21,11 +22,6 @@ class TataTertib extends Model
         'urutan'    => 'integer',
     ];
 
-    /**
-     * Pecah kolom "isi" menjadi daftar butir aturan (satu baris = satu butir).
-     *
-     * @return array<int, string>
-     */
     public function butir(): array
     {
         return collect(preg_split('/\r\n|\r|\n/', (string) $this->isi))
@@ -33,5 +29,11 @@ class TataTertib extends Model
             ->filter()
             ->values()
             ->all();
+    }
+
+    public function dokumenUrl(): ?string
+    {
+        if (! $this->dokumen) return null;
+        return asset('storage/' . $this->dokumen);
     }
 }

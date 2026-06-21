@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\PengumumanController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\PpdbController;
+use App\Http\Controllers\Admin\EkstrakurikulerController;
+use App\Http\Controllers\Admin\PrestasiController;
+use App\Http\Controllers\Admin\TataTertibController;
 use App\Http\Controllers\KesiswaanController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\Admin\AuthController;
@@ -240,5 +243,38 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // PPDB Settings
         Route::get('ppdb',  [PpdbController::class, 'index'])->name('ppdb.index');
         Route::put('ppdb',  [PpdbController::class, 'update'])->name('ppdb.update');
+
+        // Kesiswaan — Ekstrakurikuler
+        Route::prefix('ekskul')->name('ekskul.')->group(function () {
+            Route::get('/',                             [EkstrakurikulerController::class, 'index'])->name('index');
+            Route::get('/create',                       [EkstrakurikulerController::class, 'create'])->name('create');
+            Route::post('/',                            [EkstrakurikulerController::class, 'store'])->name('store');
+            Route::get('/{ekstrakurikuler}/edit',       [EkstrakurikulerController::class, 'edit'])->name('edit');
+            Route::put('/{ekstrakurikuler}',            [EkstrakurikulerController::class, 'update'])->name('update');
+            Route::delete('/{ekstrakurikuler}',         [EkstrakurikulerController::class, 'destroy'])->name('destroy');
+            Route::patch('/{ekstrakurikuler}/toggle',   [EkstrakurikulerController::class, 'toggle'])->name('toggle');
+        });
+
+        // Kesiswaan — Prestasi
+        Route::prefix('prestasi')->name('prestasi.')->group(function () {
+            Route::get('/',                             [PrestasiController::class, 'index'])->name('index');
+            Route::get('/create',                       [PrestasiController::class, 'create'])->name('create');
+            Route::post('/',                            [PrestasiController::class, 'store'])->name('store');
+            Route::get('/{prestasi}/edit',              [PrestasiController::class, 'edit'])->name('edit');
+            Route::put('/{prestasi}',                   [PrestasiController::class, 'update'])->name('update');
+            Route::delete('/{prestasi}',                [PrestasiController::class, 'destroy'])->name('destroy');
+            Route::patch('/{prestasi}/toggle',          [PrestasiController::class, 'toggle'])->name('toggle');
+        });
+
+        // Kesiswaan — Tata Tertib
+        Route::prefix('tata-tertib')->name('tata-tertib.')->group(function () {
+            Route::get('/',                             [TataTertibController::class, 'index'])->name('index');
+            Route::get('/create',                       [TataTertibController::class, 'create'])->name('create');
+            Route::post('/',                            [TataTertibController::class, 'store'])->name('store');
+            Route::get('/{tataTertib}/edit',            [TataTertibController::class, 'edit'])->name('edit');
+            Route::put('/{tataTertib}',                 [TataTertibController::class, 'update'])->name('update');
+            Route::delete('/{tataTertib}',              [TataTertibController::class, 'destroy'])->name('destroy');
+            Route::patch('/{tataTertib}/toggle',        [TataTertibController::class, 'toggle'])->name('toggle');
+        });
     });
 });

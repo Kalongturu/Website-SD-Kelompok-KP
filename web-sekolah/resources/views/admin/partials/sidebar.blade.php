@@ -50,7 +50,11 @@
         </div>
 
         {{-- Kesiswaan --}}
-        @php $kesiswaanOpen = false; @endphp
+        @php
+            $kesiswaanOpen = request()->routeIs(
+                'admin.ekskul.*', 'admin.prestasi.*', 'admin.tata-tertib.*'
+            );
+        @endphp
         <button class="sidebar-link sidebar-collapse-btn" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navKesiswaan"
                 aria-expanded="{{ $kesiswaanOpen ? 'true' : 'false' }}">
@@ -59,9 +63,18 @@
             <i class="bi bi-chevron-down sidebar-arrow ms-auto"></i>
         </button>
         <div class="collapse {{ $kesiswaanOpen ? 'show' : '' }}" id="navKesiswaan">
-            <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-trophy-fill"></i> Ekstrakurikuler</a>
-            <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-award-fill"></i> Prestasi Siswa</a>
-            <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-clipboard2-check-fill"></i> Tata Tertib</a>
+            <a href="{{ route('admin.ekskul.index') }}"
+               class="sidebar-link sidebar-child {{ request()->routeIs('admin.ekskul.*') ? 'active' : '' }}">
+                <i class="bi bi-trophy-fill"></i> Ekstrakurikuler
+            </a>
+            <a href="{{ route('admin.prestasi.index') }}"
+               class="sidebar-link sidebar-child {{ request()->routeIs('admin.prestasi.*') ? 'active' : '' }}">
+                <i class="bi bi-award-fill"></i> Prestasi Siswa
+            </a>
+            <a href="{{ route('admin.tata-tertib.index') }}"
+               class="sidebar-link sidebar-child {{ request()->routeIs('admin.tata-tertib.*') ? 'active' : '' }}">
+                <i class="bi bi-clipboard2-check-fill"></i> Tata Tertib
+            </a>
         </div>
 
         {{-- Informasi --}}
