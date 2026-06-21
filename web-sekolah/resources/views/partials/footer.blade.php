@@ -15,10 +15,10 @@
         <div class="footer-col">
             <h4>Tautan Cepat</h4>
             <ul>
-                <li><a href="#profil">Profil Sekolah</a></li>
-                <li><a href="#akademik">Akademik</a></li>
-                <li><a href="#berita">Berita &amp; Pengumuman</a></li>
-                <li><a href="#ppdb">PPDB</a></li>
+                <li><a href="{{ route('home') }}#profil">Profil Sekolah</a></li>
+                <li><a href="{{ route('home') }}#akademik">Akademik</a></li>
+                <li><a href="{{ route('informasi.index') }}">Berita &amp; Pengumuman</a></li>
+                <li><a href="{{ route('ppdb.index') }}">PPDB</a></li>
             </ul>
         </div>
 

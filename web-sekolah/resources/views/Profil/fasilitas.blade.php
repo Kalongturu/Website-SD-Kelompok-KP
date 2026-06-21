@@ -214,12 +214,13 @@
         align-items: center;
         gap: .4rem;
         font-size: .85rem;
-        color: var(--primary);
+        color: #fff;
         text-decoration: none;
         margin-bottom: 1.25rem;
         font-weight: 600;
+        text-shadow: 0 1px 6px rgba(0,0,0,.35);
     }
-    .back-link:hover { color: var(--accent); }
+    .back-link:hover { color: rgba(255,255,255,.75); }
 
     @media (max-width: 600px) {
         .rk-grid { grid-template-columns: 1fr 1fr; }

@@ -20,6 +20,9 @@ use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Models\PpdbSetting;
 
+// Semua route publik — admin yang masih login diarahkan kembali ke dashboard
+Route::middleware('redirect.admin')->group(function () {
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('profil')->name('profil.')->group(function () {
@@ -187,7 +190,9 @@ Route::prefix('ppdb')->name('ppdb.')->group(function () {
     })->name('index');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+}); // end redirect.admin group
+
+Route::prefix('admin')->name('admin.')->middleware('nocache')->group(function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');

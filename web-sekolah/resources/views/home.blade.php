@@ -41,7 +41,7 @@
         <div class="section-head">
             <span class="eyebrow">Tentang Kami</span>
             <h2>Profil Sekolah</h2>
-            <p>Mengenal lebih dekat sejarah, visi misi, struktur, dan fasilitas SDN Dadapsari.</p>
+            <p>Mengenal lebih dekat sejarah, visi misi, transparansi dana, dan fasilitas SDN Dadapsari.</p>
         </div>
 
         <div class="cards-grid">
@@ -61,11 +61,12 @@
                 </p>
             </a>
 
-            <article id="struktur" class="card">
-                <div class="card-icon">🏛️</div>
-                <h3>Struktur Organisasi</h3>
-                <p>Dipimpin kepala sekolah profesional, didukung tenaga pendidik dan staf yang kompeten dan berdedikasi.</p>
-            </article>
+            <a href="{{ route('profil.transparansi-dana-bos') }}" id="transparansi-dana-bos" class="card"
+               style="text-decoration:none;color:inherit;display:block;">
+                <div class="card-icon">💰</div>
+                <h3>Transparansi Dana BOS</h3>
+                <p>Informasi penggunaan dana Bantuan Operasional Sekolah secara terbuka dan akuntabel.</p>
+            </a>
 
             <a href="{{ route('profil.fasilitas') }}" id="fasilitas" class="card"
                style="text-decoration:none;color:inherit;display:block;">

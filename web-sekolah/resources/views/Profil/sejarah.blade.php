@@ -51,10 +51,11 @@
 
     .back-link {
         display: inline-flex; align-items: center; gap: .4rem;
-        font-size: .85rem; color: var(--primary); text-decoration: none;
+        font-size: .85rem; color: #fff; text-decoration: none;
         margin-bottom: 1.25rem; font-weight: 600;
+        text-shadow: 0 1px 6px rgba(0,0,0,.35);
     }
-    .back-link:hover { color: var(--accent); }
+    .back-link:hover { color: rgba(255,255,255,.75); }
 </style>
 @endpush
 

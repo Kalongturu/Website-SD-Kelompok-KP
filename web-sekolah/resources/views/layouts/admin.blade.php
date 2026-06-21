@@ -627,6 +627,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Guard terhadap bfcache: jika halaman admin di-restore dari back/forward cache
+        // (bukan fresh request), paksa reload agar server bisa cek auth.
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) {
+                window.location.reload();
+            }
+        });
+
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
         const toggle = document.getElementById('sidebarToggle');
