@@ -136,56 +136,75 @@
             <p>Berita, pendaftaran, dan dokumentasi kegiatan sekolah.</p>
         </div>
 
-        {{-- Berita --}}
+        {{-- Berita — 3 terbaru, klik → halaman Berita & Pengumuman --}}
         <div id="berita" class="news-grid">
-            <article class="news-card">
-                <div class="news-thumb" style="--c1:#1a5f7a;--c2:#57c5b6;">📰</div>
-                <div class="news-body">
-                    <span class="news-date">10 Juni 2026</span>
-                    <h3>Pembagian Rapor Semester Genap</h3>
-                    <p>Pengambilan rapor dijadwalkan tanggal 20 Juni 2026 oleh orang tua/wali siswa.</p>
-                </div>
-            </article>
-            <article class="news-card">
-                <div class="news-thumb" style="--c1:#57c5b6;--c2:#1a5f7a;">🎓</div>
-                <div class="news-body">
-                    <span class="news-date">2 Juni 2026</span>
-                    <h3>Wisuda &amp; Pelepasan Siswa Kelas 6</h3>
-                    <p>Acara pelepasan siswa kelas 6 berlangsung khidmat di aula sekolah.</p>
-                </div>
-            </article>
-            <article class="news-card">
-                <div class="news-thumb" style="--c1:#f4a261;--c2:#1a5f7a;">🏅</div>
-                <div class="news-body">
-                    <span class="news-date">28 Mei 2026</span>
-                    <h3>Juara 1 Lomba Cerdas Cermat</h3>
-                    <p>Tim SDN Dadapsari meraih juara 1 tingkat kecamatan. Selamat!</p>
-                </div>
-            </article>
+            @forelse ($berita as $item)
+                <a href="{{ route('informasi.index') }}" class="news-card"
+                   style="text-decoration:none;color:inherit;display:block;">
+                    {{-- position:relative + overflow:hidden agar gambar terkurung di dalam thumb --}}
+                    <div class="news-thumb"
+                         style="--c1:#1a5f7a;--c2:#57c5b6;position:relative;overflow:hidden;">
+                        @if ($item->gambar)
+                            <img src="{{ asset('storage/' . $item->gambar) }}"
+                                 alt="{{ $item->judul }}"
+                                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                        @else
+                            <span>📰</span>
+                        @endif
+                    </div>
+                    <div class="news-body">
+                        @if ($item->tanggal)
+                            <span class="news-date">{{ $item->tanggal->translatedFormat('d F Y') }}</span>
+                        @endif
+                        <h3>{{ $item->judul }}</h3>
+                        <p>{{ $item->preview(100) }}</p>
+                    </div>
+                </a>
+            @empty
+                <article class="news-card">
+                    <div class="news-thumb" style="--c1:#1a5f7a;--c2:#57c5b6;"><span>📰</span></div>
+                    <div class="news-body">
+                        <span class="news-date">—</span>
+                        <h3>Belum ada berita</h3>
+                        <p>Berita terbaru sekolah akan tampil di sini.</p>
+                    </div>
+                </article>
+            @endforelse
         </div>
 
-        {{-- PPDB --}}
+        {{-- PPDB Banner — dari DB, klik → halaman PPDB --}}
         <div id="ppdb" class="ppdb-banner">
             <div>
-                <h3>PPDB Tahun Ajaran 2026/2027 Telah Dibuka!</h3>
-                <p>Bergabunglah bersama keluarga besar SDN Dadapsari. Kuota terbatas, daftarkan putra-putri Anda sekarang.
-                </p>
+                <h3>PPDB Tahun Ajaran {{ $ppdb->tahun_ajaran }}
+                    {{ $ppdb->is_open ? 'Telah Dibuka!' : '' }}</h3>
+                <p>{{ $ppdb->pengumuman }}</p>
             </div>
-            @auth
-                <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Daftar Sekarang</a>
-            @else
-                <a href="#kontak" class="btn btn-primary">Daftar Sekarang</a>
-            @endauth
+            <a href="{{ route('ppdb.index') }}" class="btn btn-primary">
+                {{ $ppdb->is_open ? 'Daftar Sekarang' : 'Lihat Info PPDB' }}
+            </a>
         </div>
 
-        {{-- Galeri --}}
+        {{-- Galeri — preview dari DB, klik → halaman Galeri --}}
         <div id="galeri" class="gallery">
-            <div class="gallery-item" style="--c1:#1a5f7a;--c2:#57c5b6;">📸</div>
-            <div class="gallery-item" style="--c1:#57c5b6;--c2:#f4a261;">🎨</div>
-            <div class="gallery-item" style="--c1:#f4a261;--c2:#1a5f7a;">🎶</div>
-            <div class="gallery-item" style="--c1:#1a5f7a;--c2:#e76f51;">⚽</div>
-            <div class="gallery-item" style="--c1:#2a9d8f;--c2:#1a5f7a;">🔬</div>
-            <div class="gallery-item" style="--c1:#e9c46a;--c2:#57c5b6;">📚</div>
+            @forelse ($galeriPreview as $foto)
+                {{-- position:relative + overflow:hidden agar gambar terkurung di dalam sel --}}
+                <a href="{{ route('informasi.galeri') }}" class="gallery-item"
+                   style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;
+                          position:relative;overflow:hidden;display:grid;place-items:center;">
+                    @if ($foto->gambarUrl())
+                        <img src="{{ $foto->gambarUrl() }}"
+                             alt="{{ $foto->judul }}"
+                             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                    @else
+                        <span style="position:relative;z-index:1;">📸</span>
+                    @endif
+                </a>
+            @empty
+                @foreach (['📸','🎨','🎶','⚽','🔬','📚'] as $ikon)
+                    <a href="{{ route('informasi.galeri') }}" class="gallery-item"
+                       style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;">{{ $ikon }}</a>
+                @endforeach
+            @endforelse
         </div>
     </section>
 
