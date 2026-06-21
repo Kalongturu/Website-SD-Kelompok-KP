@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Prestasi Siswa')
-@section('description',
-    'Daftar prestasi dan kejuaraan yang diraih siswa SDN Dadapsari di berbagai bidang dan tingkat.')
+@section('description', 'Daftar prestasi dan kejuaraan yang diraih siswa SDN Dadapsari di berbagai bidang dan tingkat.')
 
 @push('styles')
     <style>
@@ -241,117 +240,288 @@
         }
 
         @media (max-width: 992px) {
-            .prestasi-grid { grid-template-columns: repeat(2, 1fr); }
+            .prestasi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 600px) {
-            .prestasi-grid { grid-template-columns: 1fr; }
-            .prestasi-filters { grid-template-columns: 1fr; }
+            .prestasi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .prestasi-filters {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ── MODAL ── */
         .pm-overlay {
-            position: fixed; inset: 0; z-index: 9000;
-            background: rgba(0,0,0,.55);
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            background: rgba(0, 0, 0, .55);
             backdrop-filter: blur(4px);
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 1rem;
-            opacity: 0; pointer-events: none;
+            opacity: 0;
+            pointer-events: none;
             transition: opacity .25s ease;
         }
-        .pm-overlay.open { opacity: 1; pointer-events: all; }
+
+        .pm-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
 
         .pm-dialog {
             background: #fff;
             border-radius: 20px;
-            width: 100%; max-width: 560px;
+            width: 100%;
+            max-width: 560px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 24px 60px rgba(0,43,91,.25);
+            box-shadow: 0 24px 60px rgba(0, 43, 91, .25);
             transform: translateY(24px) scale(.97);
             transition: transform .25s ease;
+            scrollbar-width: none;
         }
-        .pm-overlay.open .pm-dialog { transform: translateY(0) scale(1); }
+
+        .pm-dialog::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pm-overlay.open .pm-dialog {
+            transform: translateY(0) scale(1);
+        }
 
         .pm-foto {
-            width: 100%; aspect-ratio: 16/9; object-fit: cover;
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
             border-radius: 20px 20px 0 0;
             display: block;
         }
+
         .pm-foto-placeholder {
-            width: 100%; aspect-ratio: 16/9;
+            width: 100%;
+            aspect-ratio: 16/9;
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
             border-radius: 20px 20px 0 0;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 3.5rem;
         }
 
-        .pm-body { padding: 1.5rem; }
+        .pm-foto {
+            cursor: zoom-in;
+            position: relative;
+        }
+
+        .pm-foto-zoom-hint {
+            position: absolute;
+            bottom: .6rem;
+            right: .6rem;
+            background: rgba(0, 0, 0, .5);
+            color: #fff;
+            font-size: .72rem;
+            font-weight: 600;
+            padding: .25rem .6rem;
+            border-radius: 50px;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: .3rem;
+        }
+
+        /* ── LIGHTBOX ── */
+        .pm-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9500;
+            background: rgba(0, 0, 0, .92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s ease;
+        }
+
+        .pm-lightbox.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .pm-lightbox img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .6);
+            transform: scale(.92);
+            transition: transform .25s ease;
+            display: block;
+        }
+
+        .pm-lightbox.open img {
+            transform: scale(1);
+        }
+
+        .pm-lightbox-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, .12);
+            border: 1.5px solid rgba(255, 255, 255, .25);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+        }
+
+        .pm-lightbox-close:hover {
+            background: rgba(255, 255, 255, .25);
+        }
+
+        .pm-body {
+            padding: 1.5rem;
+            border-top: 2px solid #e2e8f0;
+        }
 
         .pm-top {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: .5rem; margin-bottom: .75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .5rem;
+            margin-bottom: .75rem;
         }
+
         .pm-rank {
-            display: inline-flex; align-items: center; gap: .35rem;
-            background: var(--accent-soft); color: var(--primary-dark);
-            font-weight: 700; font-size: .9rem;
-            padding: .35rem .9rem; border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            background: var(--accent-soft);
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: .9rem;
+            padding: .35rem .9rem;
+            border-radius: 50px;
         }
+
         .pm-kategori {
-            font-size: .72rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: .5px; color: var(--primary);
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--primary);
         }
+
         .pm-title {
-            font-size: 1.25rem; font-weight: 800;
-            color: var(--primary-dark); line-height: 1.3;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.3;
             margin-bottom: 1rem;
         }
 
         .pm-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: .6rem 1rem; margin-bottom: 1rem;
-        }
-        .pm-field label {
-            display: block; font-size: .7rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: .5px;
-            color: var(--muted); margin-bottom: .15rem;
-        }
-        .pm-field span {
-            font-size: .88rem; color: var(--text); font-weight: 500;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .6rem 1rem;
+            margin-bottom: 1rem;
         }
 
-        .pm-divider { height: 1px; background: #f1f5f9; margin: 1rem 0; }
+        .pm-field label {
+            display: block;
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--muted);
+            margin-bottom: .15rem;
+        }
+
+        .pm-field span {
+            font-size: .88rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .pm-divider {
+            height: 1px;
+            background: #f1f5f9;
+            margin: 1rem 0;
+        }
 
         .pm-desc-label {
-            font-size: .7rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: .5px; color: var(--muted); margin-bottom: .4rem;
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--muted);
+            margin-bottom: .4rem;
         }
+
         .pm-desc {
-            font-size: .9rem; color: var(--text); line-height: 1.7;
+            font-size: .9rem;
+            color: var(--text);
+            line-height: 1.7;
         }
 
         .pm-close-btn {
-            display: block; width: 100%; margin-top: 1.25rem;
-            padding: .75rem; border-radius: 12px;
-            background: var(--primary); color: #fff;
-            font-size: .9rem; font-weight: 600;
-            border: none; cursor: pointer;
+            display: block;
+            width: 100%;
+            margin-top: 1.25rem;
+            padding: .75rem;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #fff;
+            font-size: .9rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
             transition: opacity .2s;
         }
-        .pm-close-btn:hover { opacity: .88; }
+
+        .pm-close-btn:hover {
+            opacity: .88;
+        }
 
         .pm-close-x {
-            position: absolute; top: 1rem; right: 1rem;
-            width: 36px; height: 36px;
-            background: rgba(0,0,0,.35);
-            border: none; border-radius: 50%;
-            color: #fff; font-size: 1.1rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, .35);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: background .2s;
         }
-        .pm-close-x:hover { background: rgba(0,0,0,.55); }
-        .pm-foto-wrap { position: relative; }
+
+        .pm-close-x:hover {
+            background: rgba(0, 0, 0, .55);
+        }
+
+        .pm-foto-wrap {
+            position: relative;
+        }
     </style>
 @endpush
 
@@ -366,7 +536,9 @@
     </section>
 
     <div class="prestasi-wrap">
-        @if ($prestasi->isEmpty())
+
+        @if ($prestasi->isEmpty() && !request()->anyFilled(['kategori', 'search', 'tahun']))
+            {{-- Belum ada data sama sekali --}}
             <div class="empty-state">
                 <div class="empty-icon">🏆</div>
                 <h3>Belum ada data prestasi</h3>
@@ -375,99 +547,132 @@
         @else
             {{-- ===================== PANEL FILTER ===================== --}}
             <div class="prestasi-panel">
-                <div class="prestasi-tabs" id="prestasiTabs">
-                    <button type="button" class="prestasi-tab active" data-kategori="all">Semua Kategori</button>
-                    @foreach ($kategori as $kat)
-                        <button type="button" class="prestasi-tab" data-kategori="{{ $kat }}">{{ $kat }}</button>
+                <form id="prestasiForm" method="GET" action="{{ route('kesiswaan.prestasi') }}">
+                    <input type="hidden" name="kategori" id="inputKategori"
+                        value="{{ request('kategori', 'all') }}">
+
+                    <div class="prestasi-tabs">
+                        <button type="button"
+                            class="prestasi-tab {{ !request('kategori') || request('kategori') === 'all' ? 'active' : '' }}"
+                            onclick="setKategori('all')">Semua Kategori</button>
+                        @foreach ($kategori as $kat)
+                            <button type="button"
+                                class="prestasi-tab {{ request('kategori') === $kat ? 'active' : '' }}"
+                                onclick="setKategori(this.dataset.val)" data-val="{{ $kat }}">{{ $kat }}</button>
+                        @endforeach
+                    </div>
+
+                    <div class="prestasi-filters">
+                        <div class="prestasi-search">
+                            <span class="ico">🔍</span>
+                            <input type="text" name="search" id="prestasiSearch"
+                                placeholder="Cari nama lomba atau nama siswa..."
+                                value="{{ request('search', '') }}" autocomplete="off">
+                        </div>
+                        <select name="tahun" id="prestasiYear"
+                            onchange="document.getElementById('prestasiForm').submit()">
+                            <option value="all"
+                                {{ !request('tahun') || request('tahun') === 'all' ? 'selected' : '' }}>Semua Tahun
+                            </option>
+                            @foreach ($tahun as $th)
+                                <option value="{{ $th }}"
+                                    {{ request('tahun') == $th ? 'selected' : '' }}>{{ $th }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <p class="prestasi-count">
+                @if ($prestasi->total() > 0)
+                    Menampilkan {{ $prestasi->total() }} prestasi
+                    @if (request('kategori') && request('kategori') !== 'all')
+                        pada kategori <strong>{{ request('kategori') }}</strong>
+                    @endif
+                @endif
+            </p>
+
+            {{-- ===================== GRID KARTU ===================== --}}
+            @if ($prestasi->isEmpty())
+                <div class="empty-state">
+                    <div class="empty-icon">🔎</div>
+                    <h3>Tidak ada prestasi yang cocok</h3>
+                    <p>Coba ubah kata kunci, kategori, atau tahun pencarian Anda.</p>
+                </div>
+            @else
+                <div class="prestasi-grid">
+                    @foreach ($prestasi as $item)
+                        @php
+                            $p = strtolower($item->peringkat ?? '');
+                            $rankIcon = str_contains($p, '1')
+                                ? '🥇'
+                                : (str_contains($p, '2')
+                                    ? '🥈'
+                                    : (str_contains($p, '3')
+                                        ? '🥉'
+                                        : '🏅'));
+                        @endphp
+                        <article class="prestasi-card"
+                            data-judul="{{ $item->nama_kejuaraan }}"
+                            data-peringkat="{{ $item->peringkat ?: 'Peserta' }}"
+                            data-rank-icon="{{ str_contains(strtolower($item->peringkat ?? ''), '1') ? '🥇' : (str_contains(strtolower($item->peringkat ?? ''), '2') ? '🥈' : (str_contains(strtolower($item->peringkat ?? ''), '3') ? '🥉' : '🏅')) }}"
+                            data-kategori="{{ $item->kategori }}"
+                            data-tingkat="{{ $item->tingkat }}"
+                            data-tanggal="{{ $item->tanggal ? $item->tanggal->translatedFormat('d F Y') : '' }}"
+                            data-siswa="{{ $item->nama_siswa }}" data-kelas="{{ $item->kelas }}"
+                            data-penyelenggara="{{ $item->penyelenggara }}" data-tempat="{{ $item->tempat }}"
+                            data-deskripsi="{{ $item->deskripsi }}" data-foto="{{ $item->fotoUrl() }}"
+                            tabindex="0" role="button" aria-label="Detail {{ $item->nama_kejuaraan }}"
+                            onclick="bukaModalPrestasi(this)">
+                            <div class="prestasi-top">
+                                <span class="prestasi-rank">{{ $rankIcon }}
+                                    {{ $item->peringkat ?: 'Peserta' }}</span>
+                                <span class="prestasi-kategori">{{ $item->kategori }}</span>
+                            </div>
+
+                            <h3>{{ $item->nama_kejuaraan }}</h3>
+
+                            <div class="prestasi-tags">
+                                @if ($item->tanggal)
+                                    <span>📅 {{ $item->tanggal->translatedFormat('d M Y') }}</span>
+                                @endif
+                                @if ($item->tingkat)
+                                    <span>🏷️ Tingkat {{ $item->tingkat }}</span>
+                                @endif
+                            </div>
+
+                            <ul class="prestasi-meta">
+                                @if ($item->nama_siswa)
+                                    <li><span class="ico">👤</span><span>{{ $item->nama_siswa }}@if ($item->kelas)
+                                                <em
+                                                    style="color:var(--muted);font-style:normal;"> — {{ $item->kelas }}</em>
+                                            @endif
+                                        </span></li>
+                                @endif
+                                @if ($item->penyelenggara)
+                                    <li><span class="ico">🏫</span><span>{{ $item->penyelenggara }}</span></li>
+                                @endif
+                            </ul>
+
+                            @if ($item->deskripsi)
+                                <p class="prestasi-desc">{{ $item->deskripsi }}</p>
+                            @endif
+                        </article>
                     @endforeach
                 </div>
 
-                <div class="prestasi-filters">
-                    <div class="prestasi-search">
-                        <span class="ico">🔍</span>
-                        <input type="text" id="prestasiSearch" placeholder="Cari nama lomba atau nama siswa..."
-                            autocomplete="off">
-                    </div>
-                    <select id="prestasiYear">
-                        <option value="all">Semua Tahun</option>
-                        @foreach ($tahun as $th)
-                            <option value="{{ $th }}">{{ $th }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <p class="prestasi-count" id="prestasiCount"></p>
-
-            {{-- ===================== GRID KARTU ===================== --}}
-            <div class="prestasi-grid" id="prestasiGrid">
-                @foreach ($prestasi as $item)
-                    @php
-                        $p = strtolower($item->peringkat ?? '');
-                        $rankIcon = str_contains($p, '1') ? '🥇' : (str_contains($p, '2') ? '🥈' : (str_contains($p, '3') ? '🥉' : '🏅'));
-                        $cari = strtolower(trim(($item->nama_kejuaraan ?? '') . ' ' . ($item->nama_siswa ?? '') . ' ' . ($item->penyelenggara ?? '')));
-                    @endphp
-                    <article class="prestasi-card"
-                        data-kategori="{{ $item->kategori }}"
-                        data-tahun="{{ optional($item->tanggal)->format('Y') }}"
-                        data-cari="{{ $cari }}"
-                        data-judul="{{ $item->nama_kejuaraan }}"
-                        data-peringkat="{{ $item->peringkat ?: 'Peserta' }}"
-                        data-rank-icon="{{ str_contains(strtolower($item->peringkat ?? ''), '1') ? '🥇' : (str_contains(strtolower($item->peringkat ?? ''), '2') ? '🥈' : (str_contains(strtolower($item->peringkat ?? ''), '3') ? '🥉' : '🏅')) }}"
-                        data-tingkat="{{ $item->tingkat }}"
-                        data-tanggal="{{ $item->tanggal ? $item->tanggal->translatedFormat('d F Y') : '' }}"
-                        data-siswa="{{ $item->nama_siswa }}"
-                        data-kelas="{{ $item->kelas }}"
-                        data-penyelenggara="{{ $item->penyelenggara }}"
-                        data-tempat="{{ $item->tempat }}"
-                        data-deskripsi="{{ $item->deskripsi }}"
-                        data-foto="{{ $item->fotoUrl() }}"
-                        tabindex="0" role="button" aria-label="Detail {{ $item->nama_kejuaraan }}"
-                        onclick="bukaModalPrestasi(this)">
-                        <div class="prestasi-top">
-                            <span class="prestasi-rank">{{ $rankIcon }} {{ $item->peringkat ?: 'Peserta' }}</span>
-                            <span class="prestasi-kategori">{{ $item->kategori }}</span>
-                        </div>
-
-                        <h3>{{ $item->nama_kejuaraan }}</h3>
-
-                        <div class="prestasi-tags">
-                            @if ($item->tanggal)
-                                <span>📅 {{ $item->tanggal->translatedFormat('d M Y') }}</span>
-                            @endif
-                            @if ($item->tingkat)
-                                <span>🏷️ Tingkat {{ $item->tingkat }}</span>
-                            @endif
-                        </div>
-
-                        <ul class="prestasi-meta">
-                            @if ($item->nama_siswa)
-                                <li><span class="ico">👤</span><span>{{ $item->nama_siswa }}@if ($item->kelas)
-                                            <em style="color:var(--muted);font-style:normal;"> — {{ $item->kelas }}</em>
-                                        @endif</span></li>
-                            @endif
-                            @if ($item->penyelenggara)
-                                <li><span class="ico">🏫</span><span>{{ $item->penyelenggara }}</span></li>
-                            @endif
-                        </ul>
-
-                        @if ($item->deskripsi)
-                            <p class="prestasi-desc">{{ $item->deskripsi }}</p>
-                        @endif
-                    </article>
-                @endforeach
-            </div>
-
-            {{-- Pesan ketika filter tidak menemukan hasil --}}
-            <div class="empty-state" id="prestasiNoResult" style="display:none;">
-                <div class="empty-icon">🔎</div>
-                <h3>Tidak ada prestasi yang cocok</h3>
-                <p>Coba ubah kata kunci, kategori, atau tahun pencarian Anda.</p>
-            </div>
+                {{ $prestasi->links('partials.pagination') }}
+            @endif
         @endif
     </div>
 
 @endsection
+
+{{-- ===================== LIGHTBOX ===================== --}}
+<div class="pm-lightbox" id="pmLightbox" onclick="tutupLightbox()">
+    <button class="pm-lightbox-close" onclick="tutupLightbox()" aria-label="Tutup">✕</button>
+    <img id="pmLightboxImg" src="" alt="">
+</div>
 
 {{-- ===================== MODAL DETAIL PRESTASI ===================== --}}
 <div class="pm-overlay" id="prestasiModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
@@ -499,55 +704,20 @@
 
 @push('scripts')
     <script>
-        (function () {
-            const grid = document.getElementById('prestasiGrid');
-            if (!grid) return;
+        function setKategori(val) {
+            document.getElementById('inputKategori').value = val;
+            document.getElementById('prestasiForm').submit();
+        }
 
-            const cards = Array.from(grid.querySelectorAll('.prestasi-card'));
-            const tabs = document.getElementById('prestasiTabs');
-            const searchInput = document.getElementById('prestasiSearch');
-            const yearSelect = document.getElementById('prestasiYear');
-            const countEl = document.getElementById('prestasiCount');
-            const noResult = document.getElementById('prestasiNoResult');
-
-            let activeKategori = 'all';
-
-            function applyFilter() {
-                const q = searchInput.value.trim().toLowerCase();
-                const year = yearSelect.value;
-                let visible = 0;
-
-                cards.forEach(function (card) {
-                    const matchKategori = activeKategori === 'all' || card.dataset.kategori === activeKategori;
-                    const matchYear = year === 'all' || card.dataset.tahun === year;
-                    const matchSearch = q === '' || (card.dataset.cari || '').indexOf(q) !== -1;
-                    const show = matchKategori && matchYear && matchSearch;
-                    card.style.display = show ? '' : 'none';
-                    if (show) visible++;
-                });
-
-                countEl.textContent = 'Menampilkan ' + visible + ' dari ' + cards.length + ' prestasi';
-                noResult.style.display = visible === 0 ? '' : 'none';
-                grid.style.display = visible === 0 ? 'none' : '';
-            }
-
-            tabs.addEventListener('click', function (e) {
-                const btn = e.target.closest('.prestasi-tab');
-                if (!btn) return;
-                tabs.querySelectorAll('.prestasi-tab').forEach(function (t) { t.classList.remove('active'); });
-                btn.classList.add('active');
-                activeKategori = btn.dataset.kategori;
-                applyFilter();
-            });
-
-            searchInput.addEventListener('input', applyFilter);
-            yearSelect.addEventListener('change', applyFilter);
-
-            applyFilter();
-
-            // Buka modal dengan keyboard (Enter / Space)
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') tutupModalPrestasi();
+        (function() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (document.getElementById('pmLightbox').classList.contains('open')) {
+                        tutupLightbox();
+                    } else {
+                        tutupModalPrestasi();
+                    }
+                }
             });
         })();
 
@@ -560,7 +730,8 @@
             if (d.foto && d.foto !== 'null' && d.foto !== '') {
                 fotoWrap.innerHTML =
                     '<button class="pm-close-x" onclick="tutupModalPrestasi()" aria-label="Tutup">✕</button>' +
-                    '<img class="pm-foto" src="' + d.foto + '" alt="' + d.judul + '">';
+                    '<img class="pm-foto" src="' + d.foto + '" alt="' + d.judul + '" onclick="bukaLightbox(\'' + d.foto
+                    .replace(/'/g, "\\'") + '\', \'' + (d.judul || '').replace(/'/g, "\\'") + '\')">'
             } else {
                 fotoWrap.innerHTML =
                     '<button class="pm-close-x" onclick="tutupModalPrestasi()" aria-label="Tutup">✕</button>' +
@@ -575,24 +746,43 @@
             document.getElementById('pmTitle').textContent = d.judul;
 
             // Grid field — hanya tampilkan field yang berisi data
-            const fields = [
-                { label: 'Tanggal',       value: d.tanggal },
-                { label: 'Tingkat',       value: d.tingkat ? 'Tingkat ' + d.tingkat : '' },
-                { label: 'Nama Siswa',    value: d.siswa },
-                { label: 'Kelas',         value: d.kelas },
-                { label: 'Penyelenggara', value: d.penyelenggara },
-                { label: 'Tempat',        value: d.tempat },
+            const fields = [{
+                    label: 'Tanggal',
+                    value: d.tanggal
+                },
+                {
+                    label: 'Tingkat',
+                    value: d.tingkat ? 'Tingkat ' + d.tingkat : ''
+                },
+                {
+                    label: 'Nama Siswa',
+                    value: d.siswa
+                },
+                {
+                    label: 'Kelas',
+                    value: d.kelas
+                },
+                {
+                    label: 'Penyelenggara',
+                    value: d.penyelenggara
+                },
+                {
+                    label: 'Tempat',
+                    value: d.tempat
+                },
             ];
             const pmGrid = document.getElementById('pmGrid');
             pmGrid.innerHTML = fields
-                .filter(function (f) { return f.value && f.value.trim() !== ''; })
-                .map(function (f) {
+                .filter(function(f) {
+                    return f.value && f.value.trim() !== '';
+                })
+                .map(function(f) {
                     return '<div class="pm-field"><label>' + f.label + '</label><span>' + f.value + '</span></div>';
                 }).join('');
 
             // Deskripsi
             const descWrap = document.getElementById('pmDescWrap');
-            const descEl   = document.getElementById('pmDesc');
+            const descEl = document.getElementById('pmDesc');
             if (d.deskripsi && d.deskripsi.trim() !== '') {
                 descEl.textContent = d.deskripsi;
                 descWrap.style.display = '';
@@ -610,8 +800,20 @@
         }
 
         // Klik di luar dialog menutup modal
-        document.getElementById('prestasiModal').addEventListener('click', function (e) {
+        document.getElementById('prestasiModal').addEventListener('click', function(e) {
             if (e.target === this) tutupModalPrestasi();
         });
+
+        function bukaLightbox(src, alt) {
+            const lb = document.getElementById('pmLightbox');
+            const img = document.getElementById('pmLightboxImg');
+            img.src = src;
+            img.alt = alt || '';
+            lb.classList.add('open');
+        }
+
+        function tutupLightbox() {
+            document.getElementById('pmLightbox').classList.remove('open');
+        }
     </script>
 @endpush

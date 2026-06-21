@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SaranaPrasarana;
 use App\Models\RuangKelas;
 use App\Models\ProfilSetting;
+use Illuminate\Http\Request;
 
 class ProfilController extends Controller
 {
@@ -26,11 +27,35 @@ class ProfilController extends Controller
         return view('Profil.transparansi-dana-bos', compact('setting'));
     }
 
-    public function fasilitas()
+    public function fasilitas(Request $request)
     {
-        $sarpras    = SaranaPrasarana::where('is_active', true)->orderBy('urutan')->orderBy('id')->get();
-        $ruangKelas = RuangKelas::where('is_active', true)->orderBy('urutan')->orderBy('id')->get();
+        $tab = in_array($request->input('tab'), ['ruang-kelas', 'sarpras'])
+            ? $request->input('tab')
+            : 'ruang-kelas';
 
-        return view('Profil.fasilitas', compact('sarpras', 'ruangKelas'));
+        $ruangKelas  = null;
+        $sarpras     = null;
+        $totalGanjil = 0;
+        $totalGenap  = 0;
+
+        if ($tab === 'ruang-kelas') {
+            $ruangKelas = RuangKelas::where('is_active', true)
+                ->orderBy('urutan')
+                ->orderBy('id')
+                ->paginate(8)
+                ->withQueryString();
+        } else {
+            $sarpras = SaranaPrasarana::where('is_active', true)
+                ->orderBy('urutan')
+                ->orderBy('id')
+                ->paginate(10)
+                ->withQueryString();
+
+            // Total keseluruhan untuk baris tfoot (bukan hanya halaman aktif).
+            $totalGanjil = SaranaPrasarana::where('is_active', true)->sum('jumlah_ganjil');
+            $totalGenap  = SaranaPrasarana::where('is_active', true)->sum('jumlah_genap');
+        }
+
+        return view('Profil.fasilitas', compact('sarpras', 'ruangKelas', 'tab', 'totalGanjil', 'totalGenap'));
     }
 }

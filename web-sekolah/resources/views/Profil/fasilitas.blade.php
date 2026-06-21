@@ -244,142 +244,129 @@
     <div>
         <a href="{{ route('home') }}#profil" class="back-link">← Kembali ke Profil</a>
 
-        {{-- Tab navigasi dalam halaman --}}
+        {{-- Tab navigasi: tiap tab memuat hanya data bagian yang dipilih --}}
         <div class="fas-tabs">
-            <a href="#ruang-kelas" class="fas-tab active" id="tab-rk">🏫 Ruang Kelas &amp; Siswa</a>
-            <a href="#sarpras" class="fas-tab" id="tab-sp">🔧 Sarana &amp; Prasarana</a>
+            <a href="{{ route('profil.fasilitas', ['tab' => 'ruang-kelas']) }}"
+               class="fas-tab {{ $tab === 'ruang-kelas' ? 'active' : '' }}">
+                🏫 Ruang Kelas &amp; Siswa
+            </a>
+            <a href="{{ route('profil.fasilitas', ['tab' => 'sarpras']) }}"
+               class="fas-tab {{ $tab === 'sarpras' ? 'active' : '' }}">
+                🔧 Sarana &amp; Prasarana
+            </a>
         </div>
     </div>
 
     {{-- ===================== RUANG KELAS ===================== --}}
-    <div id="ruang-kelas">
-        <div class="fas-section-title">
-            <span class="ico">🏫</span> Ruang Kelas &amp; Jumlah Siswa
-        </div>
+    @if ($tab === 'ruang-kelas')
+        <div>
+            <div class="fas-section-title">
+                <span class="ico">🏫</span> Ruang Kelas &amp; Jumlah Siswa
+            </div>
 
-        @if ($ruangKelas->isEmpty())
-            <div class="empty-state">
-                <div class="empty-icon">🏫</div>
-                <h3>Data belum tersedia</h3>
-                <p>Data ruang kelas akan ditampilkan setelah diisi oleh admin.</p>
-            </div>
-        @else
-            <div class="rk-grid">
-                @foreach ($ruangKelas as $rk)
-                    <div class="rk-card">
-                        <div class="rk-thumb">
-                            @if ($rk->gambarUrl())
-                                <img src="{{ $rk->gambarUrl() }}" alt="{{ $rk->nama_kelas }}">
-                            @else
-                                🏫
-                            @endif
+            @if ($ruangKelas->isEmpty())
+                <div class="empty-state">
+                    <div class="empty-icon">🏫</div>
+                    <h3>Data belum tersedia</h3>
+                    <p>Data ruang kelas akan ditampilkan setelah diisi oleh admin.</p>
+                </div>
+            @else
+                <div class="rk-grid">
+                    @foreach ($ruangKelas as $rk)
+                        <div class="rk-card">
+                            <div class="rk-thumb">
+                                @if ($rk->gambarUrl())
+                                    <img src="{{ $rk->gambarUrl() }}" alt="{{ $rk->nama_kelas }}">
+                                @else
+                                    🏫
+                                @endif
+                            </div>
+                            <div class="rk-body">
+                                <div class="rk-name">{{ $rk->nama_kelas }}</div>
+                                <div class="rk-siswa">👤 {{ $rk->jumlah_siswa }} Siswa</div>
+                                @if ($rk->keterangan)
+                                    <p class="rk-ket">{{ $rk->keterangan }}</p>
+                                @endif
+                            </div>
                         </div>
-                        <div class="rk-body">
-                            <div class="rk-name">{{ $rk->nama_kelas }}</div>
-                            <div class="rk-siswa">👤 {{ $rk->jumlah_siswa }} Siswa</div>
-                            @if ($rk->keterangan)
-                                <p class="rk-ket">{{ $rk->keterangan }}</p>
-                            @endif
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
+                    @endforeach
+                </div>
+
+                {{ $ruangKelas->links('partials.pagination') }}
+            @endif
+        </div>
+    @endif
 
     {{-- ===================== SARPRAS ===================== --}}
-    <div id="sarpras">
-        <div class="fas-section-title">
-            <span class="ico">🔧</span> Sarana &amp; Prasarana
-        </div>
+    @if ($tab === 'sarpras')
+        <div>
+            <div class="fas-section-title">
+                <span class="ico">🔧</span> Sarana &amp; Prasarana
+            </div>
 
-        @if ($sarpras->isEmpty())
-            <div class="empty-state">
-                <div class="empty-icon">🔧</div>
-                <h3>Data belum tersedia</h3>
-                <p>Data sarana dan prasarana akan ditampilkan setelah diisi oleh admin.</p>
-            </div>
-        @else
-            <div class="sarpras-card">
-                <div class="sarpras-card-head">Data Sarana &amp; Prasarana SDN Dadapsari</div>
-                <div class="table-scroll">
-                    <table class="sarpras">
-                        <thead>
-                            <tr>
-                                <th class="num" style="width:48px;">No</th>
-                                <th>Jenis Sarana &amp; Prasarana</th>
-                                <th class="num">Jml Ganjil</th>
-                                <th class="num">Jml Genap</th>
-                                <th>Keterangan</th>
-                                <th>Foto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($sarpras as $i => $item)
-                                <tr>
-                                    <td class="num">{{ $i + 1 }}</td>
-                                    <td>{{ $item->jenis }}</td>
-                                    <td class="num">{{ $item->jumlah_ganjil }}</td>
-                                    <td class="num">{{ $item->jumlah_genap }}</td>
-                                    <td style="font-size:.85rem;color:var(--muted);">
-                                        {{ $item->keterangan ?: '—' }}
-                                    </td>
-                                    <td>
-                                        @if ($item->gambarUrl())
-                                            <img src="{{ $item->gambarUrl() }}" alt="{{ $item->jenis }}"
-                                                 class="sarpras-img">
-                                        @else
-                                            <span style="font-size:.8rem;color:#cbd5e1;">—</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td></td>
-                                <td>Total</td>
-                                <td class="num">{{ $sarpras->sum('jumlah_ganjil') }}</td>
-                                <td class="num">{{ $sarpras->sum('jumlah_genap') }}</td>
-                                <td colspan="2"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+            @if ($sarpras->isEmpty())
+                <div class="empty-state">
+                    <div class="empty-icon">🔧</div>
+                    <h3>Data belum tersedia</h3>
+                    <p>Data sarana dan prasarana akan ditampilkan setelah diisi oleh admin.</p>
                 </div>
-            </div>
-            <p class="sarpras-source">
-                Sumber: <a href="https://dapo.kemdikbud.go.id/" target="_blank" rel="noopener">https://dapo.kemdikbud.go.id/</a>
-            </p>
-        @endif
-    </div>
+            @else
+                <div class="sarpras-card">
+                    <div class="sarpras-card-head">Data Sarana &amp; Prasarana SDN Dadapsari</div>
+                    <div class="table-scroll">
+                        <table class="sarpras">
+                            <thead>
+                                <tr>
+                                    <th class="num" style="width:48px;">No</th>
+                                    <th>Jenis Sarana &amp; Prasarana</th>
+                                    <th class="num">Jml Ganjil</th>
+                                    <th class="num">Jml Genap</th>
+                                    <th>Keterangan</th>
+                                    <th>Foto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($sarpras as $item)
+                                    <tr>
+                                        <td class="num">{{ $sarpras->firstItem() + $loop->index }}</td>
+                                        <td>{{ $item->jenis }}</td>
+                                        <td class="num">{{ $item->jumlah_ganjil }}</td>
+                                        <td class="num">{{ $item->jumlah_genap }}</td>
+                                        <td style="font-size:.85rem;color:var(--muted);">
+                                            {{ $item->keterangan ?: '—' }}
+                                        </td>
+                                        <td>
+                                            @if ($item->gambarUrl())
+                                                <img src="{{ $item->gambarUrl() }}" alt="{{ $item->jenis }}"
+                                                     class="sarpras-img">
+                                            @else
+                                                <span style="font-size:.8rem;color:#cbd5e1;">—</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>Total Keseluruhan</td>
+                                    <td class="num">{{ $totalGanjil }}</td>
+                                    <td class="num">{{ $totalGenap }}</td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <p class="sarpras-source">
+                    Sumber: <a href="https://dapo.kemdikbud.go.id/" target="_blank" rel="noopener">https://dapo.kemdikbud.go.id/</a>
+                </p>
+
+                {{ $sarpras->links('partials.pagination') }}
+            @endif
+        </div>
+    @endif
 
 </div>
 
 @endsection
-
-@push('scripts')
-<script>
-(function () {
-    const tabs = document.querySelectorAll('.fas-tab');
-    tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-            tabs.forEach(function (t) { t.classList.remove('active'); });
-            tab.classList.add('active');
-        });
-    });
-
-    // smooth scroll to section
-    document.querySelectorAll('.fas-tab[href^="#"]').forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(link.getAttribute('href'));
-            if (target) {
-                const offset = 80;
-                const top = target.getBoundingClientRect().top + window.scrollY - offset;
-                window.scrollTo({ top: top, behavior: 'smooth' });
-            }
-        });
-    });
-})();
-</script>
-@endpush

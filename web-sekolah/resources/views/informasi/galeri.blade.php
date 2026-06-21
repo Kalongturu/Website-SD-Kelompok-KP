@@ -221,7 +221,7 @@
     ])
 
     <div class="galeri-wrap">
-        @if ($galeri->isEmpty())
+        @if ($galeri->isEmpty() && !request()->filled('kategori'))
             <div class="empty-state">
                 <div class="empty-icon">📷</div>
                 <h3>Belum ada foto</h3>
@@ -230,29 +230,32 @@
         @else
             {{-- ===================== PANEL FILTER ===================== --}}
             @if ($kategori->isNotEmpty())
-                <div class="galeri-panel" id="galeriTabs">
-                    <button type="button" class="galeri-tab active" data-kategori="all">Semua</button>
+                <div class="galeri-panel">
+                    <a class="galeri-tab {{ !request()->filled('kategori') || request('kategori') === 'all' ? 'active' : '' }}"
+                        href="{{ route('informasi.galeri') }}">Semua</a>
                     @foreach ($kategori as $kat)
-                        <button type="button" class="galeri-tab" data-kategori="{{ $kat }}">{{ $kat }}</button>
+                        <a class="galeri-tab {{ request('kategori') === $kat ? 'active' : '' }}"
+                            href="{{ route('informasi.galeri', ['kategori' => $kat]) }}">{{ $kat }}</a>
                     @endforeach
                 </div>
             @endif
 
             {{-- ===================== GRID FOTO ===================== --}}
-            <div class="galeri-grid" id="galeriGrid">
-                @foreach ($galeri as $item)
-                    <div class="galeri-cell" data-kategori="{{ $item->kategori }}">
+            @if ($galeri->isEmpty())
+                <div class="empty-state">
+                    <div class="empty-icon">🔎</div>
+                    <h3>Tidak ada foto pada kategori ini</h3>
+                    <p>Coba pilih kategori lain.</p>
+                </div>
+            @else
+                <div class="galeri-grid">
+                    @foreach ($galeri as $item)
                         @include('partials.informasi.galeri-card', ['item' => $item])
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
 
-            {{-- Pesan ketika filter tidak menemukan hasil --}}
-            <div class="empty-state" id="galeriNoResult" style="display:none;">
-                <div class="empty-icon">🔎</div>
-                <h3>Tidak ada foto pada kategori ini</h3>
-                <p>Coba pilih kategori lain.</p>
-            </div>
+                {{ $galeri->links('partials.pagination') }}
+            @endif
         @endif
     </div>
 
@@ -277,7 +280,7 @@
     <script>
         (function () {
             @php
-                $galeriData = $galeri->keyBy('id')->map(fn ($g) => [
+                $galeriData = $galeri->getCollection()->keyBy('id')->map(fn ($g) => [
                     'judul'      => $g->judul,
                     'kategori'   => $g->kategori,
                     'keterangan' => $g->keterangan,
@@ -355,29 +358,6 @@
                 if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
             });
 
-            // ── Filter kategori ──
-            const tabs = document.getElementById('galeriTabs');
-            const grid = document.getElementById('galeriGrid');
-            const noResult = document.getElementById('galeriNoResult');
-            if (tabs && grid) {
-                const cells = Array.from(grid.querySelectorAll('.galeri-cell'));
-                tabs.addEventListener('click', function (e) {
-                    const btn = e.target.closest('.galeri-tab');
-                    if (!btn) return;
-                    tabs.querySelectorAll('.galeri-tab').forEach(function (t) { t.classList.remove('active'); });
-                    btn.classList.add('active');
-
-                    const kat = btn.dataset.kategori;
-                    let visible = 0;
-                    cells.forEach(function (cell) {
-                        const show = kat === 'all' || cell.dataset.kategori === kat;
-                        cell.style.display = show ? '' : 'none';
-                        if (show) visible++;
-                    });
-                    noResult.style.display = visible === 0 ? '' : 'none';
-                    grid.style.display = visible === 0 ? 'none' : '';
-                });
-            }
         })();
     </script>
 @endpush

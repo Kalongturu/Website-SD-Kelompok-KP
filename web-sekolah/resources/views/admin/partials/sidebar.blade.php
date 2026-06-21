@@ -11,7 +11,7 @@
 
         {{-- Dashboard --}}
         <a href="{{ route('admin.dashboard') }}"
-           class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <i class="bi bi-grid-1x2-fill"></i>
             <span>Dashboard</span>
         </a>
@@ -20,71 +20,66 @@
 
         {{-- Profil --}}
         @php
-            $profilOpen = request()->routeIs(
-                'admin.profil-setting.*', 'admin.sarpras.*', 'admin.ruang-kelas.*'
-            );
+            $profilOpen = request()->routeIs('admin.profil-setting.*', 'admin.sarpras.*', 'admin.ruang-kelas.*');
         @endphp
-        <button class="sidebar-link sidebar-collapse-btn" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navProfil"
-                aria-expanded="{{ $profilOpen ? 'true' : 'false' }}">
+        <button class="sidebar-link sidebar-collapse-btn" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navProfil" aria-expanded="{{ $profilOpen ? 'true' : 'false' }}">
             <i class="bi bi-building-fill"></i>
             <span>Profil</span>
             <i class="bi bi-chevron-down sidebar-arrow ms-auto"></i>
         </button>
         <div class="collapse {{ $profilOpen ? 'show' : '' }}" id="navProfil">
             <a href="{{ route('admin.profil-setting.edit') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.profil-setting.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.profil-setting.*') ? 'active' : '' }}">
                 <i class="bi bi-pencil-square"></i> Sejarah / Visi / Dana BOS
             </a>
             <a href="{{ route('admin.sarpras.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.sarpras.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.sarpras.*') ? 'active' : '' }}">
                 <i class="bi bi-building"></i> Sarana &amp; Prasarana
             </a>
             <a href="{{ route('admin.ruang-kelas.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.ruang-kelas.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.ruang-kelas.*') ? 'active' : '' }}">
                 <i class="bi bi-door-closed-fill"></i> Ruang Kelas
             </a>
         </div>
 
         {{-- Akademik --}}
         @php $akademikOpen = false; @endphp
-        <button class="sidebar-link sidebar-collapse-btn" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navAkademik"
-                aria-expanded="{{ $akademikOpen ? 'true' : 'false' }}">
+        <button class="sidebar-link sidebar-collapse-btn" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navAkademik" aria-expanded="{{ $akademikOpen ? 'true' : 'false' }}">
             <i class="bi bi-mortarboard-fill"></i>
             <span>Akademik</span>
             <i class="bi bi-chevron-down sidebar-arrow ms-auto"></i>
         </button>
         <div class="collapse {{ $akademikOpen ? 'show' : '' }}" id="navAkademik">
             <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-journal-text"></i> Kurikulum</a>
-            <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-calendar-event-fill"></i> Kalender Akademik</a>
-            <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-person-badge-fill"></i> Guru &amp; Staf</a>
+            <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-calendar-event-fill"></i> Kalender
+                Akademik</a>
+            <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-person-badge-fill"></i> Guru &amp;
+                Staf</a>
         </div>
 
         {{-- Kesiswaan --}}
         @php
-            $kesiswaanOpen = request()->routeIs(
-                'admin.ekskul.*', 'admin.prestasi.*', 'admin.tata-tertib.*'
-            );
+            $kesiswaanOpen = request()->routeIs('admin.ekskul.*', 'admin.prestasi.*', 'admin.tata-tertib.*');
         @endphp
-        <button class="sidebar-link sidebar-collapse-btn" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navKesiswaan"
-                aria-expanded="{{ $kesiswaanOpen ? 'true' : 'false' }}">
+        <button class="sidebar-link sidebar-collapse-btn" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navKesiswaan" aria-expanded="{{ $kesiswaanOpen ? 'true' : 'false' }}">
             <i class="bi bi-people-fill"></i>
             <span>Kesiswaan</span>
             <i class="bi bi-chevron-down sidebar-arrow ms-auto"></i>
         </button>
         <div class="collapse {{ $kesiswaanOpen ? 'show' : '' }}" id="navKesiswaan">
             <a href="{{ route('admin.ekskul.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.ekskul.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.ekskul.*') ? 'active' : '' }}">
                 <i class="bi bi-trophy-fill"></i> Ekstrakurikuler
             </a>
             <a href="{{ route('admin.prestasi.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.prestasi.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.prestasi.*') ? 'active' : '' }}">
                 <i class="bi bi-award-fill"></i> Prestasi Siswa
             </a>
             <a href="{{ route('admin.tata-tertib.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.tata-tertib.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.tata-tertib.*') ? 'active' : '' }}">
                 <i class="bi bi-clipboard2-check-fill"></i> Tata Tertib
             </a>
         </div>
@@ -92,31 +87,33 @@
         {{-- Informasi --}}
         @php
             $informasiOpen = request()->routeIs(
-                'admin.berita.*', 'admin.pengumuman.*', 'admin.galeri.*', 'admin.ppdb.*'
+                'admin.berita.*',
+                'admin.pengumuman.*',
+                'admin.galeri.*',
+                'admin.ppdb.*',
             );
         @endphp
-        <button class="sidebar-link sidebar-collapse-btn" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navInformasi"
-                aria-expanded="{{ $informasiOpen ? 'true' : 'false' }}">
+        <button class="sidebar-link sidebar-collapse-btn" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navInformasi" aria-expanded="{{ $informasiOpen ? 'true' : 'false' }}">
             <i class="bi bi-info-circle-fill"></i>
             <span>Informasi</span>
             <i class="bi bi-chevron-down sidebar-arrow ms-auto"></i>
         </button>
         <div class="collapse {{ $informasiOpen ? 'show' : '' }}" id="navInformasi">
             <a href="{{ route('admin.berita.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
                 <i class="bi bi-newspaper"></i> Berita
             </a>
             <a href="{{ route('admin.pengumuman.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.pengumuman.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.pengumuman.*') ? 'active' : '' }}">
                 <i class="bi bi-megaphone-fill"></i> Pengumuman
             </a>
             <a href="{{ route('admin.galeri.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">
                 <i class="bi bi-images"></i> Galeri Foto
             </a>
             <a href="{{ route('admin.ppdb.index') }}"
-               class="sidebar-link sidebar-child {{ request()->routeIs('admin.ppdb.*') ? 'active' : '' }}">
+                class="sidebar-link sidebar-child {{ request()->routeIs('admin.ppdb.*') ? 'active' : '' }}">
                 <i class="bi bi-person-plus-fill"></i> PPDB
             </a>
         </div>
@@ -125,9 +122,9 @@
 
         {{-- Kontak & Footer --}}
         <a href="{{ route('admin.kontak') }}"
-           class="sidebar-link {{ request()->routeIs('admin.kontak') ? 'active' : '' }}">
+            class="sidebar-link {{ request()->routeIs('admin.kontak') ? 'active' : '' }}">
             <i class="bi bi-telephone-fill"></i>
-            <span>Kontak &amp; Footer</span>
+            <span>Kontak</span>
         </a>
 
     </nav>

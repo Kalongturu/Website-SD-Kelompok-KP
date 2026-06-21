@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ekstrakurikuler;
 use App\Models\Prestasi;
 use App\Models\TataTertib;
+use Illuminate\Http\Request;
 
 class KesiswaanController extends Controller
 {
@@ -16,32 +17,51 @@ class KesiswaanController extends Controller
         $ekstrakurikuler = Ekstrakurikuler::where('is_active', true)
             ->orderBy('urutan')
             ->orderBy('nama')
-            ->get();
+            ->paginate(9);
 
         return view('kesiswaan.ekstrakurikuler', compact('ekstrakurikuler'));
     }
 
     /**
-     * Prestasi siswa (kartu) lengkap dengan kategori & tahun untuk panel filter.
+     * Prestasi siswa (kartu) dengan filter server-side dan pagination.
      */
-    public function prestasi()
+    public function prestasi(Request $request)
     {
-        $prestasi = Prestasi::where('is_active', true)
+        $query = Prestasi::where('is_active', true)
             ->orderByDesc('tanggal')
-            ->orderByDesc('id')
-            ->get();
+            ->orderByDesc('id');
 
-        // Kategori lomba yang tersedia (mis. MAPSI, KSN, Siswa Berprestasi) untuk tab/panel.
-        $kategori = $prestasi->pluck('kategori')
+        if ($request->filled('kategori') && $request->kategori !== 'all') {
+            $query->where('kategori', $request->kategori);
+        }
+
+        if ($request->filled('search')) {
+            $q = $request->search;
+            $query->where(function ($sub) use ($q) {
+                $sub->where('nama_kejuaraan', 'like', "%{$q}%")
+                    ->orWhere('nama_siswa', 'like', "%{$q}%")
+                    ->orWhere('penyelenggara', 'like', "%{$q}%");
+            });
+        }
+
+        if ($request->filled('tahun') && $request->tahun !== 'all') {
+            $query->whereYear('tanggal', $request->tahun);
+        }
+
+        $prestasi = $query->paginate(9)->withQueryString();
+
+        // Opsi filter selalu dari seluruh data aktif.
+        $allPrestasi = Prestasi::where('is_active', true)->get(['kategori', 'tanggal']);
+
+        $kategori = $allPrestasi->pluck('kategori')
             ->filter()
             ->unique()
             ->sort()
             ->values();
 
-        // Tahun pelaksanaan untuk filter waktu.
-        $tahun = $prestasi->pluck('tanggal')
+        $tahun = $allPrestasi->pluck('tanggal')
             ->filter()
-            ->map(fn ($tanggal) => $tanggal->format('Y'))
+            ->map(fn($tanggal) => $tanggal->format('Y'))
             ->unique()
             ->sortDesc()
             ->values();

@@ -345,6 +345,8 @@
                     </button>
                 @endforeach
             </div>
+
+            {{ $ekstrakurikuler->links('partials.pagination') }}
         @endif
     </div>
 
@@ -368,7 +370,7 @@
 @push('scripts')
     <script>
         (function () {
-            const DATA = @json($ekstrakurikuler->keyBy('id'));
+            const DATA = @json($ekstrakurikuler->getCollection()->keyBy('id'));
 
             const modal = document.getElementById('ekskulModal');
             if (!modal) return;

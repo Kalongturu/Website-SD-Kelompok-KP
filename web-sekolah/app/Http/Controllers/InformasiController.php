@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use App\Models\Galeri;
 use App\Models\Pengumuman;
+use Illuminate\Http\Request;
 
 class InformasiController extends Controller
 {
     /**
-     * Panel informasi: berita (kartu) + pengumuman (daftar/modal).
+     * Panel informasi: berita (kartu + pagination) + pengumuman (daftar/modal).
      */
     public function index()
     {
         $berita = Berita::where('is_active', true)
             ->orderByDesc('tanggal')
             ->orderByDesc('id')
-            ->get();
+            ->paginate(6);
 
         $pengumuman = Pengumuman::where('is_active', true)
             ->orderByDesc('penting')
@@ -28,18 +29,24 @@ class InformasiController extends Controller
     }
 
     /**
-     * Galeri foto: kartu foto yang menampilkan keterangan saat diklik.
+     * Galeri foto dengan filter kategori server-side dan pagination.
      */
-    public function galeri()
+    public function galeri(Request $request)
     {
-        $galeri = Galeri::where('is_active', true)
+        $query = Galeri::where('is_active', true)
             ->orderBy('urutan')
             ->orderByDesc('tanggal')
-            ->orderByDesc('id')
-            ->get();
+            ->orderByDesc('id');
 
-        // Kategori untuk panel filter (mis. Kegiatan, Ekstrakurikuler, Prestasi).
-        $kategori = $galeri->pluck('kategori')
+        if ($request->filled('kategori') && $request->kategori !== 'all') {
+            $query->where('kategori', $request->kategori);
+        }
+
+        $galeri = $query->paginate(12)->withQueryString();
+
+        // Kategori untuk tab filter selalu dari seluruh data aktif.
+        $kategori = Galeri::where('is_active', true)
+            ->pluck('kategori')
             ->filter()
             ->unique()
             ->sort()
