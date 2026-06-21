@@ -740,3 +740,59 @@ img {
     .form-row { grid-template-columns: 1fr; }
     .logo-text { font-size: 1.05rem; }
 }
+
+/* ===================== PAGINATION ===================== */
+.pagination-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: 2.5rem;
+    padding-bottom: 1rem;
+}
+
+.page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 .75rem;
+    border-radius: 10px;
+    font-size: .88rem;
+    font-weight: 600;
+    border: 1.5px solid #e2e8f0;
+    background: var(--white);
+    color: var(--text);
+    text-decoration: none;
+    transition: all .2s ease;
+    line-height: 1;
+}
+
+.page-btn:hover:not(.disabled):not(.active):not(.dots) {
+    border-color: var(--accent);
+    color: var(--primary);
+    background: var(--accent-soft);
+}
+
+.page-btn.active {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-color: transparent;
+    color: var(--white);
+    cursor: default;
+}
+
+.page-btn.disabled {
+    opacity: .4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.page-btn.dots {
+    border-color: transparent;
+    background: transparent;
+    cursor: default;
+    pointer-events: none;
+    letter-spacing: .1em;
+}

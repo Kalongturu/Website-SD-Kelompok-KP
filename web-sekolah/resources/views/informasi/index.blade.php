@@ -160,6 +160,8 @@
                         @include('partials.informasi.berita-card', ['item' => $item])
                     @endforeach
                 </div>
+
+                {{ $berita->links('partials.pagination') }}
             @endif
         </section>
 
@@ -194,7 +196,7 @@
 @push('scripts')
     <script>
         (function () {
-            const BERITA = @json($berita->keyBy('id'));
+            const BERITA = @json($berita->getCollection()->keyBy('id'));
             const PENGUMUMAN = @json($pengumuman->keyBy('id'));
 
             const modal = document.getElementById('infoModal');
