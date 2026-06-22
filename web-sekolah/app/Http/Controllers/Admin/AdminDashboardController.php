@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Guru;
 
 class AdminDashboardController extends Controller
 {
@@ -10,7 +11,7 @@ class AdminDashboardController extends Controller
     {
         $stats = [
             'siswa'        => 320,
-            'guru'         => 24,
+            'guru'         => Guru::where('is_active', true)->count(),
             'berita'       => 12,
             'pengumuman'   => 5,
         ];

@@ -28,7 +28,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('akademik.kurikulum') }}">Kurikulum</a></li>
                     <li><a href="{{ route('akademik.kalender') }}">Kalender Akademik</a></li>
-                    <li><a href="#guru">Guru &amp; Staf</a></li>
+                    <li><a href="{{ route('akademik.guru') }}">Guru &amp; Staf</a></li>
                 </ul>
             </li>
 

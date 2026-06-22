@@ -61,7 +61,7 @@
             </div>
 
             {{-- Akademik --}}
-            @php $akademikOpen = request()->routeIs('admin.kalender-akademik.*'); @endphp
+            @php $akademikOpen = request()->routeIs('admin.kalender-akademik.*', 'admin.guru.*'); @endphp
             <button class="sidebar-link sidebar-collapse-btn" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navAkademik" aria-expanded="{{ $akademikOpen ? 'true' : 'false' }}">
                 <i class="bi bi-mortarboard-fill"></i>
@@ -75,8 +75,10 @@
                     class="sidebar-link sidebar-child {{ request()->routeIs('admin.kalender-akademik.*') ? 'active' : '' }}">
                     <i class="bi bi-calendar-event-fill"></i> Kalender Akademik
                 </a>
-                <a href="#" class="sidebar-link sidebar-child"><i class="bi bi-person-badge-fill"></i> Guru &amp;
-                    Staf</a>
+                <a href="{{ route('admin.guru.index') }}"
+                    class="sidebar-link sidebar-child {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-badge-fill"></i> Guru &amp; Staf
+                </a>
             </div>
 
             {{-- Kesiswaan --}}

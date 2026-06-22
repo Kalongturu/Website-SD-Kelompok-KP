@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\ProfilSettingController;
 use App\Http\Controllers\Admin\EBookController;
 use App\Http\Controllers\Admin\VideoPembelajaranController;
 use App\Http\Controllers\Admin\KalenderAkademikController;
+use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\KesiswaanController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\AkademikController;
@@ -101,6 +102,9 @@ Route::prefix('akademik')->name('akademik.')->group(function () {
             'blok' => $blok,
         ]);
     })->name('kurikulum');
+
+    // Guru & Staf — data dikelola lewat dashboard admin.
+    Route::get('guru', [AkademikController::class, 'guru'])->name('guru');
 });
 
 Route::prefix('kesiswaan')->name('kesiswaan.')->group(function () {
@@ -210,6 +214,17 @@ Route::prefix('admin')->name('admin.')->middleware('nocache')->group(function ()
             Route::put('/{kalenderAkademik}',         [KalenderAkademikController::class, 'update'])->name('update');
             Route::delete('/{kalenderAkademik}',      [KalenderAkademikController::class, 'destroy'])->name('destroy');
             Route::patch('/{kalenderAkademik}/toggle',[KalenderAkademikController::class, 'toggle'])->name('toggle');
+        });
+
+        // Akademik - Guru & Staf
+        Route::prefix('guru')->name('guru.')->group(function () {
+            Route::get('/',                 [GuruController::class, 'index'])->name('index');
+            Route::get('/create',           [GuruController::class, 'create'])->name('create');
+            Route::post('/',                [GuruController::class, 'store'])->name('store');
+            Route::get('/{guru}/edit',      [GuruController::class, 'edit'])->name('edit');
+            Route::put('/{guru}',           [GuruController::class, 'update'])->name('update');
+            Route::delete('/{guru}',        [GuruController::class, 'destroy'])->name('destroy');
+            Route::patch('/{guru}/toggle',  [GuruController::class, 'toggle'])->name('toggle');
         });
 
         // Profil — Konten (Sejarah / Visi Misi / Dana BOS)
