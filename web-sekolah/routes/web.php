@@ -22,6 +22,7 @@ use App\Http\Controllers\KesiswaanController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Models\PpdbSetting;
 
 // Semua route publik — admin yang masih login diarahkan kembali ke dashboard
@@ -193,6 +194,12 @@ Route::prefix('admin')->name('admin.')->middleware('nocache')->group(function ()
 
     Route::middleware('auth')->group(function () {
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Profil Admin — edit data akun (nama, email, avatar) & ganti password
+        Route::get('profile',           [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile',           [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('profile/password',  [ProfileController::class, 'updatePassword'])->name('profile.password');
+        Route::delete('profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
 
         // Akademik - Kalender Akademik
         Route::prefix('kalender-akademik')->name('kalender-akademik.')->group(function () {

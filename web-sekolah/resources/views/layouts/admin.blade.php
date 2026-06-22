@@ -242,6 +242,31 @@
             color: #fff;
             font-weight: 700;
             font-size: .9rem;
+            flex-shrink: 0;
+        }
+
+        .topbar-avatar-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid var(--accent-soft);
+        }
+
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            background: none;
+            border: none;
+            padding: .25rem .4rem;
+            border-radius: 10px;
+            transition: background .2s ease;
+        }
+
+        .profile-trigger:hover {
+            background: #f1f5f9;
         }
 
         /* ── PAGE CONTENT ── */
@@ -609,10 +634,39 @@
                             style="font-size:.55rem;">3</span>
                     </button>
                 </div>
-                <div class="topbar-avatar" title="Admin">A</div>
-                <div class="d-none d-md-block">
-                    <p class="mb-0 fw-600 text-dark" style="font-size:.82rem;font-weight:600;">Administrator</p>
-                    <p class="mb-0 text-muted" style="font-size:.7rem;">admin@sdndadapsari.sch.id</p>
+                @php($admin = auth()->user())
+                <div class="dropdown">
+                    <button class="profile-trigger" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @if ($admin?->avatarUrl())
+                            <img src="{{ $admin->avatarUrl() }}" alt="Avatar" class="topbar-avatar-img">
+                        @else
+                            <div class="topbar-avatar">{{ $admin?->initials() ?? 'A' }}</div>
+                        @endif
+                        <div class="d-none d-md-block text-start">
+                            <p class="mb-0 fw-600 text-dark" style="font-size:.82rem;font-weight:600;">{{ $admin?->name ?? 'Administrator' }}</p>
+                            <p class="mb-0 text-muted" style="font-size:.7rem;">{{ $admin?->email }}</p>
+                        </div>
+                        <i class="bi bi-chevron-down text-muted d-none d-md-block" style="font-size:.7rem;"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" style="border-radius:12px;min-width:200px;">
+                        <li class="px-3 py-2 d-md-none">
+                            <p class="mb-0 fw-600 text-dark" style="font-size:.85rem;font-weight:600;">{{ $admin?->name ?? 'Administrator' }}</p>
+                            <p class="mb-0 text-muted" style="font-size:.72rem;">{{ $admin?->email }}</p>
+                        </li>
+                        <li class="d-md-none"><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.profile.edit') }}" style="font-size:.85rem;">
+                                <i class="bi bi-person-gear text-primary"></i> Edit Profil
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <button type="button" class="dropdown-item d-flex align-items-center gap-2 text-danger"
+                                data-bs-toggle="modal" data-bs-target="#modalKembali" style="font-size:.85rem;">
+                                <i class="bi bi-box-arrow-left"></i> Keluar
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </header>
