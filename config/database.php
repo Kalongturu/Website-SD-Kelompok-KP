@@ -96,7 +96,9 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
-            'options' => env('DB_PGSQL_OPTIONS'),
+            // Neon pooler memerlukan endpoint ID karena libpq di Windows belum
+            // mendukung SNI. Nilai berupa string biasa, mis. "endpoint=ep-xxxx".
+            'options' => env('DB_PGSQL_OPTIONS') ?: null,
         ],
 
         'sqlsrv' => [
