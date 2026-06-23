@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Berita;
 use App\Models\Guru;
+use App\Models\Pengumuman;
+use App\Models\RuangKelas;
 
 class AdminDashboardController extends Controller
 {
     public function index()
     {
         $stats = [
-            'siswa'        => 320,
+            'siswa'        => (int) RuangKelas::where('is_active', true)->sum('jumlah_siswa'),
             'guru'         => Guru::where('is_active', true)->count(),
-            'berita'       => 12,
-            'pengumuman'   => 5,
+            'berita'       => Berita::where('is_active', true)->count(),
+            'pengumuman'   => Pengumuman::where('is_active', true)->count(),
         ];
 
         $aktivitas = [
