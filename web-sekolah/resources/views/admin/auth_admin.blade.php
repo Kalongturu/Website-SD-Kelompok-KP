@@ -322,6 +322,14 @@
             <h2>Masuk sebagai Admin</h2>
             <p class="subtitle">Masukkan kredensial Anda untuk melanjutkan</p>
 
+            {{-- Alert sukses (mis. setelah reset password berhasil) --}}
+            @if (session('status'))
+                <div class="alert alert-success d-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-check-circle-fill flex-shrink-0"></i>
+                    <span>{{ session('status') }}</span>
+                </div>
+            @endif
+
             {{-- Alert error --}}
             @if ($errors->any())
                 <div class="alert alert-danger d-flex align-items-center gap-2 mb-3" role="alert">
@@ -377,7 +385,7 @@
                         <input class="form-check-input" type="checkbox" id="remember" name="remember">
                         <label class="form-check-label" for="remember">Ingat saya</label>
                     </div>
-                    <a href="#" class="forgot-link">Lupa password?</a>
+                    <a href="{{ route('password.request') }}" class="forgot-link">Lupa password?</a>
                 </div>
 
                 <button type="submit" class="btn-login">

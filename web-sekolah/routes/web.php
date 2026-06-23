@@ -27,6 +27,7 @@ use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\PasswordResetController;
 use App\Http\Controllers\Admin\ProfileController;
 
 // Semua route publik — admin yang masih login diarahkan kembali ke dashboard
@@ -74,6 +75,15 @@ Route::prefix('ppdb')->name('ppdb.')->group(function () {
 });
 
 }); // end redirect.admin group
+
+// Reset password admin. URL berada di bawah /admin, TAPI nama route sengaja
+// tanpa prefix "admin." karena notifikasi bawaan Laravel memanggil route('password.reset').
+Route::prefix('admin')->middleware('nocache')->group(function () {
+    Route::get('forgot-password',        [PasswordResetController::class, 'showRequest'])->name('password.request');
+    Route::post('forgot-password',       [PasswordResetController::class, 'sendLink'])->name('password.email');
+    Route::get('reset-password/{token}', [PasswordResetController::class, 'showReset'])->name('password.reset');
+    Route::post('reset-password',        [PasswordResetController::class, 'reset'])->name('password.update');
+});
 
 Route::prefix('admin')->name('admin.')->middleware('nocache')->group(function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');
