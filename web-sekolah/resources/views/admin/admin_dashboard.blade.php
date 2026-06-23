@@ -110,27 +110,27 @@
                 <div class="p-3">
                     <div class="row g-2">
                         <div class="col-6">
-                            <a href="#" class="quick-btn">
+                            <a href="{{ route('admin.berita.create') }}" class="quick-btn">
                                 <i class="bi bi-plus-circle-fill"></i>Tambah Berita
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="#" class="quick-btn">
+                            <a href="{{ route('admin.pengumuman.create') }}" class="quick-btn">
                                 <i class="bi bi-megaphone-fill"></i>Pengumuman
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="#" class="quick-btn">
+                            <a href="{{ route('admin.galeri.create') }}" class="quick-btn">
                                 <i class="bi bi-image-fill"></i>Upload Foto
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="#" class="quick-btn">
+                            <a href="{{ route('admin.guru.create') }}" class="quick-btn">
                                 <i class="bi bi-person-plus-fill"></i>Tambah Guru
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="#" class="quick-btn">
+                            <a href="{{ route('admin.kalender-akademik.create') }}" class="quick-btn">
                                 <i class="bi bi-calendar-plus-fill"></i>Event Baru
                             </a>
                         </div>

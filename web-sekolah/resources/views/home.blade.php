@@ -9,30 +9,37 @@
 
     {{-- ===================== HERO / BERANDA ===================== --}}
     <section id="beranda" class="hero">
-        <div class="hero-inner">
-            <span class="hero-badge">Selamat Datang di Website Resmi</span>
-            <h1>SDN <span>Dadapsari</span></h1>
-            <p>Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas dan
-                menyenangkan.</p>
-            <div class="hero-actions">
-                @auth
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Daftar PPDB Sekarang</a>
-                @else
-                    <a href="#ppdb" class="btn btn-primary">Daftar PPDB Sekarang</a>
-                @endauth
-                <a href="#profil" class="btn btn-ghost">Kenali Kami</a>
+        <div class="hero-body">
+            <div class="hero-inner">
+                <span class="hero-badge">Selamat Datang di Website Resmi</span>
+                <h1>SDN <span>Dadapsari</span></h1>
+                <p class="hero-motto">"Santun dalam berperilaku, hebat dalam prestasi"</p>
+                <p>Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas dan menyenangkan.</p>
+                <div class="hero-actions">
+                    @auth
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Daftar PPDB Sekarang</a>
+                    @else
+                        <a href="#ppdb" class="btn btn-primary">Daftar PPDB Sekarang</a>
+                    @endauth
+                    <a href="#profil" class="btn btn-ghost">Kenali Kami</a>
+                </div>
+            </div>
+
+            <div class="hero-photo-wrap">
+                <div class="hero-photo-ring">
+                    <img src="{{ asset('images/sekolah-3.jpeg') }}" alt="Kegiatan SDN Dadapsari" class="hero-photo">
+                </div>
+                <div class="hero-photo-badge">
+                    <img src="{{ asset('images/logo-sdn-dadapsari.png') }}" alt="Logo SDN Dadapsari" class="hero-logo-badge">
+                </div>
             </div>
         </div>
 
         <div class="hero-stats">
-            <div class="stat"><span class="stat-num" data-target="520">0</span><span class="stat-label">Siswa Aktif</span>
-            </div>
-            <div class="stat"><span class="stat-num" data-target="32">0</span><span class="stat-label">Guru &amp;
-                    Staf</span></div>
-            <div class="stat"><span class="stat-num" data-target="18">0</span><span class="stat-label">Ruang Kelas</span>
-            </div>
-            <div class="stat"><span class="stat-num" data-target="45">0</span><span class="stat-label">Prestasi</span>
-            </div>
+            <div class="stat"><span class="stat-num" data-target="325">0</span><span class="stat-label">Siswa Aktif</span></div>
+            <div class="stat"><span class="stat-num" data-target="17">0</span><span class="stat-label">Guru &amp; Staf</span></div>
+            <div class="stat"><span class="stat-num" data-target="6">0</span><span class="stat-label">Ruang Kelas</span></div>
+            <div class="stat"><span class="stat-num" data-target="45">0</span><span class="stat-label">Prestasi</span></div>
         </div>
     </section>
 
@@ -333,17 +340,22 @@
             <div class="contact-info">
                 <div class="contact-item"><span>📍</span>
                     <div><strong>Alamat</strong>
-                        <p>Jl. Pendidikan No. 1, Dadapsari</p>
+                        <p>Jl. Petek No. 117-119, Kel. Dadapsari,<br>Kec. Semarang Utara, Kota Semarang</p>
                     </div>
                 </div>
                 <div class="contact-item"><span>📞</span>
                     <div><strong>Telepon</strong>
-                        <p>(021) 123-4567</p>
+                        <p>(024) 3568721</p>
                     </div>
                 </div>
                 <div class="contact-item"><span>✉️</span>
                     <div><strong>Email</strong>
                         <p>dadapsarisd@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-item"><span>🕐</span>
+                    <div><strong>Jam Operasional</strong>
+                        <p>Senin – Jumat: 07.00 – 15.00 WIB</p>
                     </div>
                 </div>
             </div>
