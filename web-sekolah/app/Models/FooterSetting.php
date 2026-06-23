@@ -24,9 +24,9 @@ class FooterSetting extends Model
     {
         return static::first() ?? new static([
             'nama_sekolah' => 'SDN Dadapsari',
-            'deskripsi'    => 'Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas.',
-            'alamat'       => 'Jl. Pendidikan No. 1, Dadapsari',
-            'telepon'      => '(024) 123-4567',
+            'deskripsi'    => 'Santun dalam berperilaku, hebat dalam prestasi. Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas.',
+            'alamat'       => 'Jl. Petek No. 117-119, Kel. Dadapsari, Kec. Semarang Utara, Kota Semarang',
+            'telepon'      => '(024) 3568721',
             'email'        => 'dadapsarisd@gmail.com',
             'jam_weekday'  => '07.00 – 15.00',
             'jam_sabtu'    => '07.00 – 11.00',

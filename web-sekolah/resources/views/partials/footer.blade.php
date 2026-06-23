@@ -6,7 +6,7 @@
     <div class="footer-grid">
         <div class="footer-col footer-brand">
             <div class="logo">
-                <span class="logo-mark">SD</span>
+                <img src="{{ asset('images/logo-sdn-dadapsari.png') }}" alt="Logo SDN Dadapsari" class="logo-img">
                 <span class="logo-text"><strong>{{ $f->nama_sekolah }}</strong></span>
             </div>
             <p>{{ $f->deskripsi }}</p>

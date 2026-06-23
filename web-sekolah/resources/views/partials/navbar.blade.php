@@ -2,7 +2,7 @@
     {{-- this is navbar links for template this website --}}
     <div class="nav-container">
         <a href="{{ route('home') }}" class="logo">
-            <span class="logo-mark">SD</span>
+            <img src="{{ asset('images/logo-sdn-dadapsari.png') }}" alt="Logo SDN Dadapsari" class="logo-img">
             <span class="logo-text"><strong>SDN Dadapsari</strong></span>
         </a>
 
