@@ -13,6 +13,7 @@ class Galeri extends Model
         'judul',
         'kategori',
         'gambar',
+        'gambar_mime',
         'keterangan',
         'tanggal',
         'urutan',
@@ -25,20 +26,39 @@ class Galeri extends Model
         'is_active' => 'boolean',
     ];
 
+    /** Jangan pernah ikut serialisasi byte gambar ke array/JSON. */
+    protected $hidden = ['gambar_data'];
+
     /**
-     * URL gambar — dukung path storage maupun URL eksternal.
-     * Mengembalikan null bila tidak ada gambar (kartu memakai placeholder).
+     * Kolom ringan untuk query DAFTAR. Sengaja TIDAK menyertakan `gambar_data`
+     * (bytea, bisa besar) agar daftar tidak menarik byte gambar setiap record.
+     * Byte gambar hanya diambil saat disajikan lewat route `galeri.gambar`.
+     */
+    public const LIST_COLUMNS = [
+        'id', 'judul', 'kategori', 'gambar', 'gambar_mime', 'keterangan',
+        'tanggal', 'urutan', 'is_active', 'created_at', 'updated_at',
+    ];
+
+    /**
+     * URL gambar galeri. Gambar disimpan sebagai DATA BINER (bytea) di kolom
+     * `gambar_data`; keberadaannya ditandai oleh `gambar_mime` dan disajikan lewat
+     * route `galeri.gambar`. Bila record lama masih memakai path/URL, pakai itu
+     * sebagai fallback. Null bila tidak ada gambar (kartu memakai placeholder).
      */
     public function gambarUrl(): ?string
     {
-        if (! $this->gambar) {
-            return null;
+        if (! empty($this->gambar_mime)) {
+            return route('galeri.gambar', $this) . '?v=' . optional($this->updated_at)->timestamp;
         }
 
-        if (Str::startsWith($this->gambar, ['http://', 'https://'])) {
-            return $this->gambar;
+        if (! empty($this->gambar)) {
+            if (Str::startsWith($this->gambar, ['http://', 'https://'])) {
+                return $this->gambar;
+            }
+
+            return asset('storage/' . $this->gambar);
         }
 
-        return asset('storage/' . $this->gambar);
+        return null;
     }
 }

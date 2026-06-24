@@ -99,7 +99,7 @@
                 @foreach ($galeri as $item)
                     <div class="galeri-admin-item">
                         <div class="galeri-admin-thumb">
-                            @if ($item->gambar)
+                            @if ($item->gambarUrl())
                                 <img src="{{ $item->gambarUrl() }}" alt="{{ $item->judul }}">
                             @else
                                 <span>📷</span>
