@@ -42,6 +42,8 @@
             }
 
             .berita-thumb img {
+                position: absolute;
+                inset: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
@@ -49,6 +51,7 @@
 
             .berita-badge {
                 position: absolute;
+                z-index: 2;
                 top: .8rem;
                 left: .8rem;
                 background: rgba(255, 255, 255, .92);
@@ -105,10 +108,10 @@
 
 <button type="button" class="berita-card" data-berita="{{ $item->id }}" aria-haspopup="dialog">
     <div class="berita-thumb">
-        @if ($item->gambar)
-            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}">
-        @else
-            <span>📰</span>
+        <span>📰</span>
+        @if ($item->gambar_url)
+            {{-- onerror: bila gambar gagal dimuat, hapus <img> agar placeholder 📰 di belakang yang tampil --}}
+            <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" loading="lazy" onerror="this.remove()">
         @endif
         @if ($item->kategori)
             <span class="berita-badge">{{ $item->kategori }}</span>

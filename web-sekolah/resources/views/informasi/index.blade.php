@@ -232,9 +232,9 @@
             }
 
             function openBerita(item) {
-                if (item.gambar) {
+                if (item.gambar_url) {
                     heroEl.innerHTML =
-                    `<img src="/storage/${escapeHtml(item.gambar)}" alt="${escapeHtml(item.judul)}">`;
+                        `<img src="${escapeHtml(item.gambar_url)}" alt="${escapeHtml(item.judul)}" onerror="this.parentElement.innerHTML='<span>📰</span>'">`;
                 } else {
                     heroEl.innerHTML = '<span>📰</span>';
                 }
@@ -270,9 +270,9 @@
 
                 bodyEl.textContent = item.isi || item.ringkasan || 'Belum ada keterangan untuk pengumuman ini.';
 
-                if (item.lampiran) {
+                if (item.lampiran_url) {
                     footEl.innerHTML =
-                        `<a href="/storage/${escapeHtml(item.lampiran)}" target="_blank" rel="noopener">📎 Unduh Lampiran</a>`;
+                        `<a href="${escapeHtml(item.lampiran_url)}" target="_blank" rel="noopener">📎 Unduh Lampiran</a>`;
                     footEl.hidden = false;
                 } else {
                     footEl.hidden = true;

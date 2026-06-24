@@ -18,7 +18,8 @@ class HomeController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        $berita = Berita::where('is_active', true)
+        $berita = Berita::select(Berita::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderByDesc('tanggal')
             ->orderByDesc('id')
             ->limit(3)

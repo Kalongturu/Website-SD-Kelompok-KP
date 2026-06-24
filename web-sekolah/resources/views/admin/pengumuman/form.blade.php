@@ -61,11 +61,11 @@
 
                     <div>
                         <label class="form-label">Lampiran (PDF/DOC)</label>
-                        @if ($item?->lampiran)
+                        @if ($item?->lampiran_url)
                             <p class="mb-1" style="font-size:.8rem;">
                                 File saat ini:
-                                <a href="{{ asset('storage/' . $item->lampiran) }}" target="_blank" class="text-primary">
-                                    <i class="bi bi-paperclip"></i> Lihat Lampiran
+                                <a href="{{ $item->lampiran_url }}" target="_blank" class="text-primary">
+                                    <i class="bi bi-paperclip"></i> {{ $item->lampiran_nama ?? 'Lihat Lampiran' }}
                                 </a>
                             </p>
                         @endif

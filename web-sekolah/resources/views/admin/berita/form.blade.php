@@ -113,8 +113,8 @@
                     <h6>Gambar Berita</h6>
                 </div>
                 <div class="form-card-body">
-                    @if ($item?->gambar)
-                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="" class="img-preview mb-3">
+                    @if ($item?->gambar_url)
+                        <img src="{{ $item->gambar_url }}" alt="" class="img-preview mb-3">
                         <p class="text-muted" style="font-size:.75rem;">Upload baru untuk mengganti gambar saat ini.</p>
                     @endif
                     <input type="file" name="gambar" class="form-control @error('gambar') is-invalid @enderror"
