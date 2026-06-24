@@ -76,6 +76,27 @@ class InformasiController extends Controller
     }
 
     /**
+     * Menyajikan gambar galeri langsung dari kolom biner (bytea) di database.
+     * Byte diambil sebagai base64 lalu di-decode agar andal lintas driver PDO.
+     */
+    public function galeriGambar(Galeri $galeri)
+    {
+        $row = DB::table('galeri')
+            ->where('id', $galeri->id)
+            ->selectRaw("encode(gambar_data, 'base64') as b64, gambar_mime")
+            ->first();
+
+        abort_if(! $row || empty($row->b64), 404);
+
+        $bytes = base64_decode($row->b64);
+
+        return response($bytes)
+            ->header('Content-Type', $row->gambar_mime ?: 'image/jpeg')
+            ->header('Content-Length', (string) strlen($bytes))
+            ->header('Cache-Control', 'public, max-age=86400');
+    }
+
+    /**
      * Galeri foto dengan filter kategori server-side dan pagination.
      */
     public function galeri(Request $request)

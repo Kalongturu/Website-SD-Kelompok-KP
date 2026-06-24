@@ -85,6 +85,7 @@ Route::get('guru/{guru}/foto', [AkademikController::class, 'guruFoto'])->name('g
 // database — di luar grup redirect.admin agar bisa dimuat publik maupun admin.
 Route::get('berita/{berita}/gambar',          [InformasiController::class, 'gambar'])->name('berita.gambar');
 Route::get('pengumuman/{pengumuman}/lampiran', [InformasiController::class, 'lampiran'])->name('pengumuman.lampiran');
+Route::get('galeri/{galeri}/gambar',          [InformasiController::class, 'galeriGambar'])->name('galeri.gambar');
 
 // Reset password admin. URL berada di bawah /admin, TAPI nama route sengaja
 // tanpa prefix "admin." karena notifikasi bawaan Laravel memanggil route('password.reset').
