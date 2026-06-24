@@ -1,6 +1,6 @@
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <div class="brand-icon">SD</div>
+        <div class="brand-icon"><img src="{{ asset('images/logo-sdn-dadapsari.png') }}" alt="Logo SDN Dadapsari"></div>
         <div class="brand-text">
             SDN Dadapsari
             <small>Panel Admin</small>

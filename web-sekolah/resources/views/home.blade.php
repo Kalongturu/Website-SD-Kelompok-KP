@@ -28,11 +28,7 @@
 
             <div class="hero-photo-wrap">
                 <div class="hero-photo-ring">
-                    <img src="{{ asset('images/sekolah-3.jpeg') }}" alt="Kegiatan SDN Dadapsari" class="hero-photo">
-                </div>
-                <div class="hero-photo-badge">
-                    <img src="{{ asset('images/logo-sdn-dadapsari.png') }}" alt="Logo SDN Dadapsari"
-                        class="hero-logo-badge">
+                    <img src="{{ asset('images/sekolah-3.jpeg') }}" alt="Wali Kota Semarang" class="hero-photo">
                 </div>
             </div>
         </div>

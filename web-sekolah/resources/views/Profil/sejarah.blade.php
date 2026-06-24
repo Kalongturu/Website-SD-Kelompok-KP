@@ -37,8 +37,10 @@
     }
     .sejarah-photo-strip img {
         width: 100%;
-        height: 260px;
-        object-fit: cover;
+        height: auto;
+        max-height: 460px;
+        object-fit: contain;
+        background: var(--bg);
         border-radius: var(--radius);
         box-shadow: var(--shadow-lg);
         display: block;

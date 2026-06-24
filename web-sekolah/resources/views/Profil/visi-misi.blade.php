@@ -45,10 +45,12 @@
         padding: 0 1.25rem;
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 1.5rem;
         position: relative;
         z-index: 2;
     }
+    .vm-logo-strip .back-link { width: 100%; margin-bottom: 0; }
     .vm-logo-box {
         background: var(--white);
         border-radius: 20px;
