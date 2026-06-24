@@ -100,6 +100,7 @@ Route::prefix('admin')->name('admin.')->middleware('nocache')->group(function ()
 
         // Profil Admin — edit data akun (nama, email, avatar) & ganti password
         Route::get('profile',           [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('profile/avatar',    [ProfileController::class, 'avatar'])->name('profile.avatar');
         Route::put('profile',           [ProfileController::class, 'update'])->name('profile.update');
         Route::put('profile/password',  [ProfileController::class, 'updatePassword'])->name('profile.password');
         Route::delete('profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');

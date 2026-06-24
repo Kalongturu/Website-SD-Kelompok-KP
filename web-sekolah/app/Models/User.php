@@ -27,6 +27,7 @@ class User extends Authenticatable
         'role',
         'phone',
         'avatar',
+        'avatar_mime',
         'is_active',
         'remember_token',
     ];
@@ -56,20 +57,30 @@ class User extends Authenticatable
     }
 
     /**
-     * URL avatar — dukung path storage maupun URL eksternal.
-     * Mengembalikan null bila admin belum mengunggah avatar (UI memakai inisial).
+     * URL avatar. Foto yang diunggah disimpan sebagai DATA BINER (bytea) di kolom
+     * `avatar_data`; keberadaannya ditandai oleh `avatar_mime` dan disajikan lewat
+     * route `admin.profile.avatar`. Kolom `avatar` (varchar) tetap didukung untuk
+     * URL eksternal (http/https). Null bila admin belum punya avatar (UI inisial).
      */
     public function avatarUrl(): ?string
     {
-        if (! $this->avatar) {
-            return null;
-        }
-
-        if (Str::startsWith($this->avatar, ['http://', 'https://'])) {
+        if (Str::startsWith((string) $this->avatar, ['http://', 'https://'])) {
             return $this->avatar;
         }
 
-        return asset('storage/' . $this->avatar);
+        if (! empty($this->avatar_mime)) {
+            return route('admin.profile.avatar') . '?v=' . optional($this->updated_at)->timestamp;
+        }
+
+        return null;
+    }
+
+    /**
+     * Apakah admin punya avatar yang bisa dihapus (blob unggahan atau URL eksternal).
+     */
+    public function hasAvatar(): bool
+    {
+        return ! empty($this->avatar_mime) || ! empty($this->avatar);
     }
 
     /**
