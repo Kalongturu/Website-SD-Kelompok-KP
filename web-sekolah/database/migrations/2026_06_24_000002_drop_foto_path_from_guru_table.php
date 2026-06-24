@@ -13,7 +13,8 @@ return new class extends Migration
      *
      * Catatan: `foto` adalah kolom yang dulu ditambahkan oleh website ini sendiri
      * (lihat 2026_06_22_110000_add_website_fields_to_guru_table), bukan milik
-     * backend lain, sehingga aman dihapus.
+     * backend lain, sehingga aman dihapus. Guard hasColumn membuat migrasi ini
+     * idempoten (aman bila kolom sudah terlanjur hilang).
      */
     public function up(): void
     {

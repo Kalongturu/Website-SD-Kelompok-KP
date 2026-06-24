@@ -16,7 +16,8 @@ return new class extends Migration
      * - foto_data : isi byte gambar (bytea)
      * - foto_mime : tipe MIME gambar (mis. image/jpeg) untuk Content-Type
      *
-     * Kolom lama `foto` (path) tetap dipertahankan sebagai cadangan/kompatibilitas.
+     * Guard hasColumn dipakai agar aman dijalankan ulang (idempoten) bila kolom
+     * sudah terlanjur ada di database.
      */
     public function up(): void
     {
