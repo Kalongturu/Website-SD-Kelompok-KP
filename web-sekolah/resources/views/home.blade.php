@@ -36,10 +36,10 @@
         </div>
 
         <div class="hero-stats">
-            <div class="stat"><span class="stat-num" data-target="325">0</span><span class="stat-label">Siswa Aktif</span></div>
-            <div class="stat"><span class="stat-num" data-target="17">0</span><span class="stat-label">Guru &amp; Staf</span></div>
-            <div class="stat"><span class="stat-num" data-target="6">0</span><span class="stat-label">Ruang Kelas</span></div>
-            <div class="stat"><span class="stat-num" data-target="45">0</span><span class="stat-label">Prestasi</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $statistik['siswa'] }}">0</span><span class="stat-label">Siswa Aktif</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $statistik['guru'] }}">0</span><span class="stat-label">Guru &amp; Staf</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $statistik['ruang_kelas'] }}">0</span><span class="stat-label">Ruang Kelas</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $statistik['prestasi'] }}">0</span><span class="stat-label">Prestasi</span></div>
         </div>
     </section>
 

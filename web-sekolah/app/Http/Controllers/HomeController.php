@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Galeri;
+use App\Models\Guru;
 use App\Models\PpdbSetting;
 use App\Models\Ekstrakurikuler;
 use App\Models\Prestasi;
+use App\Models\RuangKelas;
 
 class HomeController extends Controller
 {
@@ -43,9 +45,18 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
+        // Statistik hero — dihitung dari data yang diinput admin. Pola perhitungan
+        // mengikuti dashboard admin: jumlah siswa = total siswa pada ruang kelas aktif.
+        $statistik = [
+            'siswa'       => (int) RuangKelas::where('is_active', true)->sum('jumlah_siswa'),
+            'guru'        => Guru::where('is_active', true)->count(),
+            'ruang_kelas' => RuangKelas::where('is_active', true)->count(),
+            'prestasi'    => Prestasi::where('is_active', true)->count(),
+        ];
+
         return view('home', compact(
             'berita', 'galeriPreview', 'ppdb',
-            'ekskulPreview', 'prestasiPreview'
+            'ekskulPreview', 'prestasiPreview', 'statistik'
         ));
     }
 }
