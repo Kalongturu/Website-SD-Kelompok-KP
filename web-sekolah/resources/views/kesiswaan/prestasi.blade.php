@@ -4,6 +4,7 @@
 @section('description', 'Daftar prestasi dan kejuaraan yang diraih siswa SDN Dadapsari di berbagai bidang dan tingkat.')
 
 @push('styles')
+<!-- ini bagian css -->
     <style>
         .page-header {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #2a8aa3 100%);
@@ -527,7 +528,8 @@
 
 @section('content')
 
-    {{-- ===================== HEADER ===================== --}}
+  
+    <!-- Ini bagian header -->
     <section class="page-header">
         <span class="eyebrow">Kesiswaan</span>
         <h1>Prestasi Siswa</h1>
@@ -545,7 +547,7 @@
                 <p>Data prestasi siswa akan tampil di sini setelah ditambahkan oleh admin.</p>
             </div>
         @else
-            {{-- ===================== PANEL FILTER ===================== --}}
+           <!-- Ini filter -->
             <div class="prestasi-panel">
                 <form id="prestasiForm" method="GET" action="{{ route('kesiswaan.prestasi') }}">
                     <input type="hidden" name="kategori" id="inputKategori"

@@ -7,6 +7,7 @@
 
 @section('content')
 
+    <!-- Ini bagian beranda ya ges -->
     {{-- ===================== HERO / BERANDA ===================== --}}
     <section id="beranda" class="hero">
         <div class="hero-body">
@@ -44,6 +45,8 @@
                     class="stat-label">Prestasi</span></div>
         </div>
     </section>
+
+    <!-- Ini bagaian profil sekolah ges -->
 
     {{-- ===================== PROFIL ===================== --}}
     <section id="profil" class="section">
@@ -116,8 +119,8 @@
             </a>
         </div>
     </section>
+    <!-- Ini buat kesiswaan -->
 
-    {{-- ===================== KESISWAAN ===================== --}}
     <section id="kesiswaan" class="section">
         <div class="section-head">
             <span class="eyebrow">Aktivitas Siswa</span>
@@ -170,7 +173,8 @@
             </div>
         </div>
 
-        {{-- Prestasi preview — 3 terbaru dari DB, klik → halaman Prestasi --}}
+        
+        <!-- ini bagian prestasi yang preview -->
         <div id="prestasi"
             style="margin-bottom:2rem;background:var(--white);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
@@ -227,7 +231,7 @@
             </div>
         </div>
 
-        {{-- Tata Tertib — card statis, klik → halaman Tata Tertib --}}
+        <!-- Ini bagian tata tertib yang ada previewnya -->
         <div id="tata-tertib">
             <a href="{{ route('kesiswaan.tata-tertib') }}" class="card"
                 style="display:flex;flex-direction:row;align-items:center;gap:1.5rem;padding:1.5rem 2rem;

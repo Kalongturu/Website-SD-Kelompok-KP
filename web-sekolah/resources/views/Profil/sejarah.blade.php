@@ -88,6 +88,26 @@
     .sejarah-card p { line-height: 1.85; color: var(--text); margin-bottom: 1.2rem; font-size: .97rem; }
     .sejarah-card p:last-child { margin-bottom: 0; }
 
+    /* ── SEJARAH SINGKAT (blok utama) ── */
+    .sejarah-singkat { margin-bottom: 1.75rem; padding-bottom: 1.75rem; border-bottom: 1px solid #eef1f5; }
+    .sejarah-singkat-title {
+        text-align: center;
+        font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+        font-weight: 800;
+        color: var(--primary-dark);
+        letter-spacing: .3px;
+        margin-bottom: 1.4rem;
+    }
+    .sejarah-singkat-title::after {
+        content: '';
+        display: block;
+        width: 64px; height: 3px;
+        background: var(--accent);
+        border-radius: 3px;
+        margin: .65rem auto 0;
+    }
+    .sejarah-singkat p { text-align: justify; }
+
     .sejarah-section-title {
         font-size: 1.1rem; font-weight: 700; color: var(--primary-dark);
         border-left: 4px solid var(--accent); padding-left: .9rem;
@@ -244,6 +264,18 @@
 
 <div class="sejarah-wrap">
     <div class="sejarah-card">
+
+        {{-- Sejarah Singkat --}}
+        @if ($setting->sejarah_singkat)
+            <div class="sejarah-singkat">
+                @if ($setting->sejarah_singkat_judul)
+                    <h2 class="sejarah-singkat-title">{{ $setting->sejarah_singkat_judul }}</h2>
+                @endif
+                @foreach (array_filter(explode("\n\n", $setting->sejarah_singkat)) as $para)
+                    <p>{{ trim($para) }}</p>
+                @endforeach
+            </div>
+        @endif
 
         {{-- Motto --}}
         <div class="motto-strip">

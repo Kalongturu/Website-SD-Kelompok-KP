@@ -100,6 +100,29 @@
     {{-- ═══════════════ TAB: SEJARAH ═══════════════ --}}
     <div class="profil-tab-pane active" id="tab-sejarah">
 
+        {{-- Sejarah Singkat --}}
+        <div class="form-card">
+            <div class="form-card-header">
+                <div class="hico" style="background:#e0e7ff;color:#4f46e5;"><i class="bi bi-book-half"></i></div>
+                <div><h6>Sejarah Singkat</h6><p>Blok utama di awal halaman Sejarah (judul + isi)</p></div>
+            </div>
+            <div class="form-card-body">
+                <label class="form-label">Judul</label>
+                <input type="text" name="sejarah_singkat_judul"
+                       class="form-control @error('sejarah_singkat_judul') is-invalid @enderror"
+                       value="{{ old('sejarah_singkat_judul', $setting->sejarah_singkat_judul) }}"
+                       maxlength="150" placeholder="Sejarah Singkat SDN Dadapsari">
+                @error('sejarah_singkat_judul') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                <label class="form-label mt-3">Isi</label>
+                <textarea name="sejarah_singkat" class="form-control @error('sejarah_singkat') is-invalid @enderror"
+                          rows="8" maxlength="5000"
+                          placeholder="Tulis sejarah singkat sekolah…">{{ old('sejarah_singkat', $setting->sejarah_singkat) }}</textarea>
+                <div class="form-text mt-1" style="font-size:.72rem;">Pisahkan paragraf dengan baris kosong.</div>
+                @error('sejarah_singkat') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+        </div>
+
         {{-- Paragraf Intro --}}
         <div class="form-card">
             <div class="form-card-header">

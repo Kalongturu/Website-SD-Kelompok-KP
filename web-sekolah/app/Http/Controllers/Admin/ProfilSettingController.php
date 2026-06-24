@@ -17,6 +17,8 @@ class ProfilSettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
+            'sejarah_singkat_judul' => 'nullable|string|max:150',
+            'sejarah_singkat'       => 'nullable|string|max:5000',
             'sejarah_intro'      => 'nullable|string|max:5000',
             'sejarah_komitmen'   => 'nullable|string|max:3000',
             'visi'               => 'nullable|string|max:1000',
@@ -28,6 +30,8 @@ class ProfilSettingController extends Controller
         ]);
 
         $data = [
+            'sejarah_singkat_judul' => $request->input('sejarah_singkat_judul'),
+            'sejarah_singkat'       => $request->input('sejarah_singkat'),
             'sejarah_intro'    => $request->input('sejarah_intro'),
             'sejarah_komitmen' => $request->input('sejarah_komitmen'),
 
