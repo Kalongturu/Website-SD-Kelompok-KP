@@ -81,6 +81,11 @@ Route::prefix('ppdb')->name('ppdb.')->group(function () {
 // sedang login (thumbnail di dashboard).
 Route::get('guru/{guru}/foto', [AkademikController::class, 'guruFoto'])->name('guru.foto');
 
+// Gambar berita & lampiran pengumuman juga disajikan dari kolom biner (bytea) di
+// database — di luar grup redirect.admin agar bisa dimuat publik maupun admin.
+Route::get('berita/{berita}/gambar',          [InformasiController::class, 'gambar'])->name('berita.gambar');
+Route::get('pengumuman/{pengumuman}/lampiran', [InformasiController::class, 'lampiran'])->name('pengumuman.lampiran');
+
 // Reset password admin. URL berada di bawah /admin, TAPI nama route sengaja
 // tanpa prefix "admin." karena notifikasi bawaan Laravel memanggil route('password.reset').
 Route::prefix('admin')->middleware('nocache')->group(function () {

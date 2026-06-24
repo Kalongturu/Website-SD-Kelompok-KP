@@ -45,7 +45,7 @@
                             <td class="text-muted" style="font-size:.75rem;">{{ $item->id }}</td>
                             <td>
                                 <span class="fw-500" style="font-size:.85rem;">{{ Str::limit($item->judul, 65) }}</span>
-                                @if ($item->lampiran)
+                                @if ($item->lampiran_url)
                                     <i class="bi bi-paperclip text-muted ms-1" title="Ada lampiran"></i>
                                 @endif
                             </td>

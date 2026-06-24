@@ -373,11 +373,11 @@
                     <a href="{{ route('informasi.index') }}" class="news-card"
                         style="text-decoration:none;color:inherit;display:block;">
                         <div class="news-thumb" style="--c1:#1a5f7a;--c2:#57c5b6;position:relative;overflow:hidden;">
-                            @if ($item->gambar)
-                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}"
+                            <span>📰</span>
+                            @if ($item->gambar_url)
+                                <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" loading="lazy"
+                                    onerror="this.remove()"
                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-                            @else
-                                <span>📰</span>
                             @endif
                         </div>
                         <div class="news-body">
