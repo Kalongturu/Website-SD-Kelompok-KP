@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
@@ -37,19 +37,49 @@ class ProfileController extends Controller
             'phone' => 'nomor HP',
         ]);
 
-        if ($request->hasFile('avatar')) {
-            if ($user->avatar && ! str_starts_with($user->avatar, 'http')) {
-                Storage::disk('public')->delete($user->avatar);
-            }
-            $data['avatar'] = $request->file('avatar')->store('avatar', 'public');
-        } else {
-            unset($data['avatar']);
-        }
+        // Avatar tidak ikut $user->update(); foto disimpan sebagai biner (bytea).
+        unset($data['avatar']);
 
         $user->update($data);
 
+        if ($request->hasFile('avatar')) {
+            $file  = $request->file('avatar');
+            $bytes = file_get_contents($file->getRealPath());
+            $mime  = $file->getMimeType() ?: 'image/jpeg';
+
+            // decode(?, 'base64') -> bytea. Parameter dikirim sebagai teks base64
+            // (ASCII penuh) sehingga aman dari masalah encoding koneksi PDO.
+            DB::update(
+                "UPDATE users SET avatar_data = decode(?, 'base64'), avatar_mime = ?, avatar = NULL, updated_at = ? WHERE id = ?",
+                [base64_encode($bytes), $mime, now()->toDateTimeString(), $user->id]
+            );
+        }
+
         return redirect()->route('admin.profile.edit')
             ->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    /**
+     * Menyajikan avatar admin langsung dari kolom biner (bytea) di database.
+     * Byte diambil sebagai base64 lalu di-decode agar andal lintas driver PDO.
+     */
+    public function avatar()
+    {
+        $user = Auth::user();
+
+        $row = DB::table('users')
+            ->where('id', $user->id)
+            ->selectRaw("encode(avatar_data, 'base64') as b64, avatar_mime")
+            ->first();
+
+        abort_if(! $row || empty($row->b64), 404);
+
+        $bytes = base64_decode($row->b64);
+
+        return response($bytes)
+            ->header('Content-Type', $row->avatar_mime ?: 'image/jpeg')
+            ->header('Content-Length', (string) strlen($bytes))
+            ->header('Cache-Control', 'private, max-age=86400');
     }
 
     /**
@@ -83,12 +113,10 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->avatar) {
-            if (! str_starts_with($user->avatar, 'http')) {
-                Storage::disk('public')->delete($user->avatar);
-            }
-            $user->update(['avatar' => null]);
-        }
+        DB::update(
+            'UPDATE users SET avatar_data = NULL, avatar_mime = NULL, avatar = NULL, updated_at = ? WHERE id = ?',
+            [now()->toDateTimeString(), $user->id]
+        );
 
         return redirect()->route('admin.profile.edit')
             ->with('success', 'Avatar berhasil dihapus.');

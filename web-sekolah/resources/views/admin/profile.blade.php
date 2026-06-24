@@ -84,7 +84,7 @@
                         </div>
                     </div>
 
-                    @if ($user->avatar)
+                    @if ($user->hasAvatar())
                         <div class="mb-3 text-end">
                             <button type="submit" form="formHapusAvatar" class="btn btn-sm btn-outline-danger"
                                 style="border-radius:8px;font-size:.78rem;">

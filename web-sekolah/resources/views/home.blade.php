@@ -5,6 +5,85 @@
     'Selamat datang di SDN Dadapsari — sekolah dasar unggulan yang membentuk generasi cerdas dan
     berkarakter.')
 
+@push('styles')
+<style>
+    /* ── VISI & MISI (Profil) ── */
+    .home-vm {
+        margin-top: 2.5rem;
+    }
+    .home-vm-title {
+        text-align: center;
+        font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+        font-weight: 800;
+        color: var(--primary-dark);
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        margin-bottom: 1.75rem;
+    }
+    .home-vm-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+    .home-vm-card {
+        border-radius: var(--radius);
+        padding: 2rem 1.75rem;
+        box-shadow: var(--shadow);
+    }
+    /* Visi – light card */
+    .home-vm-visi {
+        background: var(--white);
+        border: 1px solid rgba(0, 43, 91, .08);
+    }
+    .home-vm-visi .home-vm-head {
+        color: var(--primary-dark);
+    }
+    .home-vm-visi .home-vm-text {
+        color: var(--text);
+        font-style: italic;
+        line-height: 1.8;
+        font-size: 1.02rem;
+    }
+    /* Misi – brand blue card */
+    .home-vm-misi {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        color: var(--white);
+    }
+    .home-vm-misi .home-vm-head {
+        color: var(--white);
+    }
+    .home-vm-head {
+        text-align: center;
+        font-size: 1.15rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        margin: 0 0 1.25rem;
+    }
+    .home-vm-misi ol {
+        margin: 0;
+        padding-left: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: .85rem;
+    }
+    .home-vm-misi li {
+        line-height: 1.6;
+        font-size: .95rem;
+        color: rgba(255, 255, 255, .92);
+        padding-left: .25rem;
+    }
+    .home-vm-misi li::marker {
+        font-weight: 700;
+        color: var(--accent);
+    }
+    @media (max-width: 768px) {
+        .home-vm-grid { grid-template-columns: 1fr; }
+    }
+</style>
+@endpush
+
 @section('content')
 
     <!-- Ini bagian beranda ya ges -->
@@ -88,6 +167,32 @@
                 </p>
             </a>
         </div>
+
+        {{-- ── Visi & Misi (data dikelola admin via Konten Profil) ── --}}
+        @if ($profil->visi || !empty($profil->misi))
+        <div class="home-vm">
+            <h3 class="home-vm-title">Visi dan Misi SDN Dadapsari</h3>
+            <div class="home-vm-grid">
+                @if ($profil->visi)
+                <div class="home-vm-card home-vm-visi">
+                    <h4 class="home-vm-head">Visi Sekolah</h4>
+                    <p class="home-vm-text">"{{ $profil->visi }}"</p>
+                </div>
+                @endif
+
+                @if (!empty($profil->misi))
+                <div class="home-vm-card home-vm-misi">
+                    <h4 class="home-vm-head">Misi Sekolah</h4>
+                    <ol>
+                        @foreach ($profil->misi as $butir)
+                        <li>{{ $butir }}</li>
+                        @endforeach
+                    </ol>
+                </div>
+                @endif
+            </div>
+        </div>
+        @endif
     </section>
 
     {{-- ===================== AKADEMIK ===================== --}}
