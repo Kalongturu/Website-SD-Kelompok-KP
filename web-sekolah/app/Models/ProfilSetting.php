@@ -9,6 +9,8 @@ class ProfilSetting extends Model
     protected $table = 'profil_settings';
 
     protected $fillable = [
+        'sejarah_singkat_judul',
+        'sejarah_singkat',
         'sejarah_intro',
         'sejarah_timeline',
         'sejarah_komitmen',
@@ -35,6 +37,8 @@ class ProfilSetting extends Model
     public static function getData(): self
     {
         return static::first() ?? new static([
+            'sejarah_singkat_judul' => 'Sejarah Singkat SDN Dadapsari',
+            'sejarah_singkat' => "Berdirinya SDN Dadapsari Semarang karena dilatarbelakangi oleh pemikiran bahwa kebutuhan manusia akan ilmu pengetahuan dan ilmu Agama adalah sangat penting, karena sebagai makhluk Allah SWT. yang paling sempurna, manusia hidup diciptakan di dunia mengemban tugas untuk beribadah kepada-Nya. Sedangkan orang yang beribadah haruslah disertai dengan ilmunya, selain itu juga mengembangkan tradisi keilmuan sains dan teknologi guna menghadapi kerasnya persaingan di era globalisasi juga tidak bisa dikesampingkan. SDN Dadapsari memadukan kedua aspek keilmuan tersebut yang diorientasikan untuk menjadikan manusia yang memiliki ilmu pengetahuan yang luas dengan diimbangi dasar ilmu Agama Islam yang kuat dengan disertai kepribadian yang mulia atau akhlak al-karimah merupakan cita-cita dan visi utama SDN Dadapsari didirikan.\n\nTahun 1965, SDN Dadapsari Semarang mulai didirikan dengan surat keputusan Dinas P dan K Propinsi Daerah Tingkat I Jawa Tengah dengan NSS: 1010301133008, NIS: 1180910001, NSB: 03111760312002, serta NPSN dengan nomor : 20329393. Pada awalnya bernama SDN Mlayu Darat, kemudian karena nama kelurahan diganti dengan kelurahan Dadapsari, maka nama SDN Mlayu Darat juga ikut berubah menjadi SDN Dadapsari hingga sekarang.",
             'sejarah_intro' => "SD Negeri Dadapsari merupakan sekolah dasar negeri yang berdiri sejak tahun 1965 berdasarkan Surat Keputusan Dinas Pendidikan Provinsi Jawa Tengah. Pada awal berdirinya, sekolah ini bernama SDN Mlayu Darat, kemudian berganti nama menjadi SDN Dadapsari seiring perubahan nama kelurahan menjadi Kelurahan Dadapsari.\n\nBerlokasi di Jl. Petek No. 117-119, Kelurahan Dadapsari, Kecamatan Semarang Utara, sekolah ini telah menjadi lembaga pendidikan dasar yang dipercaya oleh masyarakat sekitar dalam membentuk generasi penerus bangsa yang cerdas, berkarakter, dan berakhlak mulia.",
             'sejarah_timeline' => [
                 ['tahun' => '1965', 'judul' => 'Pendirian SDN Mlayu Darat',      'deskripsi' => 'Sekolah resmi berdiri atas Surat Keputusan Dinas Pendidikan Provinsi Jawa Tengah dengan nama awal SDN Mlayu Darat.'],

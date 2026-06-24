@@ -22,8 +22,12 @@ return new class extends Migration
         });
 
         // NIP dijadikan opsional untuk pengisian dari website (form publik hanya
-        // mewajibkan nama, foto, jabatan). DROP NOT NULL bersifat backward-compatible.
-        DB::statement('ALTER TABLE guru ALTER COLUMN nip DROP NOT NULL');
+        // mewajibkan nama, foto, jabatan). Sintaks "ALTER COLUMN ... DROP NOT NULL"
+        // hanya didukung PostgreSQL; di SQLite/lainnya kolom sudah dibuat nullable
+        // oleh migrasi create_guru_table sehingga statement ini tidak diperlukan.
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE guru ALTER COLUMN nip DROP NOT NULL');
+        }
     }
 
     public function down(): void

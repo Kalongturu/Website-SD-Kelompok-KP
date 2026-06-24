@@ -55,14 +55,18 @@
         .sidebar-brand .brand-icon {
             width: 40px;
             height: 40px;
-            background: var(--accent);
+            background: #fff;
             border-radius: 10px;
             display: grid;
             place-items: center;
-            font-size: 1.2rem;
-            color: #fff;
-            font-weight: 700;
+            padding: 4px;
             flex-shrink: 0;
+        }
+
+        .sidebar-brand .brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .sidebar-brand .brand-text {

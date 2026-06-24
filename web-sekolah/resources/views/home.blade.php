@@ -14,7 +14,8 @@
                 <span class="hero-badge">Selamat Datang di Website Resmi</span>
                 <h1>SDN <span>Dadapsari</span></h1>
                 <p class="hero-motto">"Santun dalam berperilaku, hebat dalam prestasi"</p>
-                <p>Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas dan menyenangkan.</p>
+                <p>Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas dan
+                    menyenangkan.</p>
                 <div class="hero-actions">
                     @auth
                         <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Daftar PPDB Sekarang</a>
@@ -27,19 +28,20 @@
 
             <div class="hero-photo-wrap">
                 <div class="hero-photo-ring">
-                    <img src="{{ asset('images/sekolah-3.jpeg') }}" alt="Kegiatan SDN Dadapsari" class="hero-photo">
-                </div>
-                <div class="hero-photo-badge">
-                    <img src="{{ asset('images/logo-sdn-dadapsari.png') }}" alt="Logo SDN Dadapsari" class="hero-logo-badge">
+                    <img src="{{ asset('images/sekolah-3.jpeg') }}" alt="Wali Kota Semarang" class="hero-photo">
                 </div>
             </div>
         </div>
 
         <div class="hero-stats">
-            <div class="stat"><span class="stat-num" data-target="{{ $statistik['siswa'] }}">0</span><span class="stat-label">Siswa Aktif</span></div>
-            <div class="stat"><span class="stat-num" data-target="{{ $statistik['guru'] }}">0</span><span class="stat-label">Guru &amp; Staf</span></div>
-            <div class="stat"><span class="stat-num" data-target="{{ $statistik['ruang_kelas'] }}">0</span><span class="stat-label">Ruang Kelas</span></div>
-            <div class="stat"><span class="stat-num" data-target="{{ $statistik['prestasi'] }}">0</span><span class="stat-label">Prestasi</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $stats['siswa'] }}">0</span><span
+                    class="stat-label">Siswa Aktif</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $stats['guru'] }}">0</span><span
+                    class="stat-label">Guru &amp; Staf</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $stats['ruang_kelas'] }}">0</span><span
+                    class="stat-label">Ruang Kelas</span></div>
+            <div class="stat"><span class="stat-num" data-target="{{ $stats['prestasi'] }}">0</span><span
+                    class="stat-label">Prestasi</span></div>
         </div>
     </section>
 
@@ -53,7 +55,7 @@
 
         <div class="cards-grid">
             <a href="{{ route('profil.sejarah') }}" id="sejarah" class="card"
-               style="text-decoration:none;color:inherit;display:block;">
+                style="text-decoration:none;color:inherit;display:block;">
                 <div class="card-icon">📖</div>
                 <h3>Sejarah</h3>
                 <p>Berdiri sejak 1985, SDN Dadapsari telah menjadi rumah belajar bagi ribuan lulusan yang tersebar di
@@ -61,7 +63,7 @@
             </a>
 
             <a href="{{ route('profil.visi-misi') }}" id="visi-misi" class="card"
-               style="text-decoration:none;color:inherit;display:block;">
+                style="text-decoration:none;color:inherit;display:block;">
                 <div class="card-icon">🎯</div>
                 <h3>Visi &amp; Misi</h3>
                 <p>Mewujudkan sekolah unggul yang menghasilkan peserta didik beriman, berprestasi, dan peduli lingkungan.
@@ -69,14 +71,14 @@
             </a>
 
             <a href="{{ route('profil.transparansi-dana-bos') }}" id="transparansi-dana-bos" class="card"
-               style="text-decoration:none;color:inherit;display:block;">
+                style="text-decoration:none;color:inherit;display:block;">
                 <div class="card-icon">💰</div>
                 <h3>Transparansi Dana BOS</h3>
                 <p>Informasi penggunaan dana Bantuan Operasional Sekolah secara terbuka dan akuntabel.</p>
             </a>
 
             <a href="{{ route('profil.fasilitas') }}" id="fasilitas" class="card"
-               style="text-decoration:none;color:inherit;display:block;">
+                style="text-decoration:none;color:inherit;display:block;">
                 <div class="card-icon">🏫</div>
                 <h3>Fasilitas</h3>
                 <p>Perpustakaan, laboratorium komputer, lapangan olahraga, UKS, dan ruang kelas yang nyaman serta modern.
@@ -95,19 +97,19 @@
 
         <div class="cards-grid cards-3">
             <a href="{{ route('akademik.kurikulum') }}" id="kurikulum" class="card"
-               style="text-decoration:none;color:inherit;display:block;">
+                style="text-decoration:none;color:inherit;display:block;">
                 <div class="card-icon">📚</div>
                 <h3>Kurikulum</h3>
                 <p>Menerapkan Kurikulum Merdeka yang berfokus pada pengembangan karakter dan kompetensi siswa.</p>
             </a>
             <a href="{{ route('akademik.kalender') }}" id="kalender" class="card"
-               style="text-decoration:none;color:inherit;display:block;">
+                style="text-decoration:none;color:inherit;display:block;">
                 <div class="card-icon">📅</div>
                 <h3>Kalender Akademik</h3>
                 <p>Jadwal kegiatan belajar, ujian, dan libur sekolah yang tersusun rapi sepanjang tahun ajaran.</p>
             </a>
             <a href="{{ route('akademik.guru') }}" id="guru" class="card"
-               style="text-decoration:none;color:inherit;display:block;">
+                style="text-decoration:none;color:inherit;display:block;">
                 <div class="card-icon">👩‍🏫</div>
                 <h3>Guru &amp; Staf</h3>
                 <p>Tenaga pendidik bersertifikat yang berpengalaman dan penuh dedikasi dalam mendampingi siswa.</p>
@@ -124,21 +126,21 @@
         </div>
 
         {{-- Ekstrakurikuler preview — 3 dari DB, klik → halaman Ekstrakurikuler --}}
-        <div id="ekstrakurikuler" style="margin-bottom:2rem;background:var(--white);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
+        <div id="ekstrakurikuler"
+            style="margin-bottom:2rem;background:var(--white);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">⚽ Ekstrakurikuler</span>
                 <a href="{{ route('kesiswaan.ekstrakurikuler') }}"
-                   style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
             </div>
             <div class="news-grid">
                 @forelse ($ekskulPreview as $e)
                     <a href="{{ route('kesiswaan.ekstrakurikuler') }}" class="news-card"
-                       style="text-decoration:none;color:inherit;display:block;">
-                        <div class="news-thumb"
-                             style="--c1:#0f766e;--c2:#14b8a6;position:relative;overflow:hidden;">
+                        style="text-decoration:none;color:inherit;display:block;">
+                        <div class="news-thumb" style="--c1:#0f766e;--c2:#14b8a6;position:relative;overflow:hidden;">
                             @if ($e->foto)
                                 <img src="{{ $e->fotoUrl() }}" alt="{{ $e->nama }}"
-                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                             @else
                                 <span>{{ $e->icon ?: '🎯' }}</span>
                             @endif
@@ -148,13 +150,15 @@
                                 <span class="news-date">{{ $e->kategori }}</span>
                             @endif
                             <h3>{{ $e->nama }}</h3>
-                            <p>{{ $e->deskripsi_singkat ?: \Illuminate\Support\Str::limit(strip_tags($e->deskripsi), 90) ?: 'Kegiatan ekstrakurikuler unggulan SDN Dadapsari.' }}</p>
+                            <p>{{ $e->deskripsi_singkat ?: \Illuminate\Support\Str::limit(strip_tags($e->deskripsi), 90) ?: 'Kegiatan ekstrakurikuler unggulan SDN Dadapsari.' }}
+                            </p>
                         </div>
                     </a>
                 @empty
-                    @foreach ([['⚽','Olahraga','Futsal & Pramuka','Pengembangan jiwa sportivitas dan kedisiplinan siswa.'],['🎨','Seni','Seni Tari & Musik','Menyalurkan kreativitas siswa di bidang seni budaya.'],['🔬','Akademik','KIR & Olimpiade','Kompetisi ilmu pengetahuan antar sekolah.']] as [$ico,$kat,$nm,$desk])
+                    @foreach ([['⚽', 'Olahraga', 'Futsal & Pramuka', 'Pengembangan jiwa sportivitas dan kedisiplinan siswa.'], ['🎨', 'Seni', 'Seni Tari & Musik', 'Menyalurkan kreativitas siswa di bidang seni budaya.'], ['🔬', 'Akademik', 'KIR & Olimpiade', 'Kompetisi ilmu pengetahuan antar sekolah.']] as [$ico, $kat, $nm, $desk])
                         <article class="news-card">
-                            <div class="news-thumb" style="--c1:#0f766e;--c2:#14b8a6;"><span>{{ $ico }}</span></div>
+                            <div class="news-thumb" style="--c1:#0f766e;--c2:#14b8a6;"><span>{{ $ico }}</span>
+                            </div>
                             <div class="news-body">
                                 <span class="news-date">{{ $kat }}</span>
                                 <h3>{{ $nm }}</h3>
@@ -167,21 +171,21 @@
         </div>
 
         {{-- Prestasi preview — 3 terbaru dari DB, klik → halaman Prestasi --}}
-        <div id="prestasi" style="margin-bottom:2rem;background:var(--white);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
+        <div id="prestasi"
+            style="margin-bottom:2rem;background:var(--white);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">🏆 Prestasi Terbaru</span>
                 <a href="{{ route('kesiswaan.prestasi') }}"
-                   style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
             </div>
             <div class="news-grid">
                 @forelse ($prestasiPreview as $p)
                     <a href="{{ route('kesiswaan.prestasi') }}" class="news-card"
-                       style="text-decoration:none;color:inherit;display:block;">
-                        <div class="news-thumb"
-                             style="--c1:#78350f;--c2:#f59e0b;position:relative;overflow:hidden;">
+                        style="text-decoration:none;color:inherit;display:block;">
+                        <div class="news-thumb" style="--c1:#78350f;--c2:#f59e0b;position:relative;overflow:hidden;">
                             @if ($p->foto)
                                 <img src="{{ $p->fotoUrl() }}" alt="{{ $p->nama_kejuaraan }}"
-                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                             @else
                                 <span>🏆</span>
                             @endif
@@ -192,17 +196,26 @@
                             @endif
                             <h3>{{ $p->nama_kejuaraan }}</h3>
                             <p>
-                                @if ($p->peringkat) <strong>{{ $p->peringkat }}</strong> @endif
-                                @if ($p->peringkat && $p->tingkat) — @endif
-                                @if ($p->tingkat) Tingkat {{ $p->tingkat }} @endif
-                                @if ($p->nama_siswa) · {{ $p->nama_siswa }} @endif
+                                @if ($p->peringkat)
+                                    <strong>{{ $p->peringkat }}</strong>
+                                @endif
+                                @if ($p->peringkat && $p->tingkat)
+                                    —
+                                @endif
+                                @if ($p->tingkat)
+                                    Tingkat {{ $p->tingkat }}
+                                @endif
+                                @if ($p->nama_siswa)
+                                    · {{ $p->nama_siswa }}
+                                @endif
                             </p>
                         </div>
                     </a>
                 @empty
-                    @foreach ([['🥇','Juara 1 OSN Matematika','Tingkat Kota'],['🥈','Juara 2 MAPSI','Tingkat Provinsi'],['🏅','Juara 1 Futsal','Tingkat Kecamatan']] as [$ico,$nm,$tk])
+                    @foreach ([['🥇', 'Juara 1 OSN Matematika', 'Tingkat Kota'], ['🥈', 'Juara 2 MAPSI', 'Tingkat Provinsi'], ['🏅', 'Juara 1 Futsal', 'Tingkat Kecamatan']] as [$ico, $nm, $tk])
                         <article class="news-card">
-                            <div class="news-thumb" style="--c1:#78350f;--c2:#f59e0b;"><span>{{ $ico }}</span></div>
+                            <div class="news-thumb" style="--c1:#78350f;--c2:#f59e0b;"><span>{{ $ico }}</span>
+                            </div>
                             <div class="news-body">
                                 <span class="news-date">Prestasi Siswa</span>
                                 <h3>{{ $nm }}</h3>
@@ -217,12 +230,13 @@
         {{-- Tata Tertib — card statis, klik → halaman Tata Tertib --}}
         <div id="tata-tertib">
             <a href="{{ route('kesiswaan.tata-tertib') }}" class="card"
-               style="display:flex;flex-direction:row;align-items:center;gap:1.5rem;padding:1.5rem 2rem;
+                style="display:flex;flex-direction:row;align-items:center;gap:1.5rem;padding:1.5rem 2rem;
                       text-decoration:none;color:inherit;max-width:480px;margin:0 auto;">
                 <div class="card-icon" style="font-size:2.5rem;flex-shrink:0;">📋</div>
                 <div>
                     <h3 style="margin-bottom:.3rem;">Tata Tertib</h3>
-                    <p style="margin:0;font-size:.88rem;">Aturan sekolah yang menumbuhkan kedisiplinan, tanggung jawab, dan akhlak mulia.</p>
+                    <p style="margin:0;font-size:.88rem;">Aturan sekolah yang menumbuhkan kedisiplinan, tanggung jawab, dan
+                        akhlak mulia.</p>
                 </div>
                 <span style="margin-left:auto;font-size:1.25rem;color:var(--accent);flex-shrink:0;">→</span>
             </a>
@@ -238,22 +252,21 @@
         </div>
 
         {{-- Berita — 3 terbaru, klik → halaman Berita & Pengumuman --}}
-        <div id="berita" style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
+        <div id="berita"
+            style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">📰 Berita Terbaru</span>
                 <a href="{{ route('informasi.index') }}"
-                   style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
             </div>
             <div class="news-grid">
                 @forelse ($berita as $item)
                     <a href="{{ route('informasi.index') }}" class="news-card"
-                       style="text-decoration:none;color:inherit;display:block;">
-                        <div class="news-thumb"
-                             style="--c1:#1a5f7a;--c2:#57c5b6;position:relative;overflow:hidden;">
+                        style="text-decoration:none;color:inherit;display:block;">
+                        <div class="news-thumb" style="--c1:#1a5f7a;--c2:#57c5b6;position:relative;overflow:hidden;">
                             @if ($item->gambar)
-                                <img src="{{ asset('storage/' . $item->gambar) }}"
-                                     alt="{{ $item->judul }}"
-                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}"
+                                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                             @else
                                 <span>📰</span>
                             @endif
@@ -280,11 +293,13 @@
         </div>
 
         {{-- PPDB Banner — dari DB, klik → halaman PPDB --}}
-        <div id="ppdb" style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
+        <div id="ppdb"
+            style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">🎓 Pendaftaran Siswa Baru (PPDB)</span>
+                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">🎓 Pendaftaran Siswa Baru
+                    (PPDB)</span>
                 <a href="{{ route('ppdb.index') }}"
-                   style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Info →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Info →</a>
             </div>
             <div class="ppdb-banner">
                 <div>
@@ -299,29 +314,29 @@
         </div>
 
         {{-- Galeri — preview dari DB, klik → halaman Galeri --}}
-        <div id="galeri" style="background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
+        <div id="galeri"
+            style="background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">📷 Galeri Kegiatan</span>
                 <a href="{{ route('informasi.galeri') }}"
-                   style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
             </div>
             <div class="gallery">
                 @forelse ($galeriPreview as $foto)
                     <a href="{{ route('informasi.galeri') }}" class="gallery-item"
-                       style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;
+                        style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;
                               position:relative;overflow:hidden;display:grid;place-items:center;">
                         @if ($foto->gambarUrl())
-                            <img src="{{ $foto->gambarUrl() }}"
-                                 alt="{{ $foto->judul }}"
-                                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                            <img src="{{ $foto->gambarUrl() }}" alt="{{ $foto->judul }}"
+                                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                         @else
                             <span style="position:relative;z-index:1;">📸</span>
                         @endif
                     </a>
                 @empty
-                    @foreach (['📸','🎨','🎶','⚽','🔬','📚'] as $ikon)
+                    @foreach (['📸', '🎨', '🎶', '⚽', '🔬', '📚'] as $ikon)
                         <a href="{{ route('informasi.galeri') }}" class="gallery-item"
-                           style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;">{{ $ikon }}</a>
+                            style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;">{{ $ikon }}</a>
                     @endforeach
                 @endforelse
             </div>
@@ -364,25 +379,42 @@
                 @csrf
 
                 @if (session('kontak_success'))
-                    <div style="background:#dcfce7;color:#15803d;border:1px solid #86efac;border-radius:10px;
+                    <div
+                        style="background:#dcfce7;color:#15803d;border:1px solid #86efac;border-radius:10px;
                                 padding:.75rem 1rem;font-size:.85rem;margin-bottom:.25rem;">
                         ✅ {{ session('kontak_success') }}
                     </div>
                 @endif
 
-                @if ($errors->any())
-                    <div style="background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;border-radius:10px;
-                                padding:.75rem 1rem;font-size:.85rem;margin-bottom:.25rem;">
-                        {{ $errors->first() }}
-                    </div>
-                @endif
+                {{-- Honeypot anti-spam: disembunyikan dari pengguna, hanya diisi bot --}}
+                <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                    <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+                </div>
 
                 <div class="form-row">
-                    <input type="text" name="nama" value="{{ old('nama') }}" placeholder="Nama Lengkap" required maxlength="150">
-                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Alamat Email" required maxlength="191">
+                    <div>
+                        <input type="text" name="nama" value="{{ old('nama') }}" placeholder="Nama Lengkap"
+                            required maxlength="150">
+                        @error('nama')
+                            <small style="color:#b91c1c;font-size:.78rem;">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div>
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="Alamat Email"
+                            required maxlength="191">
+                        @error('email')
+                            <small style="color:#b91c1c;font-size:.78rem;">{{ $message }}</small>
+                        @enderror
+                    </div>
                 </div>
                 <input type="text" name="subjek" value="{{ old('subjek') }}" placeholder="Subjek" maxlength="200">
+                @error('subjek')
+                    <small style="color:#b91c1c;font-size:.78rem;">{{ $message }}</small>
+                @enderror
                 <textarea name="pesan" rows="5" placeholder="Tulis pesan Anda..." required maxlength="5000">{{ old('pesan') }}</textarea>
+                @error('pesan')
+                    <small style="color:#b91c1c;font-size:.78rem;">{{ $message }}</small>
+                @enderror
                 <button type="submit" class="btn btn-primary">Kirim Pesan</button>
             </form>
         </div>

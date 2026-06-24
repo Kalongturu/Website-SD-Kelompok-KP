@@ -5,9 +5,9 @@
 
 @push('styles')
 <style>
-    /* ── HEADER – ungu untuk fasilitas ── */
+    /* ── HEADER – selaras tema sekolah ── */
     .fas-header {
-        background: linear-gradient(135deg, #312e81 0%, #4338ca 50%, #6366f1 100%);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #2a8aa3 100%);
         color: var(--white);
         padding: 3.5rem 1.5rem 5.5rem;
         text-align: center;
@@ -18,15 +18,15 @@
         content: '';
         position: absolute;
         width: 280px; height: 280px;
-        background: rgba(199,210,254,.12);
+        background: rgba(87,197,182,.12);
         border-radius: 50%;
         top: -80px; left: -60px;
         filter: blur(8px);
     }
     .fas-header .eyebrow {
         display: inline-block;
-        background: rgba(199,210,254,.2);
-        color: #c7d2fe;
+        background: rgba(87,197,182,.2);
+        color: #bfe8e1;
         padding: .3rem .9rem;
         border-radius: 50px;
         font-size: .8rem;
@@ -48,8 +48,10 @@
     }
     .fas-photo-banner img {
         width: 100%;
-        height: 220px;
-        object-fit: cover;
+        height: auto;
+        max-height: 460px;
+        object-fit: contain;
+        background: var(--bg);
         border-radius: var(--radius);
         box-shadow: var(--shadow-lg);
         display: block;
@@ -88,9 +90,9 @@
         transition: all .2s ease;
         text-decoration: none;
     }
-    .fas-tab:hover { border-color: #6366f1; color: #4338ca; }
+    .fas-tab:hover { border-color: var(--accent); color: var(--primary); }
     .fas-tab.active {
-        background: linear-gradient(135deg, #4338ca, #6366f1);
+        background: linear-gradient(135deg, var(--primary), var(--accent));
         border-color: transparent;
         color: #fff;
     }
@@ -115,14 +117,14 @@
         border-radius: var(--radius);
         box-shadow: var(--shadow);
         overflow: hidden;
-        border-top: 4px solid #6366f1;
+        border-top: 4px solid var(--accent);
         transition: transform .25s ease, box-shadow .25s ease;
     }
     .rk-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
 
     .rk-thumb {
         height: 140px;
-        background: linear-gradient(135deg, #4338ca, #6366f1);
+        background: linear-gradient(135deg, var(--primary), var(--accent));
         display: grid; place-items: center;
         font-size: 3rem; position: relative; overflow: hidden;
     }
@@ -132,7 +134,7 @@
     .rk-name { font-size: 1rem; font-weight: 700; color: var(--primary-dark); margin-bottom: .4rem; }
     .rk-siswa {
         display: inline-flex; align-items: center; gap: .4rem;
-        background: #ede9fe; color: #4338ca;
+        background: var(--accent-soft); color: var(--primary);
         font-size: .8rem; font-weight: 700;
         padding: .25rem .75rem; border-radius: 50px; margin-bottom: .6rem;
     }
@@ -146,31 +148,31 @@
         overflow: hidden;
     }
     .sarpras-card-head {
-        background: #ede9fe;
-        color: #312e81;
+        background: var(--accent-soft);
+        color: var(--primary-dark);
         font-weight: 700;
         letter-spacing: .5px;
         text-transform: uppercase;
         font-size: .82rem;
         padding: .9rem 1.5rem;
-        border-bottom: 1px solid #c7d2fe;
+        border-bottom: 1px solid #bfe8e1;
     }
     .table-scroll { overflow-x: auto; }
     table.sarpras { width: 100%; border-collapse: collapse; font-size: .93rem; }
     table.sarpras thead th {
         text-align: left; color: var(--text); font-weight: 700;
-        padding: .95rem 1.4rem; border-bottom: 2px solid #c7d2fe;
-        background: #f5f3ff; white-space: nowrap;
+        padding: .95rem 1.4rem; border-bottom: 2px solid #bfe8e1;
+        background: #f0fbf9; white-space: nowrap;
     }
     table.sarpras th.num, table.sarpras td.num { text-align: center; }
     table.sarpras tbody td { padding: .8rem 1.4rem; color: var(--text); border-bottom: 1px solid rgba(0,43,91,.05); vertical-align: middle; }
     table.sarpras tbody tr:nth-child(even) { background: #fafbfc; }
-    table.sarpras tbody tr:hover { background: #f5f3ff; }
+    table.sarpras tbody tr:hover { background: #f0fbf9; }
     table.sarpras .sarpras-img { width: 52px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid #e2e8f0; }
-    table.sarpras tfoot td { padding: .9rem 1.4rem; font-weight: 800; color: #312e81; border-top: 2px solid #c7d2fe; background: #ede9fe; }
+    table.sarpras tfoot td { padding: .9rem 1.4rem; font-weight: 800; color: var(--primary-dark); border-top: 2px solid #bfe8e1; background: var(--accent-soft); }
 
     .sarpras-source { margin: .75rem .25rem 0; font-size: .78rem; color: var(--muted); font-style: italic; }
-    .sarpras-source a { color: #4338ca; }
+    .sarpras-source a { color: var(--primary); }
 
     /* ── MEDIA DIGITAL ── */
     .media-subsection { margin-bottom: 2rem; }
@@ -184,24 +186,24 @@
 
     .ebook-card {
         background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
-        overflow: hidden; border-top: 4px solid #6366f1;
+        overflow: hidden; border-top: 4px solid var(--accent);
         transition: transform .25s ease, box-shadow .25s ease;
         display: flex; flex-direction: column;
     }
     .ebook-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
     .ebook-cover {
-        height: 160px; background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        height: 160px; background: linear-gradient(135deg, var(--primary), var(--accent));
         display: grid; place-items: center; font-size: 3rem; position: relative; overflow: hidden;
     }
     .ebook-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .ebook-body { padding: 1rem 1.1rem; flex: 1; display: flex; flex-direction: column; }
     .ebook-title { font-size: .9rem; font-weight: 700; color: var(--primary-dark); margin-bottom: .25rem; line-height: 1.35; }
     .ebook-meta { font-size: .78rem; color: var(--muted); margin-bottom: .5rem; }
-    .ebook-tag { display: inline-block; background: #ede9fe; color: #5b21b6; font-size: .72rem; font-weight: 700; padding: .2rem .6rem; border-radius: 50px; margin-bottom: auto; }
+    .ebook-tag { display: inline-block; background: var(--accent-soft); color: var(--primary); font-size: .72rem; font-weight: 700; padding: .2rem .6rem; border-radius: 50px; margin-bottom: auto; }
     .ebook-btn {
         display: block; text-align: center; margin-top: .9rem;
         padding: .5rem; border-radius: 8px; font-size: .82rem; font-weight: 700;
-        background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff;
+        background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff;
         text-decoration: none; transition: opacity .2s;
     }
     .ebook-btn:hover { opacity: .88; color: #fff; }
@@ -245,13 +247,13 @@
     .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: .5rem; }
     .empty-state h3 { color: var(--primary-dark); margin-bottom: .3rem; }
 
-    .back-link {
+    .fas-back-link {
         display: inline-flex; align-items: center; gap: .4rem;
-        font-size: .85rem; color: #fff; text-decoration: none;
+        font-size: .85rem; color: var(--primary); text-decoration: none;
         margin-bottom: 1.25rem; font-weight: 600;
-        text-shadow: 0 1px 6px rgba(0,0,0,.35);
+        transition: color .2s ease, gap .2s ease;
     }
-    .back-link:hover { color: rgba(255,255,255,.75); }
+    .fas-back-link:hover { color: var(--primary-dark); gap: .65rem; }
 
     @media (max-width: 600px) { .rk-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 420px) { .rk-grid { grid-template-columns: 1fr; } }
@@ -274,9 +276,7 @@
 <div class="fas-wrap">
 
     <div>
-        <a href="{{ route('home') }}#profil"
-           style="display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;font-weight:600;
-                  color:var(--primary);text-decoration:none;margin-bottom:1.25rem;">
+        <a href="{{ route('home') }}#profil" class="fas-back-link">
             ← Kembali ke Profil
         </a>
 

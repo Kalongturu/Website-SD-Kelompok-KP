@@ -51,13 +51,17 @@
             place-items: center;
             width: 68px;
             height: 68px;
-            background: var(--accent);
+            background: #fff;
             border-radius: 20px;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #fff;
+            padding: 8px;
             margin-bottom: .75rem;
-            box-shadow: 0 8px 24px rgba(87, 197, 182, .4);
+            box-shadow: 0 8px 24px rgba(0, 43, 91, .25);
+        }
+
+        .brand-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .login-brand h1 {
@@ -312,7 +316,7 @@
 
         <!-- Branding -->
         <div class="login-brand">
-            <div class="brand-badge">SD</div>
+            <div class="brand-badge"><img src="{{ asset('images/logo-sdn-dadapsari.png') }}" alt="Logo SDN Dadapsari"></div>
             <h1>SDN Dadapsari</h1>
             <p>Panel Administrasi Sekolah</p>
         </div>
@@ -321,6 +325,14 @@
         <div class="login-card">
             <h2>Masuk sebagai Admin</h2>
             <p class="subtitle">Masukkan kredensial Anda untuk melanjutkan</p>
+
+            {{-- Alert sukses (mis. setelah reset password berhasil) --}}
+            @if (session('status'))
+                <div class="alert alert-success d-flex align-items-center gap-2 mb-3" role="alert">
+                    <i class="bi bi-check-circle-fill flex-shrink-0"></i>
+                    <span>{{ session('status') }}</span>
+                </div>
+            @endif
 
             {{-- Alert error --}}
             @if ($errors->any())
@@ -377,7 +389,7 @@
                         <input class="form-check-input" type="checkbox" id="remember" name="remember">
                         <label class="form-check-label" for="remember">Ingat saya</label>
                     </div>
-                    <a href="#" class="forgot-link">Lupa password?</a>
+                    <a href="{{ route('password.request') }}" class="forgot-link">Lupa password?</a>
                 </div>
 
                 <button type="submit" class="btn-login">

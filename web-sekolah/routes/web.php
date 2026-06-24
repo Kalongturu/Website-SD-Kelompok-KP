@@ -27,6 +27,7 @@ use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\PasswordResetController;
 use App\Http\Controllers\Admin\ProfileController;
 
 // Semua route publik — admin yang masih login diarahkan kembali ke dashboard
@@ -34,8 +35,10 @@ Route::middleware('redirect.admin')->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Form kontak publik → simpan sebagai Pesan (inbox admin)
-Route::post('kontak', [ContactController::class, 'store'])->name('kontak.store');
+// Form kontak publik → simpan sebagai Pesan (inbox admin). Throttle cegah spam.
+Route::post('kontak', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('kontak.store');
 
 Route::prefix('profil')->name('profil.')->group(function () {
     Route::get('sejarah',              [ProfilController::class, 'sejarah'])->name('sejarah');
@@ -72,6 +75,20 @@ Route::prefix('ppdb')->name('ppdb.')->group(function () {
 });
 
 }); // end redirect.admin group
+
+// Foto guru/staf disajikan dari kolom biner (bytea) di database. Sengaja di luar
+// grup redirect.admin agar gambar tetap bisa dimuat oleh publik MAUPUN admin yang
+// sedang login (thumbnail di dashboard).
+Route::get('guru/{guru}/foto', [AkademikController::class, 'guruFoto'])->name('guru.foto');
+
+// Reset password admin. URL berada di bawah /admin, TAPI nama route sengaja
+// tanpa prefix "admin." karena notifikasi bawaan Laravel memanggil route('password.reset').
+Route::prefix('admin')->middleware('nocache')->group(function () {
+    Route::get('forgot-password',        [PasswordResetController::class, 'showRequest'])->name('password.request');
+    Route::post('forgot-password',       [PasswordResetController::class, 'sendLink'])->name('password.email');
+    Route::get('reset-password/{token}', [PasswordResetController::class, 'showReset'])->name('password.reset');
+    Route::post('reset-password',        [PasswordResetController::class, 'reset'])->name('password.update');
+});
 
 Route::prefix('admin')->name('admin.')->middleware('nocache')->group(function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');

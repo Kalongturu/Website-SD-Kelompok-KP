@@ -12,7 +12,7 @@ class Guru extends Model
         'nama',
         'jabatan',
         'nip',
-        'foto',
+        'foto_mime',
         'is_kepala',
         'urutan',
         'is_active',
@@ -23,8 +23,27 @@ class Guru extends Model
         'is_active' => 'boolean',
     ];
 
+    /**
+     * Kolom ringan untuk query DAFTAR. Sengaja TIDAK menyertakan `foto_data`
+     * (bytea, bisa besar) agar halaman daftar tidak menarik byte gambar setiap
+     * record. Byte gambar hanya diambil saat disajikan lewat route `guru.foto`.
+     */
+    public const LIST_COLUMNS = [
+        'id', 'nama', 'jabatan', 'nip', 'foto_mime',
+        'is_kepala', 'urutan', 'is_active', 'created_at', 'updated_at',
+    ];
+
+    /**
+     * URL gambar guru/staf. Foto disimpan sebagai DATA BINER (bytea) di kolom
+     * `foto_data`; keberadaannya ditandai oleh `foto_mime`. Gambar disajikan
+     * lewat route `guru.foto`. Null bila record belum punya foto.
+     */
     public function fotoUrl(): ?string
     {
-        return $this->foto ? asset('storage/' . $this->foto) : null;
+        if (empty($this->foto_mime)) {
+            return null;
+        }
+
+        return route('guru.foto', $this) . '?v=' . optional($this->updated_at)->timestamp;
     }
 }

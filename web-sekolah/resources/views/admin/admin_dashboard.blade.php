@@ -27,7 +27,6 @@
                 <div>
                     <div class="stat-value">{{ $stats['siswa'] }}</div>
                     <div class="stat-label">Total Siswa</div>
-                    <div class="stat-delta up"><i class="bi bi-arrow-up-short"></i>12 tahun ini</div>
                 </div>
             </div>
         </div>
@@ -37,7 +36,6 @@
                 <div>
                     <div class="stat-value">{{ $stats['guru'] }}</div>
                     <div class="stat-label">Guru &amp; Staf</div>
-                    <div class="stat-delta flat"><i class="bi bi-dash"></i>Tidak ada perubahan</div>
                 </div>
             </div>
         </div>
@@ -47,7 +45,6 @@
                 <div>
                     <div class="stat-value">{{ $stats['berita'] }}</div>
                     <div class="stat-label">Berita Publik</div>
-                    <div class="stat-delta up"><i class="bi bi-arrow-up-short"></i>3 bulan ini</div>
                 </div>
             </div>
         </div>
@@ -57,7 +54,6 @@
                 <div>
                     <div class="stat-value">{{ $stats['pengumuman'] }}</div>
                     <div class="stat-label">Pengumuman Aktif</div>
-                    <div class="stat-delta up"><i class="bi bi-arrow-up-short"></i>1 baru hari ini</div>
                 </div>
             </div>
         </div>

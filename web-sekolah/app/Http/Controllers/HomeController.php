@@ -45,9 +45,8 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        // Statistik hero — dihitung dari data yang diinput admin. Pola perhitungan
-        // mengikuti dashboard admin: jumlah siswa = total siswa pada ruang kelas aktif.
-        $statistik = [
+        // Statistik hero — dihitung dinamis dari data sekolah
+        $stats = [
             'siswa'       => (int) RuangKelas::where('is_active', true)->sum('jumlah_siswa'),
             'guru'        => Guru::where('is_active', true)->count(),
             'ruang_kelas' => RuangKelas::where('is_active', true)->count(),
@@ -56,7 +55,7 @@ class HomeController extends Controller
 
         return view('home', compact(
             'berita', 'galeriPreview', 'ppdb',
-            'ekskulPreview', 'prestasiPreview', 'statistik'
+            'ekskulPreview', 'prestasiPreview', 'stats'
         ));
     }
 }

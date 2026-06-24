@@ -22,8 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Bagikan jumlah pesan belum dibaca ke layout & sidebar admin (badge notifikasi).
-        View::composer(['layouts.admin', 'admin.partials.sidebar'], function ($view) {
+        // Bagikan jumlah pesan belum dibaca ke layout admin (badge notifikasi).
+        // Cukup di 'layouts.admin' — sidebar di-@include sehingga mewarisi $unreadPesan,
+        // jadi query hanya jalan sekali per request.
+        View::composer('layouts.admin', function ($view) {
             $unread = (auth()->check() && Schema::hasTable('pesan'))
                 ? Pesan::where('is_read', false)->count()
                 : 0;
