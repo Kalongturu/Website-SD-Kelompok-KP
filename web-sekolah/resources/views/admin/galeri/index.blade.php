@@ -25,18 +25,23 @@
         }
 
         .galeri-admin-thumb {
-            height: 130px;
+            aspect-ratio: 4 / 3;
+            width: 100%;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             display: grid;
             place-items: center;
             font-size: 2.5rem;
             position: relative;
+            overflow: hidden;
         }
 
         .galeri-admin-thumb img {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         .galeri-admin-status {
