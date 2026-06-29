@@ -24,10 +24,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-/public/css
-/public/js
 /public/mix-manifest.json
-composer.lock
 package-lock.json
 yarn.lock
 pnpm-lock.yaml

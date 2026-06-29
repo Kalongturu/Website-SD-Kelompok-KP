@@ -170,31 +170,6 @@
             </a>
         </div>
 
-        {{-- ── Visi & Misi (data dikelola admin via Konten Profil) ── --}}
-        @if ($profil->visi || !empty($profil->misi))
-        <div class="home-vm">
-            <h3 class="home-vm-title">Visi dan Misi SDN Dadapsari</h3>
-            <div class="home-vm-grid">
-                @if ($profil->visi)
-                <div class="home-vm-card home-vm-visi">
-                    <h4 class="home-vm-head">Visi Sekolah</h4>
-                    <p class="home-vm-text">"{{ $profil->visi }}"</p>
-                </div>
-                @endif
-
-                @if (!empty($profil->misi))
-                <div class="home-vm-card home-vm-misi">
-                    <h4 class="home-vm-head">Misi Sekolah</h4>
-                    <ol>
-                        @foreach ($profil->misi as $butir)
-                        <li>{{ $butir }}</li>
-                        @endforeach
-                    </ol>
-                </div>
-                @endif
-            </div>
-        </div>
-        @endif
     </section>
 
     {{-- ===================== AKADEMIK ===================== --}}
