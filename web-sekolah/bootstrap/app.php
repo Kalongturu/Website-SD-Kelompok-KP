@@ -14,6 +14,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Di hosting seperti Vercel, HTTPS diterminasi di edge/proxy lalu request
+        // diteruskan ke PHP sebagai HTTP biasa + header X-Forwarded-Proto: https.
+        // Tanpa mempercayai proxy, Laravel mengira koneksinya http:// dan membuat
+        // URL http:// di halaman https:// — CSS/JS diblokir browser (mixed content).
+        // Laravel hanya auto-trust untuk Laravel Cloud/Forge/Vapor, bukan Vercel.
+        //
+        // Aman untuk lokal: tanpa header X-Forwarded-*, baris ini tidak berefek.
+        $middleware->trustProxies(at: '*');
+
         $middleware->redirectGuestsTo(fn () => route('admin.login'));
 
         $middleware->alias([
