@@ -48,7 +48,7 @@ Isi di **Project → Settings → Environment Variables**. Yang tidak rahasia
 | Variabel | Nilai | Keterangan |
 |---|---|---|
 | `APP_KEY` | `base64:...` | **Salin dari `.env` lokal Anda.** Tanpa ini aplikasi error. |
-| `APP_URL` | `https://<proyek>.vercel.app` | Sesuaikan setelah domain didapat. |
+| `APP_URL` | `https://<proyek>.vercel.app` | Lihat catatan di bawah. |
 | `DB_HOST` | `ep-...aws.neon.tech` | Dari `.env` lokal |
 | `DB_PORT` | `5432` | |
 | `DB_DATABASE` | `neondb` | |
@@ -65,6 +65,36 @@ Isi di **Project → Settings → Environment Variables**. Yang tidak rahasia
 
 Nilainya bisa disalin dari `.env` lokal. **Jangan commit `.env`** — sudah ditahan
 `.gitignore` dan `.vercelignore`.
+
+### Soal `APP_URL`
+
+`APP_URL` di `.env` lokal Anda (`http://127.0.0.1:8000`) **sudah benar untuk lokal —
+biarkan saja**. File `.env` tidak pernah ikut terupload ke Vercel, jadi tidak akan
+mengganggu produksi.
+
+Yang perlu dipahami: **saat melayani request HTTP, Laravel memakai host asli dari
+request, bukan `APP_URL`.** Jadi di Vercel semua link/gambar otomatis memakai domain
+yang sedang dibuka. `APP_URL` hanya dipakai ketika **tidak ada request HTTP** —
+mis. perintah `php artisan`, queue, atau email yang dibuat dari CLI.
+
+Tetap isi `APP_URL` di Vercel dengan domain asli agar link dari CLI/email benar,
+tapi salah isi tidak akan membuat gambar/CSS rusak.
+
+### HTTPS di balik proxy (sudah ditangani)
+
+Vercel menerminasi HTTPS di edge, lalu meneruskan request ke PHP sebagai HTTP biasa
+plus header `X-Forwarded-Proto: https`. Laravel hanya auto-percaya proxy untuk
+Laravel Cloud/Forge/Vapor — **Vercel tidak termasuk**. Tanpa penanganan, Laravel
+mengira koneksinya `http://` lalu membuat URL `http://` di halaman `https://`;
+CSS/JS diblokir browser (*mixed content*) dan situs tampil tanpa gaya.
+
+Karena itu `bootstrap/app.php` sekarang memuat:
+
+```php
+$middleware->trustProxies(at: '*');
+```
+
+Aman untuk lokal: tanpa header `X-Forwarded-*`, baris ini tidak berefek apa pun.
 
 ---
 
@@ -131,5 +161,5 @@ jadi gambar yang masih memakai path lama tidak akan tampil di Vercel. Setelah
 | `404: NOT_FOUND` | Root Directory belum diisi `web-sekolah`. |
 | `500` + log `No application encryption key` | `APP_KEY` belum diisi. |
 | `SQLSTATE... could not connect / 127.0.0.1` | `DB_HOST`/`DB_PGSQL_OPTIONS` belum diisi (lihat catatan `DB_URL` di atas). |
-| CSS/JS tidak muncul | Cek blok `routes` di `vercel.json`. |
+| CSS/JS tidak muncul / situs tanpa gaya | Cek blok `routes` di `vercel.json`. Bila di console browser muncul *mixed content*, pastikan `trustProxies` masih ada di `bootstrap/app.php`. |
 | `Class not found` | Composer gagal install — cek Build Logs. |
