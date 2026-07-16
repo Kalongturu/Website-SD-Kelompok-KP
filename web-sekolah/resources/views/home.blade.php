@@ -223,7 +223,7 @@
                     <a href="{{ route('kesiswaan.ekstrakurikuler') }}" class="news-card"
                         style="text-decoration:none;color:inherit;display:block;">
                         <div class="news-thumb" style="--c1:#0f766e;--c2:#14b8a6;position:relative;overflow:hidden;">
-                            @if ($e->foto)
+                            @if ($e->fotoUrl())
                                 <img src="{{ $e->fotoUrl() }}" alt="{{ $e->nama }}"
                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                             @else
@@ -269,7 +269,7 @@
                     <a href="{{ route('kesiswaan.prestasi') }}" class="news-card"
                         style="text-decoration:none;color:inherit;display:block;">
                         <div class="news-thumb" style="--c1:#78350f;--c2:#f59e0b;position:relative;overflow:hidden;">
-                            @if ($p->foto)
+                            @if ($p->fotoUrl())
                                 <img src="{{ $p->fotoUrl() }}" alt="{{ $p->nama_kejuaraan }}"
                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                             @else

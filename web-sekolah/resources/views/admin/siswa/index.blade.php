@@ -79,7 +79,7 @@
             @foreach ($items as $item)
                 <div class="mhs-admin-item">
                     <div class="mhs-admin-thumb">
-                        @if ($item->foto)
+                        @if ($item->fotoUrl())
                             <img src="{{ $item->fotoUrl() }}" alt="{{ $item->nama }}">
                         @else
                             <span>🎓</span>

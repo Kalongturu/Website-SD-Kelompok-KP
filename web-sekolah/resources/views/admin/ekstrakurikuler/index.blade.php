@@ -87,7 +87,7 @@
             @foreach ($items as $item)
                 <div class="ekskul-admin-item">
                     <div class="ekskul-admin-thumb">
-                        @if ($item->foto)
+                        @if ($item->fotoUrl())
                             <img src="{{ $item->fotoUrl() }}" alt="{{ $item->nama }}">
                         @else
                             <span>{{ $item->icon ?: '🎯' }}</span>

@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\HandlesDbImage;
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
+    use HandlesDbImage;
+
     public function index()
     {
-        $items = Siswa::latest()->paginate(20);
+        $items = Siswa::select(Siswa::LIST_COLUMNS)->latest()->paginate(20);
         return view('admin.siswa.index', compact('items'));
     }
 
@@ -24,11 +26,10 @@ class SiswaController extends Controller
     {
         $data = $this->validasi($request);
 
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('siswa', 'public');
-        }
+        unset($data['foto']); // foto disimpan sebagai biner di foto_data, bukan path teks
 
-        Siswa::create($data);
+        $siswa = Siswa::create($data);
+        $this->saveDbImage($request, $siswa, 'foto');
 
         return redirect()->route('admin.siswa.index')
             ->with('success', 'Data siswa berhasil ditambahkan.');
@@ -43,14 +44,10 @@ class SiswaController extends Controller
     {
         $data = $this->validasi($request);
 
-        if ($request->hasFile('foto')) {
-            if ($siswa->foto) Storage::disk('public')->delete($siswa->foto);
-            $data['foto'] = $request->file('foto')->store('siswa', 'public');
-        } else {
-            unset($data['foto']);
-        }
+        unset($data['foto']); // foto baru (bila ada) disimpan sebagai biner di foto_data
 
         $siswa->update($data);
+        $this->saveDbImage($request, $siswa, 'foto');
 
         return redirect()->route('admin.siswa.index')
             ->with('success', 'Data siswa berhasil diperbarui.');
@@ -58,7 +55,7 @@ class SiswaController extends Controller
 
     public function destroy(Siswa $siswa)
     {
-        if ($siswa->foto) Storage::disk('public')->delete($siswa->foto);
+        // Foto tersimpan sebagai biner di kolom foto_data — ikut terhapus.
         $siswa->delete();
 
         return back()->with('success', 'Data siswa berhasil dihapus.');

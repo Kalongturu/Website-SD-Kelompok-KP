@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\HandlesDbImage;
 use App\Http\Controllers\Controller;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PrestasiController extends Controller
 {
+    use HandlesDbImage;
+
     public function index()
     {
-        $items = Prestasi::orderByDesc('tanggal')->orderByDesc('id')->paginate(15);
+        $items = Prestasi::select(Prestasi::LIST_COLUMNS)
+            ->orderByDesc('tanggal')->orderByDesc('id')->paginate(15);
         return view('admin.prestasi.index', compact('items'));
     }
 
@@ -37,12 +40,11 @@ class PrestasiController extends Controller
             'is_active'      => 'boolean',
         ]);
 
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('prestasi', 'public');
-        }
+        unset($data['foto']); // foto disimpan sebagai biner di foto_data, bukan path teks
         $data['is_active'] = $request->boolean('is_active');
 
-        Prestasi::create($data);
+        $prestasi = Prestasi::create($data);
+        $this->saveDbImage($request, $prestasi, 'foto');
 
         return redirect()->route('admin.prestasi.index')
             ->with('success', 'Prestasi berhasil ditambahkan.');
@@ -70,16 +72,12 @@ class PrestasiController extends Controller
             'is_active'      => 'boolean',
         ]);
 
-        if ($request->hasFile('foto')) {
-            if ($prestasi->foto) Storage::disk('public')->delete($prestasi->foto);
-            $data['foto'] = $request->file('foto')->store('prestasi', 'public');
-        } else {
-            unset($data['foto']);
-        }
+        unset($data['foto']); // foto baru (bila ada) disimpan sebagai biner di foto_data
 
         $data['is_active'] = $request->boolean('is_active');
 
         $prestasi->update($data);
+        $this->saveDbImage($request, $prestasi, 'foto');
 
         return redirect()->route('admin.prestasi.index')
             ->with('success', 'Prestasi berhasil diperbarui.');
@@ -87,7 +85,7 @@ class PrestasiController extends Controller
 
     public function destroy(Prestasi $prestasi)
     {
-        if ($prestasi->foto) Storage::disk('public')->delete($prestasi->foto);
+        // Foto tersimpan sebagai biner di kolom foto_data — ikut terhapus.
         $prestasi->delete();
 
         return back()->with('success', 'Prestasi berhasil dihapus.');

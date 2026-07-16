@@ -37,13 +37,16 @@ class HomeController extends Controller
 
         $profil = ProfilSetting::getData();
 
-        $ekskulPreview = Ekstrakurikuler::where('is_active', true)
+        // select(LIST_COLUMNS) agar byte gambar (bytea) tidak ikut ditarik.
+        $ekskulPreview = Ekstrakurikuler::select(Ekstrakurikuler::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderBy('urutan')
             ->orderBy('nama')
             ->limit(3)
             ->get();
 
-        $prestasiPreview = Prestasi::where('is_active', true)
+        $prestasiPreview = Prestasi::select(Prestasi::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderByDesc('tanggal')
             ->orderByDesc('id')
             ->limit(3)

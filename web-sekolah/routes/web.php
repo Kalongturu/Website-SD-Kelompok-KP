@@ -27,6 +27,7 @@ use App\Http\Controllers\KesiswaanController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PasswordResetController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -87,6 +88,18 @@ Route::get('guru/{guru}/foto', [AkademikController::class, 'guruFoto'])->name('g
 Route::get('berita/{berita}/gambar',          [InformasiController::class, 'gambar'])->name('berita.gambar');
 Route::get('pengumuman/{pengumuman}/lampiran', [InformasiController::class, 'lampiran'])->name('pengumuman.lampiran');
 Route::get('galeri/{galeri}/gambar',          [InformasiController::class, 'galeriGambar'])->name('galeri.gambar');
+
+// Gambar ekskul, prestasi, sarpras, ruang kelas, cover e-book & foto siswa —
+// sama-sama disajikan dari kolom biner (bytea) di database. Sengaja di luar grup
+// redirect.admin agar dapat dimuat SEMUA user: pengunjung publik maupun admin
+// yang sedang login (thumbnail di dashboard).
+Route::get('ekskul/{ekstrakurikuler}/foto', [MediaController::class, 'ekskulFoto'])->name('ekskul.foto');
+Route::get('prestasi/{prestasi}/foto',      [MediaController::class, 'prestasiFoto'])->name('prestasi.foto');
+Route::get('sarpras/{sarpra}/gambar',       [MediaController::class, 'sarprasGambar'])->name('sarpras.gambar');
+Route::get('ruang-kelas/{ruangKelas}/gambar', [MediaController::class, 'ruangKelasGambar'])->name('ruang-kelas.gambar');
+Route::get('ebook/{ebook}/cover',           [MediaController::class, 'ebookCover'])->name('ebook.cover');
+Route::get('siswa/{siswa}/foto',            [MediaController::class, 'siswaFoto'])->name('siswa.foto');
+Route::get('video/{video}/thumbnail',       [MediaController::class, 'videoThumbnail'])->name('video.thumbnail');
 
 // Reset password admin. URL berada di bawah /admin, TAPI nama route sengaja
 // tanpa prefix "admin." karena notifikasi bawaan Laravel memanggil route('password.reset').

@@ -14,7 +14,9 @@ class KesiswaanController extends Controller
      */
     public function ekstrakurikuler()
     {
-        $ekstrakurikuler = Ekstrakurikuler::where('is_active', true)
+        // select(LIST_COLUMNS) agar byte foto (foto_data/bytea) tidak ikut ditarik.
+        $ekstrakurikuler = Ekstrakurikuler::select(Ekstrakurikuler::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderBy('urutan')
             ->orderBy('nama')
             ->paginate(9);
@@ -27,7 +29,9 @@ class KesiswaanController extends Controller
      */
     public function prestasi(Request $request)
     {
-        $query = Prestasi::where('is_active', true)
+        // select(LIST_COLUMNS) agar byte foto (foto_data/bytea) tidak ikut ditarik.
+        $query = Prestasi::select(Prestasi::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderByDesc('tanggal')
             ->orderByDesc('id');
 

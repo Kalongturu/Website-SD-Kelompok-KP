@@ -325,8 +325,8 @@
                     <button type="button" class="ekskul-card" data-ekskul="{{ $item->id }}"
                         aria-haspopup="dialog">
                         <div class="ekskul-thumb">
-                            @if ($item->foto)
-                                <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}">
+                            @if ($item->fotoUrl())
+                                <img src="{{ $item->fotoUrl() }}" alt="{{ $item->nama }}">
                             @else
                                 <span>{{ $item->icon ?: '🎯' }}</span>
                             @endif
@@ -395,8 +395,9 @@
 
             function openModal(item) {
                 // Hero: gambar bila ada, jika tidak gunakan ikon/emoji.
-                if (item.foto) {
-                    heroEl.innerHTML = `<img src="/storage/${escapeHtml(item.foto)}" alt="${escapeHtml(item.nama)}" ` +
+                // foto_url sudah disiapkan model (gambar biner dari DB atau path lama).
+                if (item.foto_url) {
+                    heroEl.innerHTML = `<img src="${escapeHtml(item.foto_url)}" alt="${escapeHtml(item.nama)}" ` +
                         `style="width:100%;height:100%;object-fit:cover;">`;
                 } else {
                     heroEl.innerHTML = `<span>${escapeHtml(item.icon || '🎯')}</span>`;
