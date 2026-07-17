@@ -353,7 +353,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ url('admin/login') }}">
+            <form method="POST" action="{{ url('admin/login') }}" id="loginForm">
                 @csrf
 
                 {{-- Email / Username --}}
@@ -396,7 +396,7 @@
                     <a href="{{ route('password.request') }}" class="forgot-link">Lupa password?</a>
                 </div>
 
-                <button type="submit" class="btn-login">
+                <button type="submit" class="btn-login" id="loginSubmit">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
                 </button>
             </form>
@@ -414,6 +414,24 @@
             const isHidden = passwordInput.type === 'password';
             passwordInput.type = isHidden ? 'text' : 'password';
             toggleIcon.className = isHidden ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill';
+        });
+
+        // Kunci tombol setelah submit pertama. Submit kedua memakai token dari sesi
+        // yang sudah diregenerasi oleh submit pertama, dan itulah yang memicu 419.
+        const loginForm = document.getElementById('loginForm');
+        const loginSubmit = document.getElementById('loginSubmit');
+        loginForm.addEventListener('submit', function () {
+            if (loginForm.dataset.submitting === '1') return;
+            loginForm.dataset.submitting = '1';
+            // Jangan pakai `disabled` sebelum submit terkirim — tombol yang
+            // disabled tidak ikut dikirim; tunda ke tick berikutnya.
+            setTimeout(function () {
+                loginSubmit.disabled = true;
+                loginSubmit.style.opacity = '.75';
+                loginSubmit.style.cursor = 'wait';
+                loginSubmit.innerHTML =
+                    '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Memproses…';
+            }, 0);
         });
     </script>
 </body>

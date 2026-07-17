@@ -26,7 +26,10 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        $galeriPreview = Galeri::where('is_active', true)
+        // select(LIST_COLUMNS) agar byte gambar (bytea) tidak ikut ditarik —
+        // view hanya memakai galeriUrl() yang menunjuk ke route galeri.gambar.
+        $galeriPreview = Galeri::select(Galeri::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderBy('urutan')
             ->orderByDesc('tanggal')
             ->orderByDesc('id')

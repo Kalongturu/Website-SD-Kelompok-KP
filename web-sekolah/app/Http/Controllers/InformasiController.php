@@ -101,7 +101,11 @@ class InformasiController extends Controller
      */
     public function galeri(Request $request)
     {
-        $query = Galeri::where('is_active', true)
+        // select(LIST_COLUMNS) agar byte gambar (bytea) tidak ikut ditarik.
+        // Tanpa ini, paginate(12) menarik 12 gambar penuh padahal kartu galeri
+        // hanya memakai galeriUrl() yang menunjuk ke route galeri.gambar.
+        $query = Galeri::select(Galeri::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderBy('urutan')
             ->orderByDesc('tanggal')
             ->orderByDesc('id');
