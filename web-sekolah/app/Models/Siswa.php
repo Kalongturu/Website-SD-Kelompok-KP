@@ -21,6 +21,26 @@ class Siswa extends Model
     /** Jangan pernah ikut serialisasi byte gambar ke array/JSON. */
     protected $hidden = ['foto_data'];
 
+    protected static function booted(): void
+    {
+        // Integrasi siswa ↔ kelas: setiap kali data siswa berubah, jumlah siswa
+        // pada kelas tujuan dihitung ulang otomatis. Menambah siswa "5A" membuat
+        // jumlah kelas "5A" bertambah 1; mengubah/menghapus akan menyesuaikan.
+        static::saved(function (Siswa $siswa) {
+            RuangKelas::syncCountFor($siswa->kelas);
+
+            // Bila kelas siswa dipindah, kelas lama juga perlu dihitung ulang.
+            $kelasLama = $siswa->getOriginal('kelas');
+            if ($kelasLama !== null && $kelasLama !== $siswa->kelas) {
+                RuangKelas::syncCountFor($kelasLama);
+            }
+        });
+
+        static::deleted(function (Siswa $siswa) {
+            RuangKelas::syncCountFor($siswa->kelas);
+        });
+    }
+
     /**
      * Kolom ringan untuk query DAFTAR. Sengaja TIDAK menyertakan `foto_data`
      * (bytea, bisa besar) agar daftar tidak menarik byte gambar setiap record.

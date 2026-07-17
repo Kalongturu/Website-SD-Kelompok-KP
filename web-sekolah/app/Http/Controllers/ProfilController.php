@@ -37,8 +37,7 @@ class ProfilController extends Controller
 
         $ruangKelas   = null;
         $sarpras      = null;
-        $totalGanjil  = 0;
-        $totalGenap   = 0;
+        $totalJumlah  = 0;
         $ebooks       = null;
         $videos       = null;
 
@@ -59,8 +58,7 @@ class ProfilController extends Controller
                 ->withQueryString();
 
             // Total keseluruhan untuk baris tfoot (bukan hanya halaman aktif).
-            $totalGanjil = SaranaPrasarana::where('is_active', true)->sum('jumlah_ganjil');
-            $totalGenap  = SaranaPrasarana::where('is_active', true)->sum('jumlah_genap');
+            $totalJumlah = SaranaPrasarana::where('is_active', true)->sum('jumlah');
         } else {
             $ebooks = EBook::select(EBook::LIST_COLUMNS)
                 ->where('is_active', true)
@@ -72,7 +70,7 @@ class ProfilController extends Controller
         }
 
         return view('Profil.fasilitas', compact(
-            'sarpras', 'ruangKelas', 'tab', 'totalGanjil', 'totalGenap', 'ebooks', 'videos'
+            'sarpras', 'ruangKelas', 'tab', 'totalJumlah', 'ebooks', 'videos'
         ));
     }
 }

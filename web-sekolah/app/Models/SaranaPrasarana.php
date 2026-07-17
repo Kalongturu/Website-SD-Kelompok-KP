@@ -11,8 +11,7 @@ class SaranaPrasarana extends Model
 
     protected $fillable = [
         'jenis',
-        'jumlah_ganjil',
-        'jumlah_genap',
+        'jumlah',
         'keterangan',
         'gambar',
         'gambar_mime',
@@ -29,7 +28,7 @@ class SaranaPrasarana extends Model
      * Byte gambar hanya diambil saat disajikan lewat route `sarpras.gambar`.
      */
     public const LIST_COLUMNS = [
-        'id', 'jenis', 'jumlah_ganjil', 'jumlah_genap', 'keterangan',
+        'id', 'jenis', 'jumlah', 'keterangan',
         'gambar', 'gambar_mime', 'urutan', 'is_active', 'created_at', 'updated_at',
     ];
 

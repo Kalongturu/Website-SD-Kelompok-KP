@@ -68,31 +68,33 @@
                 <div class="section-header">
                     <h6><i class="bi bi-clock-history me-2 text-primary"></i>Aktivitas Terbaru</h6>
                 </div>
-                <table class="table table-hover activity-table mb-0">
-                    <thead>
-                        <tr>
-                            <th>Aksi</th>
-                            <th class="d-none d-md-table-cell">Oleh</th>
-                            <th>Waktu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($aktivitas as $item)
+                <div class="table-responsive">
+                    <table class="table table-hover activity-table mb-0">
+                        <thead>
                             <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <span class="ikon-activity bg-{{ $item['warna'] }} bg-opacity-10 text-{{ $item['warna'] }}">
-                                            <i class="bi bi-{{ $item['ikon'] }}"></i>
-                                        </span>
-                                        {{ $item['aksi'] }}
-                                    </div>
-                                </td>
-                                <td class="d-none d-md-table-cell text-muted">{{ $item['oleh'] }}</td>
-                                <td class="text-muted">{{ $item['waktu'] }}</td>
+                                <th>Aksi</th>
+                                <th class="d-none d-md-table-cell">Oleh</th>
+                                <th>Waktu</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($aktivitas as $item)
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="ikon-activity bg-{{ $item['warna'] }} bg-opacity-10 text-{{ $item['warna'] }}">
+                                                <i class="bi bi-{{ $item['ikon'] }}"></i>
+                                            </span>
+                                            {{ $item['aksi'] }}
+                                        </div>
+                                    </td>
+                                    <td class="d-none d-md-table-cell text-muted">{{ $item['oleh'] }}</td>
+                                    <td class="text-muted">{{ $item['waktu'] }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Berita & Pengumuman')
-@section('description', 'Berita kegiatan dan pengumuman resmi SDN Dadapsari. Klik untuk membaca informasi
+@section('description',
+    'Berita kegiatan dan pengumuman resmi SDN Dadapsari. Klik untuk membaca informasi
     selengkapnya.')
 
     @push('styles')

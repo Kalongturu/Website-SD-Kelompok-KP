@@ -31,6 +31,16 @@
     .upload-zone small { font-size: .72rem; color: #756d66; }
 
     .img-preview { width:100%; border-radius:12px; object-fit:cover; border:1px solid #e2e8f0; max-height:280px; }
+
+    .album-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; }
+    .album-thumb { position:relative; aspect-ratio:1/1; border-radius:10px; overflow:hidden; border:1px solid #e2e8f0; }
+    .album-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .album-thumb-del {
+        position:absolute; top:.3rem; right:.3rem; width:24px; height:24px; border-radius:50%;
+        border:none; background:rgba(220,38,38,.92); color:#fff; font-size:.7rem; line-height:1;
+        display:grid; place-items:center; cursor:pointer; transition:background .2s;
+    }
+    .album-thumb-del:hover { background:#b91c1c; }
 </style>
 @endsection
 
@@ -99,26 +109,42 @@
 
         <div class="col-lg-5">
 
-            {{-- Upload Gambar --}}
+            {{-- Foto Album (bisa banyak) --}}
             <div class="form-card mb-4">
                 <div class="form-card-header">
-                    <div class="hico" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-cloud-upload-fill"></i></div>
-                    <h6>Foto {{ $item ? '(Opsional — biarkan jika tidak ingin mengganti)' : '*' }}</h6>
+                    <div class="hico" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-images"></i></div>
+                    <h6>Foto Album {{ $item ? '(tambah foto baru — opsional)' : '*' }}</h6>
                 </div>
                 <div class="form-card-body">
-                    @if ($item?->gambarUrl())
-                        <img id="imgPreview" src="{{ $item->gambarUrl() }}" alt="" class="img-preview mb-3">
-                    @else
-                        <img id="imgPreview" src="" alt="" class="img-preview mb-3" style="display:none;">
+
+                    {{-- Foto yang sudah ada di album (mode edit) --}}
+                    @if ($item && $item->fotos->isNotEmpty())
+                        <label class="form-label">Foto dalam album ({{ $item->fotos->count() }})</label>
+                        <div class="album-grid mb-3">
+                            @foreach ($item->fotos as $foto)
+                                <div class="album-thumb">
+                                    <img src="{{ $foto->gambarUrl() }}" alt="">
+                                    <button type="button" class="album-thumb-del"
+                                            title="Hapus foto ini"
+                                            data-foto-url="{{ route('admin.galeri.foto.destroy', $foto) }}">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
                     @endif
 
+                    {{-- Preview foto baru yang dipilih --}}
+                    <div id="newPreview" class="album-grid mb-3" style="display:none;"></div>
+
                     <label class="upload-zone" for="gambarInput">
-                        <input type="file" name="gambar" id="gambarInput" accept="image/*">
+                        <input type="file" name="gambar[]" id="gambarInput" accept="image/*" multiple>
                         <div class="upload-icon"><i class="bi bi-cloud-upload-fill"></i></div>
-                        <p>Klik untuk memilih foto</p>
-                        <small>JPG / PNG / WEBP — maks. 3 MB</small>
+                        <p>Klik untuk memilih foto (bisa pilih beberapa sekaligus)</p>
+                        <small>JPG / PNG / WEBP — maks. 3 MB per foto</small>
                     </label>
                     @error('gambar') <div class="text-danger mt-1" style="font-size:.8rem;">{{ $message }}</div> @enderror
+                    @error('gambar.*') <div class="text-danger mt-1" style="font-size:.8rem;">{{ $message }}</div> @enderror
                 </div>
             </div>
 
@@ -151,17 +177,42 @@
     </div>
 </form>
 
+{{-- Form tersembunyi untuk menghapus satu foto album — DILUAR form utama agar
+     tidak terjadi form bersarang (yang membuat submit create ikut mengirim DELETE). --}}
+<form id="delFotoForm" method="POST" class="d-none">
+    @csrf @method('DELETE')
+</form>
+
 @endsection
 
 @section('scripts')
 <script>
+    // Preview banyak foto yang dipilih untuk album.
     document.getElementById('gambarInput')?.addEventListener('change', function () {
-        const file = this.files[0];
-        const prev = document.getElementById('imgPreview');
-        if (file && prev) {
-            prev.src = URL.createObjectURL(file);
-            prev.style.display = 'block';
-        }
+        const prev = document.getElementById('newPreview');
+        if (!prev) return;
+        prev.innerHTML = '';
+        const files = Array.from(this.files || []);
+        prev.style.display = files.length ? 'grid' : 'none';
+        files.forEach(function (file) {
+            if (!file.type.startsWith('image/')) return;
+            const wrap = document.createElement('div');
+            wrap.className = 'album-thumb';
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            wrap.appendChild(img);
+            prev.appendChild(wrap);
+        });
+    });
+
+    // Hapus satu foto dari album (submit form tersembunyi ke route destroyFoto).
+    const delForm = document.getElementById('delFotoForm');
+    document.querySelectorAll('.album-thumb-del').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (!confirm('Hapus foto ini dari album?')) return;
+            delForm.action = btn.dataset.fotoUrl;
+            delForm.submit();
+        });
     });
 </script>
 @endsection

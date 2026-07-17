@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\KalenderAkademik;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class KalenderAkademikController extends Controller
@@ -44,14 +44,13 @@ class KalenderAkademikController extends Controller
             'file.max' => 'Ukuran file kalender maksimal 10 MB.',
         ]);
 
-        $uploadedFile = $request->file('file');
-        $data['file_path'] = $uploadedFile->store('kalender-akademik', 'public');
-        $data['file_name'] = $uploadedFile->getClientOriginalName();
+        $data['file_name'] = $request->file('file')->getClientOriginalName();
         $data['urutan'] = $request->integer('urutan', 0);
         $data['is_active'] = $request->boolean('is_active');
         unset($data['file']);
 
-        KalenderAkademik::create($data);
+        $kalender = KalenderAkademik::create($data);
+        $this->simpanFileBlob($request, $kalender);
 
         return redirect()->route('admin.kalender-akademik.index')
             ->with('success', 'Kalender akademik berhasil ditambahkan.');
@@ -86,13 +85,8 @@ class KalenderAkademikController extends Controller
             'file.max' => 'Ukuran file kalender maksimal 10 MB.',
         ]);
 
-        $oldFile = null;
-
         if ($request->hasFile('file')) {
-            $uploadedFile = $request->file('file');
-            $oldFile = $kalenderAkademik->file_path;
-            $data['file_path'] = $uploadedFile->store('kalender-akademik', 'public');
-            $data['file_name'] = $uploadedFile->getClientOriginalName();
+            $data['file_name'] = $request->file('file')->getClientOriginalName();
         }
 
         $data['urutan'] = $request->integer('urutan', 0);
@@ -100,10 +94,7 @@ class KalenderAkademikController extends Controller
         unset($data['file']);
 
         $kalenderAkademik->update($data);
-
-        if ($oldFile) {
-            Storage::disk('public')->delete($oldFile);
-        }
+        $this->simpanFileBlob($request, $kalenderAkademik);
 
         return redirect()->route('admin.kalender-akademik.index')
             ->with('success', 'Kalender akademik berhasil diperbarui.');
@@ -111,9 +102,8 @@ class KalenderAkademikController extends Controller
 
     public function destroy(KalenderAkademik $kalenderAkademik)
     {
-        $filePath = $kalenderAkademik->file_path;
+        // File tersimpan sebagai biner di kolom file_data — ikut terhapus.
         $kalenderAkademik->delete();
-        Storage::disk('public')->delete($filePath);
 
         return back()->with('success', 'Kalender akademik berhasil dihapus.');
     }
@@ -123,5 +113,29 @@ class KalenderAkademikController extends Controller
         $kalenderAkademik->update(['is_active' => ! $kalenderAkademik->is_active]);
 
         return back()->with('success', 'Status kalender akademik berhasil diperbarui.');
+    }
+
+    /**
+     * Simpan file yang diupload sebagai DATA BINER (bytea) ke kolom `file_data`
+     * + `file_mime`, dan kosongkan path lama agar sumber file hanya satu.
+     */
+    private function simpanFileBlob(Request $request, KalenderAkademik $kalender): void
+    {
+        if (! $request->hasFile('file')) {
+            return;
+        }
+
+        $file  = $request->file('file');
+        $bytes = file_get_contents($file->getRealPath());
+        $mime  = $file->getMimeType() ?: 'application/octet-stream';
+
+        // decode(?, 'base64') -> bytea. Parameter dikirim sebagai teks base64
+        // (ASCII penuh) sehingga aman dari masalah encoding koneksi PDO.
+        DB::update(
+            "UPDATE kalender_akademik_dokumen
+             SET file_data = decode(?, 'base64'), file_mime = ?, file_path = NULL, updated_at = ?
+             WHERE id = ?",
+            [base64_encode($bytes), $mime, now()->toDateTimeString(), $kalender->id]
+        );
     }
 }

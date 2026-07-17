@@ -88,6 +88,7 @@ Route::get('guru/{guru}/foto', [AkademikController::class, 'guruFoto'])->name('g
 Route::get('berita/{berita}/gambar',          [InformasiController::class, 'gambar'])->name('berita.gambar');
 Route::get('pengumuman/{pengumuman}/lampiran', [InformasiController::class, 'lampiran'])->name('pengumuman.lampiran');
 Route::get('galeri/{galeri}/gambar',          [InformasiController::class, 'galeriGambar'])->name('galeri.gambar');
+Route::get('galeri-foto/{galeriFoto}/gambar', [InformasiController::class, 'galeriFotoGambar'])->name('galeri-foto.gambar');
 
 // Gambar ekskul, prestasi, sarpras, ruang kelas, cover e-book & foto siswa —
 // sama-sama disajikan dari kolom biner (bytea) di database. Sengaja di luar grup
@@ -100,6 +101,7 @@ Route::get('ruang-kelas/{ruangKelas}/gambar', [MediaController::class, 'ruangKel
 Route::get('ebook/{ebook}/cover',           [MediaController::class, 'ebookCover'])->name('ebook.cover');
 Route::get('siswa/{siswa}/foto',            [MediaController::class, 'siswaFoto'])->name('siswa.foto');
 Route::get('video/{video}/thumbnail',       [MediaController::class, 'videoThumbnail'])->name('video.thumbnail');
+Route::get('kalender-akademik/{kalenderAkademik}/file', [AkademikController::class, 'kalenderFile'])->name('kalender-akademik.file');
 
 // Reset password admin. URL berada di bawah /admin, TAPI nama route sengaja
 // tanpa prefix "admin." karena notifikasi bawaan Laravel memanggil route('password.reset').
@@ -204,6 +206,7 @@ Route::prefix('admin')->name('admin.')->middleware('nocache')->group(function ()
         Route::put('galeri/{galeri}',         [GaleriController::class, 'update'])->name('galeri.update');
         Route::delete('galeri/{galeri}',      [GaleriController::class, 'destroy'])->name('galeri.destroy');
         Route::patch('galeri/{galeri}/toggle',[GaleriController::class, 'toggle'])->name('galeri.toggle');
+        Route::delete('galeri-foto/{galeriFoto}', [GaleriController::class, 'destroyFoto'])->name('galeri.foto.destroy');
 
         // PPDB Settings
         Route::get('ppdb',  [PpdbController::class, 'index'])->name('ppdb.index');

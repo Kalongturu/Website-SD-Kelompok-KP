@@ -75,4 +75,27 @@ class AkademikController extends Controller
             ->header('Content-Length', (string) strlen($bytes))
             ->header('Cache-Control', 'public, max-age=86400');
     }
+
+    /**
+     * Menyajikan file kalender akademik (PDF/gambar) dari kolom biner (bytea).
+     * Ditampilkan inline agar PDF terbuka langsung di browser (target _blank).
+     */
+    public function kalenderFile(KalenderAkademik $kalenderAkademik)
+    {
+        $row = DB::table('kalender_akademik_dokumen')
+            ->where('id', $kalenderAkademik->id)
+            ->selectRaw("encode(file_data, 'base64') as b64, file_mime, file_name")
+            ->first();
+
+        abort_if(! $row || empty($row->b64), 404);
+
+        $bytes = base64_decode($row->b64);
+        $name  = $row->file_name ?: ('kalender-akademik-' . $kalenderAkademik->id);
+
+        return response($bytes)
+            ->header('Content-Type', $row->file_mime ?: 'application/octet-stream')
+            ->header('Content-Length', (string) strlen($bytes))
+            ->header('Content-Disposition', 'inline; filename="' . addslashes($name) . '"')
+            ->header('Cache-Control', 'public, max-age=86400');
+    }
 }

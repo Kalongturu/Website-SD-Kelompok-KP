@@ -61,12 +61,10 @@
                             @error('nama_kelas') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-sm-4">
-                            <label class="form-label">Jumlah Siswa <span class="text-danger">*</span></label>
-                            <input type="number" name="jumlah_siswa"
-                                   class="form-control @error('jumlah_siswa') is-invalid @enderror"
-                                   value="{{ old('jumlah_siswa', $item?->jumlah_siswa ?? 0) }}"
-                                   min="0" required>
-                            @error('jumlah_siswa') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <label class="form-label">Jumlah Siswa <small class="text-muted">(otomatis)</small></label>
+                            <input type="number" class="form-control" value="{{ $item?->jumlah_siswa ?? 0 }}"
+                                   readonly disabled>
+                            <small class="text-muted" style="font-size:.72rem;">Dihitung otomatis dari data siswa yang kelasnya cocok dengan nama kelas ini.</small>
                         </div>
                     </div>
 

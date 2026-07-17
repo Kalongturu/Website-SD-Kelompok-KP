@@ -119,6 +119,82 @@
             margin-bottom: 1rem;
         }
 
+        /* ── DROPDOWN CUSTOM (pengganti <select> native) ── */
+        .cselect { position: relative; }
+
+        .cselect-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .5rem;
+            padding: .7rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            background: var(--white);
+            color: var(--text);
+            font-size: .92rem;
+            font-family: inherit;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+
+        .cselect-btn:focus,
+        .cselect.open .cselect-btn {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .cselect-caret {
+            color: var(--muted);
+            font-size: .7rem;
+            flex-shrink: 0;
+            transition: transform .2s ease;
+        }
+
+        .cselect.open .cselect-caret { transform: rotate(180deg); }
+
+        .cselect-menu {
+            position: absolute;
+            top: calc(100% + .35rem);
+            left: 0;
+            right: 0;
+            list-style: none;
+            margin: 0;
+            padding: .35rem;
+            background: var(--white);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            max-height: 240px;
+            overflow-y: auto;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px);
+            transition: opacity .18s ease, transform .18s ease, visibility .18s;
+        }
+
+        .cselect.open .cselect-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .cselect-menu li {
+            padding: .6rem .8rem;
+            border-radius: 8px;
+            font-size: .9rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: background .15s ease, color .15s ease;
+        }
+
+        .cselect-menu li:hover { background: var(--accent-soft); color: var(--primary-ink); }
+        .cselect-menu li.active { background: var(--primary); color: #fff; font-weight: 600; }
+
         /* ── GRID KARTU ── */
         .prestasi-grid {
             display: grid;
@@ -571,16 +647,22 @@
                                 placeholder="Cari nama lomba atau nama siswa..."
                                 value="{{ request('search', '') }}" autocomplete="off">
                         </div>
-                        <select name="tahun" id="prestasiYear"
-                            onchange="document.getElementById('prestasiForm').submit()">
-                            <option value="all"
-                                {{ !request('tahun') || request('tahun') === 'all' ? 'selected' : '' }}>Semua Tahun
-                            </option>
-                            @foreach ($tahun as $th)
-                                <option value="{{ $th }}"
-                                    {{ request('tahun') == $th ? 'selected' : '' }}>{{ $th }}</option>
-                            @endforeach
-                        </select>
+                        @php $tahunAktif = request('tahun'); $tahunLabel = ($tahunAktif && $tahunAktif !== 'all') ? $tahunAktif : 'Semua Tahun'; @endphp
+                        <div class="cselect" id="tahunSelect">
+                            <input type="hidden" name="tahun" id="tahunInput" value="{{ $tahunAktif ?: 'all' }}">
+                            <button type="button" class="cselect-btn" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="cselect-label">{{ $tahunLabel }}</span>
+                                <span class="cselect-caret">▾</span>
+                            </button>
+                            <ul class="cselect-menu" role="listbox">
+                                <li role="option" data-val="all"
+                                    class="{{ !$tahunAktif || $tahunAktif === 'all' ? 'active' : '' }}">Semua Tahun</li>
+                                @foreach ($tahun as $th)
+                                    <li role="option" data-val="{{ $th }}"
+                                        class="{{ (string) $tahunAktif === (string) $th ? 'active' : '' }}">{{ $th }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -710,6 +792,34 @@
             document.getElementById('inputKategori').value = val;
             document.getElementById('prestasiForm').submit();
         }
+
+        /* Dropdown custom (pengganti <select> native) — seragam & tidak meluber. */
+        (function () {
+            const cs = document.getElementById('tahunSelect');
+            if (!cs) return;
+            const btn = cs.querySelector('.cselect-btn');
+            const menu = cs.querySelector('.cselect-menu');
+            const input = document.getElementById('tahunInput');
+
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const open = cs.classList.toggle('open');
+                btn.setAttribute('aria-expanded', open);
+            });
+
+            menu.querySelectorAll('li').forEach(function (li) {
+                li.addEventListener('click', function () {
+                    input.value = li.dataset.val;
+                    document.getElementById('prestasiForm').submit();
+                });
+            });
+
+            // Tutup saat klik di luar atau tekan Escape.
+            document.addEventListener('click', function () { cs.classList.remove('open'); });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') cs.classList.remove('open');
+            });
+        })();
 
         (function() {
             document.addEventListener('keydown', function(e) {

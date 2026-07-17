@@ -88,9 +88,13 @@
             @forelse ($kaldik as $i => $item)
                 <li class="kaldik-item">
                     <span>{{ $i + 1 }}. KALDIK TP {{ $item->tahun_ajaran }}</span>
-                    <a class="kaldik-btn" href="{{ $item->fileUrl() }}" target="_blank" rel="noopener">
-                        Lihat Kalender
-                    </a>
+                    @if ($item->hasFile())
+                        <a class="kaldik-btn" href="{{ $item->fileUrl() }}" target="_blank" rel="noopener">
+                            Lihat Kalender
+                        </a>
+                    @else
+                        <span style="font-size:.8rem;color:#94a3b8;">Belum ada file</span>
+                    @endif
                 </li>
             @empty
                 <li style="padding:1.25rem;text-align:center;color:#64748b;">

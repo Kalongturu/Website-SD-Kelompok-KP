@@ -168,11 +168,50 @@
     table.sarpras tbody td { padding: .8rem 1.4rem; color: var(--text); border-bottom: 1px solid rgba(40,40,40,.05); vertical-align: middle; }
     table.sarpras tbody tr:nth-child(even) { background: #fafbfc; }
     table.sarpras tbody tr:hover { background: #f0fbf9; }
-    table.sarpras .sarpras-img { width: 52px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid #e2e8f0; }
     table.sarpras tfoot td { padding: .9rem 1.4rem; font-weight: 800; color: var(--primary-dark); border-top: 2px solid #bfe8e1; background: var(--accent-soft); }
 
     .sarpras-source { margin: .75rem .25rem 0; font-size: .78rem; color: var(--muted); font-style: italic; }
     .sarpras-source a { color: var(--primary); }
+
+    /* Tombol lihat foto sarpras */
+    .sarpras-foto-btn {
+        display: inline-flex; align-items: center; gap: .35rem;
+        background: var(--accent-soft); color: var(--primary-ink);
+        border: 1px solid #f3dcc0;
+        font: inherit; font-size: .78rem; font-weight: 600;
+        padding: .35rem .8rem; border-radius: 50px; cursor: pointer; white-space: nowrap;
+        transition: background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .sarpras-foto-btn:hover { background: var(--primary); color: #fff; border-color: transparent; }
+
+    /* Lightbox foto sarpras */
+    .fas-lightbox {
+        position: fixed; inset: 0; z-index: 9500;
+        background: rgba(0, 0, 0, .9);
+        display: flex; align-items: center; justify-content: center;
+        padding: 1.5rem;
+        opacity: 0; pointer-events: none; transition: opacity .2s ease;
+    }
+    .fas-lightbox.open { opacity: 1; pointer-events: all; }
+    .fas-lightbox img {
+        max-width: 100%; max-height: 82vh; border-radius: 12px;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, .6);
+        transform: scale(.94); transition: transform .25s ease;
+    }
+    .fas-lightbox.open img { transform: scale(1); }
+    .fas-lightbox-cap {
+        position: absolute; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+        color: #fff; font-size: .9rem; font-weight: 600;
+        background: rgba(0, 0, 0, .5); padding: .35rem 1rem; border-radius: 50px;
+        max-width: 90%; text-align: center;
+    }
+    .fas-lightbox-close {
+        position: absolute; top: 1rem; right: 1rem; width: 42px; height: 42px;
+        background: rgba(255, 255, 255, .14); border: 1.5px solid rgba(255, 255, 255, .28);
+        border-radius: 50%; color: #fff; font-size: 1.2rem; cursor: pointer;
+        display: grid; place-items: center; transition: background .2s ease;
+    }
+    .fas-lightbox-close:hover { background: rgba(255, 255, 255, .28); }
 
     /* ── MEDIA DIGITAL ── */
     .media-subsection { margin-bottom: 2rem; }
@@ -199,7 +238,8 @@
     .ebook-body { padding: 1rem 1.1rem; flex: 1; display: flex; flex-direction: column; }
     .ebook-title { font-size: .9rem; font-weight: 700; color: var(--primary-dark); margin-bottom: .25rem; line-height: 1.35; }
     .ebook-meta { font-size: .78rem; color: var(--muted); margin-bottom: .5rem; }
-    .ebook-tag { display: inline-block; background: var(--accent-soft); color: var(--primary); font-size: .72rem; font-weight: 700; padding: .2rem .6rem; border-radius: 50px; margin-bottom: auto; }
+    .ebook-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: auto; }
+    .ebook-tag { display: inline-flex; align-items: center; background: var(--accent-soft); color: var(--primary); font-size: .72rem; font-weight: 700; padding: .35rem .8rem; border-radius: 50px; white-space: nowrap; }
     .ebook-btn {
         display: block; text-align: center; margin-top: .9rem;
         padding: .5rem; border-radius: 8px; font-size: .82rem; font-weight: 700;
@@ -358,8 +398,7 @@
                                 <tr>
                                     <th class="num" style="width:48px;">No</th>
                                     <th>Jenis Sarana &amp; Prasarana</th>
-                                    <th class="num">Jml Ganjil</th>
-                                    <th class="num">Jml Genap</th>
+                                    <th class="num">Jumlah</th>
                                     <th>Keterangan</th>
                                     <th>Foto</th>
                                 </tr>
@@ -369,12 +408,15 @@
                                     <tr>
                                         <td class="num">{{ $sarpras->firstItem() + $loop->index }}</td>
                                         <td>{{ $item->jenis }}</td>
-                                        <td class="num">{{ $item->jumlah_ganjil }}</td>
-                                        <td class="num">{{ $item->jumlah_genap }}</td>
+                                        <td class="num">{{ $item->jumlah }}</td>
                                         <td style="font-size:.85rem;color:var(--muted);">{{ $item->keterangan ?: '—' }}</td>
                                         <td>
                                             @if ($item->gambarUrl())
-                                                <img src="{{ $item->gambarUrl() }}" alt="{{ $item->jenis }}" class="sarpras-img">
+                                                <button type="button" class="sarpras-foto-btn"
+                                                    data-src="{{ $item->gambarUrl() }}"
+                                                    data-title="{{ $item->jenis }}">
+                                                    Lihat
+                                                </button>
                                             @else
                                                 <span style="font-size:.8rem;color:#cbd5e1;">—</span>
                                             @endif
@@ -386,8 +428,7 @@
                                 <tr>
                                     <td></td>
                                     <td>Total Keseluruhan</td>
-                                    <td class="num">{{ $totalGanjil }}</td>
-                                    <td class="num">{{ $totalGenap }}</td>
+                                    <td class="num">{{ $totalJumlah }}</td>
                                     <td colspan="2"></td>
                                 </tr>
                             </tfoot>
@@ -436,11 +477,15 @@
                                         @if ($book->penulis && $book->penerbit) · @endif
                                         @if ($book->penerbit) {{ $book->penerbit }} @endif
                                     </div>
-                                    @if ($book->mata_pelajaran)
-                                        <span class="ebook-tag">{{ $book->mata_pelajaran }}</span>
-                                    @endif
-                                    @if ($book->kelas)
-                                        <span class="ebook-tag" style="background:#dcfce7;color:#15803d;">{{ $book->kelas }}</span>
+                                    @if ($book->mata_pelajaran || $book->kelas)
+                                        <div class="ebook-tags">
+                                            @if ($book->mata_pelajaran)
+                                                <span class="ebook-tag">{{ $book->mata_pelajaran }}</span>
+                                            @endif
+                                            @if ($book->kelas)
+                                                <span class="ebook-tag" style="background:#dcfce7;color:#15803d;">{{ $book->kelas }}</span>
+                                            @endif
+                                        </div>
                                     @endif
                                     <a href="{{ $book->link_url }}" target="_blank" rel="noopener" class="ebook-btn">📖 Buka E-Book</a>
                                 </div>
@@ -490,4 +535,50 @@
 
 </div>
 
+{{-- Lightbox foto sarana & prasarana --}}
+<div class="fas-lightbox" id="fasLightbox" role="dialog" aria-modal="true">
+    <button type="button" class="fas-lightbox-close" aria-label="Tutup">✕</button>
+    <img id="fasLightboxImg" src="" alt="">
+    <span class="fas-lightbox-cap" id="fasLightboxCap"></span>
+</div>
+
 @endsection
+
+@push('scripts')
+<script>
+    (function () {
+        const lb = document.getElementById('fasLightbox');
+        if (!lb) return;
+        const img = document.getElementById('fasLightboxImg');
+        const cap = document.getElementById('fasLightboxCap');
+
+        function bukaFoto(src, title) {
+            img.src = src;
+            img.alt = title || '';
+            cap.textContent = title || '';
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function tutupFoto() {
+            lb.classList.remove('open');
+            document.body.style.overflow = '';
+            img.src = '';
+        }
+
+        document.querySelectorAll('.sarpras-foto-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                bukaFoto(btn.dataset.src, btn.dataset.title);
+            });
+        });
+
+        // Klik area gelap / tombol tutup menutup; klik pada gambar tidak.
+        lb.addEventListener('click', function (e) {
+            if (e.target !== img) tutupFoto();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && lb.classList.contains('open')) tutupFoto();
+        });
+    })();
+</script>
+@endpush

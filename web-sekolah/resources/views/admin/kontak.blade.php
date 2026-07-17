@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Kontak & Footer')
-@section('page-title', 'Kontak &amp; Footer')
+@section('page-title', 'Kontak & Footer')
 
 @section('styles')
 <style>

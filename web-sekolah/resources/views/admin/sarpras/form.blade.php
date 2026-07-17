@@ -62,20 +62,12 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-sm-6">
-                            <label class="form-label">Jumlah Semester Ganjil <span class="text-danger">*</span></label>
-                            <input type="number" name="jumlah_ganjil"
-                                   class="form-control @error('jumlah_ganjil') is-invalid @enderror"
-                                   value="{{ old('jumlah_ganjil', $item?->jumlah_ganjil ?? 0) }}"
+                            <label class="form-label">Jumlah <span class="text-danger">*</span></label>
+                            <input type="number" name="jumlah"
+                                   class="form-control @error('jumlah') is-invalid @enderror"
+                                   value="{{ old('jumlah', $item?->jumlah ?? 0) }}"
                                    min="0" required>
-                            @error('jumlah_ganjil') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label">Jumlah Semester Genap <span class="text-danger">*</span></label>
-                            <input type="number" name="jumlah_genap"
-                                   class="form-control @error('jumlah_genap') is-invalid @enderror"
-                                   value="{{ old('jumlah_genap', $item?->jumlah_genap ?? 0) }}"
-                                   min="0" required>
-                            @error('jumlah_genap') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('jumlah') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
 

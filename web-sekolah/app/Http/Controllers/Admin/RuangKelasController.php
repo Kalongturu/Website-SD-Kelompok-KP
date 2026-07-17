@@ -27,7 +27,8 @@ class RuangKelasController extends Controller
     {
         $data = $request->validate([
             'nama_kelas'   => 'required|string|max:100',
-            'jumlah_siswa' => 'required|integer|min:0',
+            // `jumlah_siswa` tidak lagi diisi manual — dihitung otomatis dari
+            // data siswa nyata oleh model RuangKelas (event `saving`).
             'keterangan'   => 'nullable|string|max:2000',
             'gambar'       => 'nullable|image|max:3072',
             'urutan'       => 'integer|min:0',
@@ -55,7 +56,8 @@ class RuangKelasController extends Controller
     {
         $data = $request->validate([
             'nama_kelas'   => 'required|string|max:100',
-            'jumlah_siswa' => 'required|integer|min:0',
+            // `jumlah_siswa` tidak lagi diisi manual — dihitung otomatis dari
+            // data siswa nyata oleh model RuangKelas (event `saving`).
             'keterangan'   => 'nullable|string|max:2000',
             'gambar'       => 'nullable|image|max:3072',
             'urutan'       => 'integer|min:0',
