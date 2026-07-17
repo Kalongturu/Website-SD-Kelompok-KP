@@ -5,7 +5,7 @@
 
 @section('styles')
 <style>
-    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(0,43,91,.06); overflow:hidden; }
+    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(40,40,40,.06); overflow:hidden; }
     .form-card-header { display:flex; align-items:center; gap:.75rem; padding:1.1rem 1.5rem; border-bottom:1px solid #f1f5f9; }
     .form-card-header .hico { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-size:1rem; flex-shrink:0; }
     .form-card-header h6 { font-size:.9rem; font-weight:600; color:var(--primary-dark); margin:0; }
@@ -21,7 +21,7 @@
     .upload-zone input { display: none; }
     .upload-zone .upload-icon { font-size: 2rem; color: var(--primary); margin-bottom: .4rem; }
     .upload-zone p { font-size: .82rem; color: var(--primary); margin: 0; font-weight: 500; }
-    .upload-zone small { font-size: .72rem; color: #94a3b8; }
+    .upload-zone small { font-size: .72rem; color: #756d66; }
     .img-preview { width:100%; border-radius:12px; object-fit:cover; border:1px solid #e2e8f0; max-height:200px; }
 </style>
 @endsection
@@ -61,12 +61,10 @@
                             @error('nama_kelas') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-sm-4">
-                            <label class="form-label">Jumlah Siswa <span class="text-danger">*</span></label>
-                            <input type="number" name="jumlah_siswa"
-                                   class="form-control @error('jumlah_siswa') is-invalid @enderror"
-                                   value="{{ old('jumlah_siswa', $item?->jumlah_siswa ?? 0) }}"
-                                   min="0" required>
-                            @error('jumlah_siswa') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <label class="form-label">Jumlah Siswa <small class="text-muted">(otomatis)</small></label>
+                            <input type="number" class="form-control" value="{{ $item?->jumlah_siswa ?? 0 }}"
+                                   readonly disabled>
+                            <small class="text-muted" style="font-size:.72rem;">Dihitung otomatis dari data siswa yang kelasnya cocok dengan nama kelas ini.</small>
                         </div>
                     </div>
 

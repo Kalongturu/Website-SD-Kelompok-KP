@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class VideoPembelajaran extends Model
 {
@@ -15,15 +16,57 @@ class VideoPembelajaran extends Model
         'deskripsi',
         'url_video',
         'thumbnail',
+        'thumbnail_mime',
         'urutan',
         'is_active',
     ];
 
-    /** Thumbnail otomatis dari YouTube bila tidak ada gambar custom. */
+    /** Jangan pernah ikut serialisasi byte gambar ke array/JSON. */
+    protected $hidden = ['thumbnail_data'];
+
+    /**
+     * Kolom ringan untuk query DAFTAR. Sengaja TIDAK menyertakan `thumbnail_data`
+     * (bytea, bisa besar) agar daftar tidak menarik byte gambar setiap record.
+     * Byte gambar hanya diambil saat disajikan lewat route `video.thumbnail`.
+     */
+    public const LIST_COLUMNS = [
+        'id', 'judul', 'mata_pelajaran', 'kelas', 'deskripsi', 'url_video',
+        'thumbnail', 'thumbnail_mime', 'urutan', 'is_active', 'created_at', 'updated_at',
+    ];
+
+    /**
+     * URL thumbnail KUSTOM yang diupload admin saja — TANPA fallback YouTube.
+     * Dipakai form admin agar preview hanya muncul bila memang ada gambar kustom.
+     * Null bila video ini tidak punya thumbnail kustom.
+     */
+    public function thumbnailKustomUrl(): ?string
+    {
+        if (! empty($this->thumbnail_mime)) {
+            return route('video.thumbnail', $this) . '?v=' . optional($this->updated_at)->timestamp;
+        }
+
+        if (! empty($this->thumbnail)) {
+            if (Str::startsWith($this->thumbnail, ['http://', 'https://'])) {
+                return $this->thumbnail;
+            }
+
+            return asset('storage/' . $this->thumbnail);
+        }
+
+        return null;
+    }
+
+    /**
+     * URL thumbnail video. Urutan prioritas:
+     * 1. Thumbnail kustom biner (bytea) di kolom `thumbnail_data` — ditandai
+     *    `thumbnail_mime`, disajikan lewat route `video.thumbnail`.
+     * 2. Path/URL lama sebagai fallback untuk record yang belum dipindah.
+     * 3. Thumbnail YouTube otomatis bila video-nya dari YouTube.
+     */
     public function thumbnailUrl(): ?string
     {
-        if ($this->thumbnail) {
-            return asset('storage/' . $this->thumbnail);
+        if ($kustom = $this->thumbnailKustomUrl()) {
+            return $kustom;
         }
 
         // Ekstrak video ID dari berbagai format URL YouTube

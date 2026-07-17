@@ -14,7 +14,7 @@
                 text-align: left;
                 background: var(--white);
                 border: none;
-                border-bottom: 1px solid rgba(0, 43, 91, .07);
+                border-bottom: 1px solid rgba(40, 40, 40, .07);
                 padding: 1.1rem 1.4rem;
                 cursor: pointer;
                 font: inherit;
@@ -93,7 +93,7 @@
             .peng-more {
                 font-size: .78rem;
                 font-weight: 600;
-                color: var(--accent);
+                color: var(--primary);
             }
 
             .peng-more::after {

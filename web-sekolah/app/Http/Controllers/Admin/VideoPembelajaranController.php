@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\HandlesDbImage;
 use App\Http\Controllers\Controller;
 use App\Models\VideoPembelajaran;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class VideoPembelajaranController extends Controller
 {
+    use HandlesDbImage;
+
     public function index()
     {
-        $items = VideoPembelajaran::orderBy('urutan')->orderBy('id')->paginate(20);
+        $items = VideoPembelajaran::select(VideoPembelajaran::LIST_COLUMNS)
+            ->orderBy('urutan')->orderBy('id')->paginate(20);
         return view('admin.video_pembelajaran.index', compact('items'));
     }
 
@@ -33,14 +36,13 @@ class VideoPembelajaranController extends Controller
             'is_active'      => 'boolean',
         ]);
 
-        if ($request->hasFile('thumbnail')) {
-            $data['thumbnail'] = $request->file('thumbnail')->store('video/thumbnail', 'public');
-        }
+        unset($data['thumbnail']); // thumbnail disimpan sebagai biner di thumbnail_data
 
         $data['urutan']    = $request->input('urutan', 0);
         $data['is_active'] = $request->boolean('is_active');
 
-        VideoPembelajaran::create($data);
+        $video = VideoPembelajaran::create($data);
+        $this->saveDbImage($request, $video, 'thumbnail');
 
         return redirect()->route('admin.video.index')
             ->with('success', 'Video pembelajaran berhasil ditambahkan.');
@@ -64,17 +66,13 @@ class VideoPembelajaranController extends Controller
             'is_active'      => 'boolean',
         ]);
 
-        if ($request->hasFile('thumbnail')) {
-            if ($video->thumbnail) Storage::disk('public')->delete($video->thumbnail);
-            $data['thumbnail'] = $request->file('thumbnail')->store('video/thumbnail', 'public');
-        } else {
-            unset($data['thumbnail']);
-        }
+        unset($data['thumbnail']); // thumbnail baru (bila ada) disimpan sebagai biner
 
         $data['urutan']    = $request->input('urutan', 0);
         $data['is_active'] = $request->boolean('is_active');
 
         $video->update($data);
+        $this->saveDbImage($request, $video, 'thumbnail');
 
         return redirect()->route('admin.video.index')
             ->with('success', 'Video pembelajaran berhasil diperbarui.');
@@ -82,7 +80,7 @@ class VideoPembelajaranController extends Controller
 
     public function destroy(VideoPembelajaran $video)
     {
-        if ($video->thumbnail) Storage::disk('public')->delete($video->thumbnail);
+        // Thumbnail tersimpan sebagai biner di kolom thumbnail_data — ikut terhapus.
         $video->delete();
 
         return back()->with('success', 'Video pembelajaran berhasil dihapus.');

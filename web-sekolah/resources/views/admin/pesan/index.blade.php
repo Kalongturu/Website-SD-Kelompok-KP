@@ -23,12 +23,12 @@
         content:'Baru'; margin-left:.5rem; font-size:.6rem; font-weight:700; text-transform:uppercase;
         color:#0369a1; background:#e0f2fe; padding:.1rem .45rem; border-radius:50px; vertical-align:middle;
     }
-    .msg-email { font-size:.74rem; color:#94a3b8; }
+    .msg-email { font-size:.74rem; color:#756d66; }
     .msg-subjek { font-size:.82rem; color:#475569; font-weight:600; margin-top:.15rem; }
     .msg-snippet { font-size:.8rem; color:#64748b; margin-top:.1rem;
         overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:560px; }
     .msg-meta { display:flex; flex-direction:column; align-items:flex-end; gap:.4rem; flex-shrink:0; }
-    .msg-time { font-size:.72rem; color:#94a3b8; white-space:nowrap; }
+    .msg-time { font-size:.72rem; color:#756d66; white-space:nowrap; }
     .msg-actions { display:flex; gap:.3rem; }
     .msg-actions .btn { font-size:.72rem; border-radius:6px; padding:.25rem .5rem; }
 </style>

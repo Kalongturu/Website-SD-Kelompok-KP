@@ -5,7 +5,7 @@
 
 @section('styles')
 <style>
-    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(0,43,91,.06); overflow:hidden; }
+    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(40,40,40,.06); overflow:hidden; }
     .form-card-header { display:flex; align-items:center; gap:.75rem; padding:1.1rem 1.5rem; border-bottom:1px solid #f1f5f9; }
     .form-card-header .hico { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-size:1rem; flex-shrink:0; }
     .form-card-header h6 { font-size:.9rem; font-weight:600; color:var(--primary-dark); margin:0; }
@@ -27,7 +27,7 @@
     .upload-zone-pdf input { display: none; }
     .upload-zone-pdf .upload-icon { font-size: 2rem; color: #dc2626; margin-bottom: .5rem; }
     .upload-zone-pdf p { font-size: .82rem; color: var(--primary); margin: 0; font-weight: 500; }
-    .upload-zone-pdf small { font-size: .72rem; color: #94a3b8; }
+    .upload-zone-pdf small { font-size: .72rem; color: #756d66; }
 
     .preview-card {
         border: 1px solid #e2e8f0;
@@ -121,7 +121,7 @@
                     <div class="hico" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-file-earmark-pdf-fill"></i></div>
                     <div>
                         <h6>Dokumen PDF</h6>
-                        <p style="font-size:.72rem;color:#94a3b8;margin:0;">Opsional — buku saku / aturan lengkap</p>
+                        <p style="font-size:.72rem;color:#756d66;margin:0;">Opsional — buku saku / aturan lengkap</p>
                     </div>
                 </div>
                 <div class="form-card-body">
@@ -131,7 +131,7 @@
                             <a href="{{ $item->dokumenUrl() }}" target="_blank" style="color:var(--primary);">
                                 Lihat dokumen saat ini
                             </a>
-                            <div style="font-size:.7rem;color:#94a3b8;margin-top:.2rem;">
+                            <div style="font-size:.7rem;color:#756d66;margin-top:.2rem;">
                                 Upload baru di bawah untuk mengganti dokumen.
                             </div>
                         </div>
@@ -220,7 +220,7 @@
             `<li style="font-size:.8rem;color:#475569;padding:.2rem 0;border-bottom:1px solid #f1f5f9;">
                 <span style="color:var(--primary);margin-right:.4rem;">•</span>${l}
             </li>`
-        ).join('') || '<li style="font-size:.8rem;color:#94a3b8;padding:.2rem 0;">Ketik isi aturan di sebelah kiri…</li>';
+        ).join('') || '<li style="font-size:.8rem;color:#756d66;padding:.2rem 0;">Ketik isi aturan di sebelah kiri…</li>';
     }
 
     ikoEl?.addEventListener('input', updatePreview);

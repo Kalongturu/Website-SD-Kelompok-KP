@@ -7,7 +7,7 @@
 <style>
     /* ── PAGE HEADER ── */
     .sejarah-header {
-        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #2a8aa3 100%);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-ink) 100%);
         color: var(--white);
         padding: 3.5rem 1.5rem 6rem;
         text-align: center;
@@ -18,7 +18,7 @@
         content: '';
         position: absolute;
         width: 300px; height: 300px;
-        background: rgba(87,197,182,.15);
+        background: rgba(255,145,11,.15);
         border-radius: 50%;
         top: -100px; right: -60px;
         filter: blur(8px);
@@ -129,7 +129,7 @@
         left: 52px;
         top: 0; bottom: 0;
         width: 2px;
-        background: linear-gradient(to bottom, var(--accent), rgba(87,197,182,.1));
+        background: linear-gradient(to bottom, var(--accent), rgba(255,145,11,.1));
     }
     .timeline-item {
         display: grid;
@@ -185,7 +185,7 @@
         padding: 2rem;
         margin-top: 2rem;
     }
-    .komitmen-wrap .sejarah-section-title { color: var(--accent); border-left-color: rgba(255,255,255,.4); }
+    .komitmen-wrap .sejarah-section-title { color: var(--highlight); border-left-color: rgba(255,255,255,.4); }
     .komitmen-wrap p { color: rgba(255,255,255,.88); margin-bottom: 1rem; font-size: .95rem; line-height: 1.8; }
     .komitmen-wrap p:last-child { margin-bottom: 0; }
 

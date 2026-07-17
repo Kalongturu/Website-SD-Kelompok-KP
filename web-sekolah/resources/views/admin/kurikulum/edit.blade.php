@@ -5,11 +5,11 @@
 
 @section('styles')
 <style>
-    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(0,43,91,.06); overflow:hidden; margin-bottom:1.25rem; }
+    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(40,40,40,.06); overflow:hidden; margin-bottom:1.25rem; }
     .form-card-header { display:flex; align-items:center; gap:.75rem; padding:1.1rem 1.5rem; border-bottom:1px solid #f1f5f9; }
     .form-card-header .hico { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-size:1rem; flex-shrink:0; }
     .form-card-header h6 { font-size:.9rem; font-weight:600; color:var(--primary-dark); margin:0; }
-    .form-card-header p  { font-size:.75rem; color:#94a3b8; margin:0; }
+    .form-card-header p  { font-size:.75rem; color:#756d66; margin:0; }
     .form-card-body { padding:1.5rem; }
     .form-label { font-size:.82rem; font-weight:500; color:#374151; margin-bottom:.35rem; }
     .form-control, .form-select { font-size:.85rem; border-radius:10px; border-color:#e2e8f0; }
@@ -36,7 +36,7 @@
     .blk-btn:hover { background:#cbd5e1; }
     .blk-btn.danger { background:#fee2e2; color:#dc2626; }
     .blk-btn.danger:hover { background:#fecaca; }
-    .blk-hint { font-size:.72rem; color:#94a3b8; margin-top:.4rem; }
+    .blk-hint { font-size:.72rem; color:#756d66; margin-top:.4rem; }
 
     .add-row-btn {
         margin-top:.85rem;
@@ -48,7 +48,7 @@
         transition:background .2s; width:100%;
     }
     .add-row-btn:hover { background:#d1fae5; }
-    .blk-empty { text-align:center; color:#94a3b8; font-size:.85rem; padding:1.5rem 0; }
+    .blk-empty { text-align:center; color:#756d66; font-size:.85rem; padding:1.5rem 0; }
 </style>
 @endsection
 
@@ -173,7 +173,7 @@
     <div style="position:sticky;bottom:1rem;z-index:10;display:flex;justify-content:flex-end;padding:.75rem 0;">
         <button type="submit" class="btn py-2 px-4"
             style="background:var(--primary);color:#fff;border-radius:12px;font-size:.9rem;font-weight:600;
-                   box-shadow:0 4px 16px rgba(0,43,91,.25);">
+                   box-shadow:0 4px 16px rgba(40,40,40,.25);">
             <i class="bi bi-floppy-fill me-2"></i>Simpan Perubahan
         </button>
     </div>

@@ -20,7 +20,7 @@
         transition: box-shadow .2s ease;
     }
 
-    .mhs-admin-item:hover { box-shadow: 0 6px 20px rgba(0,43,91,.12); }
+    .mhs-admin-item:hover { box-shadow: 0 6px 20px rgba(40,40,40,.12); }
 
     .mhs-admin-thumb {
         height: 150px;
@@ -79,7 +79,7 @@
             @foreach ($items as $item)
                 <div class="mhs-admin-item">
                     <div class="mhs-admin-thumb">
-                        @if ($item->foto)
+                        @if ($item->fotoUrl())
                             <img src="{{ $item->fotoUrl() }}" alt="{{ $item->nama }}">
                         @else
                             <span>🎓</span>

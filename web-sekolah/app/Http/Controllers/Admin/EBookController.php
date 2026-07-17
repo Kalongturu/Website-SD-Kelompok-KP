@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\HandlesDbImage;
 use App\Http\Controllers\Controller;
 use App\Models\EBook;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class EBookController extends Controller
 {
+    use HandlesDbImage;
+
     public function index()
     {
-        $items = EBook::orderBy('urutan')->orderBy('id')->paginate(20);
+        $items = EBook::select(EBook::LIST_COLUMNS)
+            ->orderBy('urutan')->orderBy('id')->paginate(20);
         return view('admin.ebook.index', compact('items'));
     }
 
@@ -35,14 +38,13 @@ class EBookController extends Controller
             'is_active'      => 'boolean',
         ]);
 
-        if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')->store('ebooks/cover', 'public');
-        }
+        unset($data['cover']); // cover disimpan sebagai biner di cover_data, bukan path teks
 
         $data['urutan']    = $request->input('urutan', 0);
         $data['is_active'] = $request->boolean('is_active');
 
-        EBook::create($data);
+        $ebook = EBook::create($data);
+        $this->saveDbImage($request, $ebook, 'cover');
 
         return redirect()->route('admin.ebook.index')
             ->with('success', 'E-Book berhasil ditambahkan.');
@@ -68,17 +70,13 @@ class EBookController extends Controller
             'is_active'      => 'boolean',
         ]);
 
-        if ($request->hasFile('cover')) {
-            if ($ebook->cover) Storage::disk('public')->delete($ebook->cover);
-            $data['cover'] = $request->file('cover')->store('ebooks/cover', 'public');
-        } else {
-            unset($data['cover']);
-        }
+        unset($data['cover']); // cover baru (bila ada) disimpan sebagai biner di cover_data
 
         $data['urutan']    = $request->input('urutan', 0);
         $data['is_active'] = $request->boolean('is_active');
 
         $ebook->update($data);
+        $this->saveDbImage($request, $ebook, 'cover');
 
         return redirect()->route('admin.ebook.index')
             ->with('success', 'E-Book berhasil diperbarui.');
@@ -86,7 +84,7 @@ class EBookController extends Controller
 
     public function destroy(EBook $ebook)
     {
-        if ($ebook->cover) Storage::disk('public')->delete($ebook->cover);
+        // Cover tersimpan sebagai biner di kolom cover_data — ikut terhapus.
         $ebook->delete();
 
         return back()->with('success', 'E-Book berhasil dihapus.');

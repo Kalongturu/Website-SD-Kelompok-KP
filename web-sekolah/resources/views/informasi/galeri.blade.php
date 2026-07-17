@@ -92,7 +92,7 @@
         .galeri-modal-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 43, 91, .65);
+            background: rgba(40, 40, 40, .65);
             backdrop-filter: blur(4px);
         }
 
@@ -117,19 +117,67 @@
         }
 
         .galeri-modal-media {
-            background: #0b1f3a;
+            position: relative;
+            background: var(--primary-dark);
             display: grid;
             place-items: center;
             min-height: 240px;
             max-height: 58vh;
             font-size: 4rem;
             color: rgba(255, 255, 255, .85);
+            overflow: hidden;
         }
 
         .galeri-modal-media img {
             width: 100%;
             max-height: 58vh;
             object-fit: contain;
+        }
+
+        /* Placeholder emoji saat album tanpa foto */
+        .galeri-modal-ph { grid-area: 1 / 1; }
+
+        /* ── Tombol navigasi carousel ── */
+        .galeri-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(40, 40, 40, .55);
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 1;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            z-index: 2;
+            transition: background .2s ease, transform .15s ease;
+        }
+
+        .galeri-nav:hover { background: rgba(40, 40, 40, .8); }
+        .galeri-nav:active { transform: translateY(-50%) scale(.92); }
+        .galeri-nav-prev { left: .75rem; }
+        .galeri-nav-next { right: .75rem; }
+
+        .galeri-counter {
+            position: absolute;
+            bottom: .7rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(40, 40, 40, .6);
+            color: #fff;
+            font-size: .78rem;
+            font-weight: 600;
+            padding: .2rem .8rem;
+            border-radius: 50px;
+            z-index: 2;
+        }
+
+        @media (max-width: 700px) {
+            .galeri-nav { width: 38px; height: 38px; font-size: 1rem; }
         }
 
         .galeri-modal-close {
@@ -264,7 +312,12 @@
         <div class="galeri-modal-overlay" data-close></div>
         <div class="galeri-modal-dialog">
             <button type="button" class="galeri-modal-close" data-close aria-label="Tutup">&times;</button>
-            <div class="galeri-modal-media" id="galeriModalMedia"><span></span></div>
+            <div class="galeri-modal-media" id="galeriModalMedia">
+                <span class="galeri-modal-ph">📷</span>
+                <button type="button" class="galeri-nav galeri-nav-prev" id="galeriPrev" aria-label="Foto sebelumnya" hidden>&#10094;</button>
+                <button type="button" class="galeri-nav galeri-nav-next" id="galeriNext" aria-label="Foto berikutnya" hidden>&#10095;</button>
+                <span class="galeri-counter" id="galeriCounter" hidden></span>
+            </div>
             <div class="galeri-modal-content">
                 <span class="galeri-modal-badge" id="galeriModalBadge" hidden></span>
                 <h2 id="galeriModalTitle"></h2>
@@ -285,7 +338,7 @@
                     'kategori'   => $g->kategori,
                     'keterangan' => $g->keterangan,
                     'tanggal'    => optional($g->tanggal)->toDateString(),
-                    'gambar'     => $g->gambarUrl(),
+                    'fotos'      => $g->fotoUrls(),
                 ]);
             @endphp
             const DATA = @json($galeriData);
@@ -298,6 +351,14 @@
             const titleEl = document.getElementById('galeriModalTitle');
             const dateEl = document.getElementById('galeriModalDate');
             const descEl = document.getElementById('galeriModalDesc');
+            const prevBtn = document.getElementById('galeriPrev');
+            const nextBtn = document.getElementById('galeriNext');
+            const counterEl = document.getElementById('galeriCounter');
+            const phEl = mediaEl.querySelector('.galeri-modal-ph');
+
+            let fotos = [];      // URL foto album yang sedang dibuka
+            let idx = 0;         // indeks foto aktif
+            let imgEl = null;    // <img> tunggal yang di-reuse untuk menampilkan foto
 
             function escapeHtml(str) {
                 const div = document.createElement('div');
@@ -312,17 +373,44 @@
                 return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             }
 
-            function openModal(item) {
-                if (item.gambar) {
-                    mediaEl.innerHTML = `<img src="${escapeHtml(item.gambar)}" alt="${escapeHtml(item.judul)}">`;
-                } else {
-                    mediaEl.innerHTML = '<span>📷</span>';
+            function renderFoto() {
+                const hasFoto = fotos.length > 0;
+                phEl.style.display = hasFoto ? 'none' : '';
+
+                if (hasFoto) {
+                    if (!imgEl) {
+                        imgEl = document.createElement('img');
+                        mediaEl.insertBefore(imgEl, prevBtn);
+                    }
+                    imgEl.src = fotos[idx];
+                    imgEl.alt = titleEl.textContent || '';
+                } else if (imgEl) {
+                    imgEl.remove();
+                    imgEl = null;
                 }
+
+                // Panah & penghitung hanya relevan bila album punya >1 foto.
+                const multi = fotos.length > 1;
+                prevBtn.hidden = !multi;
+                nextBtn.hidden = !multi;
+                counterEl.hidden = !multi;
+                if (multi) counterEl.textContent = (idx + 1) + ' / ' + fotos.length;
+            }
+
+            function showFoto(n) {
+                if (fotos.length === 0) return;
+                idx = (n + fotos.length) % fotos.length; // berputar (wrap-around)
+                renderFoto();
+            }
+
+            function openModal(item) {
+                fotos = Array.isArray(item.fotos) ? item.fotos.filter(Boolean) : [];
+                idx = 0;
+
+                titleEl.textContent = item.judul || '';
 
                 badgeEl.textContent = item.kategori || '';
                 badgeEl.hidden = !item.kategori;
-
-                titleEl.textContent = item.judul || '';
 
                 const tgl = formatTanggal(item.tanggal);
                 if (tgl) {
@@ -333,6 +421,8 @@
                 }
 
                 descEl.textContent = item.keterangan || 'Belum ada keterangan untuk foto ini.';
+
+                renderFoto();
 
                 modal.classList.add('open');
                 document.body.style.overflow = 'hidden';
@@ -350,13 +440,29 @@
                 });
             });
 
+            prevBtn.addEventListener('click', function (e) { e.stopPropagation(); showFoto(idx - 1); });
+            nextBtn.addEventListener('click', function (e) { e.stopPropagation(); showFoto(idx + 1); });
+
             modal.querySelectorAll('[data-close]').forEach(function (el) {
                 el.addEventListener('click', closeModal);
             });
 
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+                if (!modal.classList.contains('open')) return;
+                if (e.key === 'Escape') closeModal();
+                else if (e.key === 'ArrowLeft') showFoto(idx - 1);
+                else if (e.key === 'ArrowRight') showFoto(idx + 1);
             });
+
+            // Geser (swipe) di layar sentuh untuk pindah foto.
+            let touchX = null;
+            mediaEl.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+            mediaEl.addEventListener('touchend', function (e) {
+                if (touchX === null || fotos.length < 2) { touchX = null; return; }
+                const dx = e.changedTouches[0].clientX - touchX;
+                if (Math.abs(dx) > 40) showFoto(dx < 0 ? idx + 1 : idx - 1);
+                touchX = null;
+            }, { passive: true });
 
         })();
     </script>

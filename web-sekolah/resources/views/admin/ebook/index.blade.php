@@ -81,7 +81,7 @@
                         <td>
                             <div style="font-weight:600;max-width:200px;">{{ $item->judul }}</div>
                             @if ($item->penerbit)
-                                <small style="color:#94a3b8;">{{ $item->penerbit }}</small>
+                                <small style="color:#756d66;">{{ $item->penerbit }}</small>
                             @endif
                         </td>
                         <td style="font-size:.82rem;color:#6b7280;">{{ $item->penulis ?: '—' }}</td>

@@ -15,10 +15,14 @@
 
     <style>
         :root {
-            --primary: #1a5f7a;
-            --primary-dark: #002b5b;
-            --accent: #57c5b6;
-            --accent-soft: #e6f7f4;
+            /* Selaras dengan palet oranye di public/css/style.css */
+            --primary: #a85400;
+            --primary-bright: #f48000;
+            --primary-ink: #8f4700;
+            --primary-dark: #282828;
+            --accent: #ff910b;
+            --accent-soft: #fff2e2;
+            --highlight: #ffd08a;
         }
 
         * {
@@ -55,7 +59,7 @@
             border-radius: 20px;
             padding: 8px;
             margin-bottom: .75rem;
-            box-shadow: 0 8px 24px rgba(0, 43, 91, .25);
+            box-shadow: 0 8px 24px rgba(40, 40, 40, .25);
         }
 
         .brand-badge img {
@@ -82,7 +86,7 @@
             background: #fff;
             border-radius: 20px;
             padding: 2.25rem 2rem;
-            box-shadow: 0 24px 60px rgba(0, 43, 91, .25);
+            box-shadow: 0 24px 60px rgba(40, 40, 40, .25);
         }
 
         .login-card h2 {
@@ -94,7 +98,7 @@
 
         .login-card .subtitle {
             font-size: .8rem;
-            color: #94a3b8;
+            color: #756d66;
             margin-bottom: 1.75rem;
         }
 
@@ -115,7 +119,7 @@
             left: .9rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #94a3b8;
+            color: #756d66;
             font-size: 1rem;
             pointer-events: none;
         }
@@ -131,7 +135,7 @@
 
         .input-icon-wrap .form-control:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(87, 197, 182, .18);
+            box-shadow: 0 0 0 3px rgba(255, 145, 11, .18);
         }
 
         /* toggle password */
@@ -143,7 +147,7 @@
             background: none;
             border: none;
             padding: 0;
-            color: #94a3b8;
+            color: #756d66;
             font-size: 1rem;
             cursor: pointer;
             transition: color .2s;
@@ -349,7 +353,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ url('admin/login') }}">
+            <form method="POST" action="{{ url('admin/login') }}" id="loginForm">
                 @csrf
 
                 {{-- Email / Username --}}
@@ -360,10 +364,10 @@
                         <input type="email" id="email" name="email"
                             class="form-control @error('email') is-invalid @enderror" placeholder="admin@sekolah.com"
                             value="{{ old('email') }}" autocomplete="email" required autofocus>
-                        @error('email')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                        @enderror
                     </div>
+                    @error('email')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 {{-- Password --}}
@@ -392,7 +396,7 @@
                     <a href="{{ route('password.request') }}" class="forgot-link">Lupa password?</a>
                 </div>
 
-                <button type="submit" class="btn-login">
+                <button type="submit" class="btn-login" id="loginSubmit">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
                 </button>
             </form>
@@ -410,6 +414,24 @@
             const isHidden = passwordInput.type === 'password';
             passwordInput.type = isHidden ? 'text' : 'password';
             toggleIcon.className = isHidden ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill';
+        });
+
+        // Kunci tombol setelah submit pertama. Submit kedua memakai token dari sesi
+        // yang sudah diregenerasi oleh submit pertama, dan itulah yang memicu 419.
+        const loginForm = document.getElementById('loginForm');
+        const loginSubmit = document.getElementById('loginSubmit');
+        loginForm.addEventListener('submit', function () {
+            if (loginForm.dataset.submitting === '1') return;
+            loginForm.dataset.submitting = '1';
+            // Jangan pakai `disabled` sebelum submit terkirim — tombol yang
+            // disabled tidak ikut dikirim; tunda ke tick berikutnya.
+            setTimeout(function () {
+                loginSubmit.disabled = true;
+                loginSubmit.style.opacity = '.75';
+                loginSubmit.style.cursor = 'wait';
+                loginSubmit.innerHTML =
+                    '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Memproses…';
+            }, 0);
         });
     </script>
 </body>

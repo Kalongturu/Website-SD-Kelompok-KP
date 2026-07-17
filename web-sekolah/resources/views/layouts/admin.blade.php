@@ -12,10 +12,14 @@
 
     <style>
         :root {
-            --primary: #1a5f7a;
-            --primary-dark: #002b5b;
-            --accent: #57c5b6;
-            --accent-soft: #e6f7f4;
+            /* Selaras dengan palet oranye di public/css/style.css */
+            --primary: #a85400;
+            --primary-bright: #f48000;
+            --primary-ink: #8f4700;
+            --primary-dark: #282828;
+            --accent: #ff910b;
+            --accent-soft: #fff2e2;
+            --highlight: #ffd08a;
             --sidebar-w: 260px;
             --topbar-h: 64px;
         }
@@ -156,7 +160,7 @@
 
         .sidebar-child:hover {
             background: rgba(255, 255, 255, .06);
-            border-left-color: rgba(87, 197, 182, .5);
+            border-left-color: rgba(255, 145, 11, .5);
             color: #fff;
         }
 
@@ -226,7 +230,7 @@
 
         .topbar-left p {
             font-size: .72rem;
-            color: #94a3b8;
+            color: #756d66;
             margin: 0;
         }
 
@@ -287,13 +291,13 @@
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            box-shadow: 0 4px 16px rgba(0, 43, 91, .06);
+            box-shadow: 0 4px 16px rgba(40, 40, 40, .06);
             transition: transform .2s ease, box-shadow .2s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 43, 91, .12);
+            box-shadow: 0 8px 24px rgba(40, 40, 40, .12);
         }
 
         .stat-icon {
@@ -335,7 +339,7 @@
 
         .stat-label {
             font-size: .78rem;
-            color: #94a3b8;
+            color: #756d66;
             margin-top: .25rem;
         }
 
@@ -350,7 +354,7 @@
         }
 
         .stat-delta.flat {
-            color: #94a3b8;
+            color: #756d66;
         }
 
         /* ── FORM CARDS (digunakan di semua halaman form CRUD) ── */
@@ -396,7 +400,7 @@
         .section-card {
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0, 43, 91, .06);
+            box-shadow: 0 4px 16px rgba(40, 40, 40, .06);
             overflow: hidden;
         }
 
@@ -404,6 +408,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .5rem 1rem;
             padding: 1.1rem 1.5rem;
             border-bottom: 1px solid #f1f5f9;
         }
@@ -708,7 +714,7 @@
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit" class="btn btn-sm px-4"
-                            style="background:#1a5f7a;color:#fff;border-radius:8px;font-size:.85rem;">
+                            style="background:#a85400;color:#fff;border-radius:8px;font-size:.85rem;">
                             <i class="bi bi-box-arrow-left me-1"></i> Ya, Kembali ke Situs
                         </button>
                     </form>

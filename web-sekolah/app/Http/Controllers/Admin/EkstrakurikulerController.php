@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\HandlesDbImage;
 use App\Http\Controllers\Controller;
 use App\Models\Ekstrakurikuler;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class EkstrakurikulerController extends Controller
 {
+    use HandlesDbImage;
+
     public function index()
     {
-        $items = Ekstrakurikuler::orderBy('urutan')->orderBy('nama')->paginate(20);
+        $items = Ekstrakurikuler::select(Ekstrakurikuler::LIST_COLUMNS)
+            ->orderBy('urutan')->orderBy('nama')->paginate(20);
         return view('admin.ekstrakurikuler.index', compact('items'));
     }
 
@@ -36,13 +39,12 @@ class EkstrakurikulerController extends Controller
             'is_active'         => 'boolean',
         ]);
 
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('ekskul', 'public');
-        }
+        unset($data['foto']); // foto disimpan sebagai biner di foto_data, bukan path teks
         $data['is_active'] = $request->boolean('is_active');
         $data['urutan']    = $request->input('urutan', 0);
 
-        Ekstrakurikuler::create($data);
+        $ekstrakurikuler = Ekstrakurikuler::create($data);
+        $this->saveDbImage($request, $ekstrakurikuler, 'foto');
 
         return redirect()->route('admin.ekskul.index')
             ->with('success', 'Ekstrakurikuler berhasil ditambahkan.');
@@ -69,17 +71,13 @@ class EkstrakurikulerController extends Controller
             'is_active'         => 'boolean',
         ]);
 
-        if ($request->hasFile('foto')) {
-            if ($ekstrakurikuler->foto) Storage::disk('public')->delete($ekstrakurikuler->foto);
-            $data['foto'] = $request->file('foto')->store('ekskul', 'public');
-        } else {
-            unset($data['foto']);
-        }
+        unset($data['foto']); // foto baru (bila ada) disimpan sebagai biner di foto_data
 
         $data['is_active'] = $request->boolean('is_active');
         $data['urutan']    = $request->input('urutan', $ekstrakurikuler->urutan);
 
         $ekstrakurikuler->update($data);
+        $this->saveDbImage($request, $ekstrakurikuler, 'foto');
 
         return redirect()->route('admin.ekskul.index')
             ->with('success', 'Ekstrakurikuler berhasil diperbarui.');
@@ -87,7 +85,7 @@ class EkstrakurikulerController extends Controller
 
     public function destroy(Ekstrakurikuler $ekstrakurikuler)
     {
-        if ($ekstrakurikuler->foto) Storage::disk('public')->delete($ekstrakurikuler->foto);
+        // Foto tersimpan sebagai biner di kolom foto_data — ikut terhapus.
         $ekstrakurikuler->delete();
 
         return back()->with('success', 'Ekstrakurikuler berhasil dihapus.');

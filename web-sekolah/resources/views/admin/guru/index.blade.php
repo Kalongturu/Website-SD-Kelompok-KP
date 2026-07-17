@@ -21,7 +21,7 @@
         display: flex;
         flex-direction: column;
     }
-    .gr-item:hover { box-shadow: 0 6px 20px rgba(0,43,91,.12); }
+    .gr-item:hover { box-shadow: 0 6px 20px rgba(40,40,40,.12); }
     .gr-item.is-kepala { border-top-color: #ca8a04; }
     .gr-thumb {
         aspect-ratio: 3 / 4;
@@ -53,7 +53,7 @@
     .gr-body { padding: .8rem; text-align: center; display:flex; flex-direction:column; flex:1; }
     .gr-name { font-size: .85rem; font-weight: 700; color: var(--primary-dark); line-height: 1.25; }
     .gr-jabatan { font-size: .72rem; color: #6b7280; margin-top: .15rem; }
-    .gr-nip { font-size: .68rem; color: #94a3b8; margin-top: .15rem; }
+    .gr-nip { font-size: .68rem; color: #756d66; margin-top: .15rem; }
     .gr-actions { display: flex; gap: .3rem; margin-top: .65rem; }
 </style>
 @endsection

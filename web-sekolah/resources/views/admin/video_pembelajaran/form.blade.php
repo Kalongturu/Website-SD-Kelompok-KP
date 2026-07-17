@@ -91,16 +91,16 @@
             <div class="form-card">
                 <div class="form-card-header">
                     <div class="hico">🖼️</div>
-                    <h6>Thumbnail Kustom <small style="font-weight:400;color:#94a3b8;">(opsional)</small></h6>
+                    <h6>Thumbnail Kustom <small style="font-weight:400;color:#756d66;">(opsional)</small></h6>
                 </div>
                 <div class="form-card-body">
                     <div class="upload-zone" onclick="document.getElementById('thumbInput').click()">
                         <img id="thumbPreview"
-                             src="{{ $item?->thumbnail ? asset('storage/'.$item->thumbnail) : '' }}"
-                             alt="" style="{{ $item?->thumbnail ? '' : 'display:none;' }} max-height:160px;border-radius:8px;width:100%;object-fit:cover;">
-                        <div id="thumbPlaceholder" style="{{ $item?->thumbnail ? 'display:none;' : '' }}">
+                             src="{{ $item?->thumbnailKustomUrl() ?: '' }}"
+                             alt="" style="{{ $item?->thumbnailKustomUrl() ? '' : 'display:none;' }} max-height:160px;border-radius:8px;width:100%;object-fit:cover;">
+                        <div id="thumbPlaceholder" style="{{ $item?->thumbnailKustomUrl() ? 'display:none;' : '' }}">
                             <div style="font-size:2rem;">🖼️</div>
-                            <p class="mb-0 mt-1" style="font-size:.8rem;color:#94a3b8;">Upload thumbnail kustom</p>
+                            <p class="mb-0 mt-1" style="font-size:.8rem;color:#756d66;">Upload thumbnail kustom</p>
                             <small style="color:#cbd5e1;">Jika kosong, thumbnail YouTube digunakan otomatis</small>
                         </div>
                     </div>

@@ -5,9 +5,9 @@
 
 @push('styles')
 <style>
-    /* ── HEADER – amber/orange accent to distinguish from sejarah ── */
+    /* ── HEADER — samakan dengan partials/page-header & halaman profil lain ── */
     .vm-header {
-        background: linear-gradient(135deg, #003d6b 0%, #005c8f 45%, #0078b8 100%);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-ink) 100%);
         color: var(--white);
         padding: 3.5rem 1.5rem 5.5rem;
         text-align: center;
@@ -18,23 +18,13 @@
         content: '';
         position: absolute;
         width: 350px; height: 350px;
-        background: rgba(255,196,0,.1);
+        background: rgba(255,145,11,.15);
         border-radius: 50%;
         top: -130px; left: -80px;
         filter: blur(8px);
     }
-    .vm-header .eyebrow {
-        display: inline-block;
-        background: rgba(255,196,0,.2);
-        color: #ffd54f;
-        padding: .3rem .9rem;
-        border-radius: 50px;
-        font-size: .8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: .8rem;
-    }
+    /* Sisanya diwarisi dari .eyebrow di style.css, sama seperti halaman lain. */
+    .vm-header .eyebrow { color: var(--accent); }
     .vm-header h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin: .4rem 0 .6rem; position: relative; }
     .vm-header p  { max-width: 620px; margin: 0 auto; color: rgba(255,255,255,.8); position: relative; }
 
@@ -84,7 +74,7 @@
 
     /* Visi – special gradient header */
     .vm-card-visi .vm-card-head {
-        background: linear-gradient(135deg, #003d6b, #005c8f);
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary));
         color: var(--white);
         padding: 1.4rem 1.75rem;
         display: flex;
@@ -102,13 +92,13 @@
     .vm-card-head {
         display: flex; align-items: center; gap: 1rem;
         padding: 1.35rem 1.75rem; background: var(--bg);
-        border-bottom: 1px solid rgba(0,43,91,.06);
+        border-bottom: 1px solid rgba(40,40,40,.06);
     }
     .vm-icon {
         width: 44px; height: 44px; border-radius: 12px;
         background: var(--white); display: grid; place-items: center;
         font-size: 1.4rem; flex-shrink: 0;
-        box-shadow: 0 2px 8px rgba(0,43,91,.1);
+        box-shadow: 0 2px 8px rgba(40,40,40,.1);
     }
     .vm-card-head h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary-dark); margin: 0; }
     .vm-card-body { padding: 1.75rem; }
@@ -117,9 +107,9 @@
     .vm-visi-text {
         font-size: 1.08rem; font-weight: 600; color: var(--primary-dark);
         line-height: 1.75; font-style: italic;
-        border-left: 4px solid #ffd54f;
+        border-left: 4px solid var(--accent);
         padding: .75rem 1.25rem;
-        background: #fffbea;
+        background: var(--accent-soft);
         border-radius: 0 12px 12px 0;
         margin: 0;
     }
@@ -129,7 +119,7 @@
     .vm-list li { display: flex; gap: .85rem; align-items: flex-start; font-size: .95rem; color: var(--text); line-height: 1.6; }
     .vm-list .num {
         flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-        background: linear-gradient(135deg, #003d6b, #0078b8);
+        background: linear-gradient(135deg, var(--primary-ink), var(--primary));
         color: #fff; font-size: .72rem; font-weight: 700;
         display: grid; place-items: center; margin-top: .05rem;
     }

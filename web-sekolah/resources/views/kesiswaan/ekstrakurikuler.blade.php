@@ -7,7 +7,7 @@
 @push('styles')
     <style>
         .page-header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #2a8aa3 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-ink) 100%);
             color: var(--white);
             padding: 3.5rem 1.5rem 5rem;
             text-align: center;
@@ -66,13 +66,21 @@
         .ekskul-thumb {
             height: 160px;
             display: grid;
+            /* Baris grid default berukuran `auto` = mengikuti isi, sehingga gambar
+               tinggi ikut membengkakkan baris dan meluber menutupi judul/deskripsi
+               kartu — height:160px di sini tidak mengekangnya.
+               minmax(0, 1fr) memaksa baris ikut tinggi wadah, bukan isi. */
+            grid-template-rows: minmax(0, 1fr);
             place-items: center;
             font-size: 3.2rem;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             position: relative;
+            overflow: hidden;
         }
 
         .ekskul-thumb img {
+            align-self: stretch;
+            justify-self: stretch;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -124,7 +132,7 @@
             margin-top: .4rem;
             font-size: .82rem;
             font-weight: 600;
-            color: var(--accent);
+            color: var(--primary);
         }
 
         .ekskul-more::after {
@@ -169,7 +177,7 @@
         .ekskul-modal-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 43, 91, .55);
+            background: rgba(40, 40, 40, .55);
             backdrop-filter: blur(4px);
         }
 
@@ -196,10 +204,19 @@
         .ekskul-modal-hero {
             height: 150px;
             display: grid;
+            /* Sama seperti .ekskul-thumb: tanpa ini baris grid mengikuti tinggi
+               asli gambar dan meluber menutupi teks modal di bawahnya. */
+            grid-template-rows: minmax(0, 1fr);
             place-items: center;
             font-size: 3.4rem;
             background: linear-gradient(135deg, var(--primary-dark), var(--accent));
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .ekskul-modal-hero img {
+            align-self: stretch;
+            justify-self: stretch;
         }
 
         .ekskul-modal-close {
@@ -325,8 +342,8 @@
                     <button type="button" class="ekskul-card" data-ekskul="{{ $item->id }}"
                         aria-haspopup="dialog">
                         <div class="ekskul-thumb">
-                            @if ($item->foto)
-                                <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}">
+                            @if ($item->fotoUrl())
+                                <img src="{{ $item->fotoUrl() }}" alt="{{ $item->nama }}">
                             @else
                                 <span>{{ $item->icon ?: '🎯' }}</span>
                             @endif
@@ -395,8 +412,9 @@
 
             function openModal(item) {
                 // Hero: gambar bila ada, jika tidak gunakan ikon/emoji.
-                if (item.foto) {
-                    heroEl.innerHTML = `<img src="/storage/${escapeHtml(item.foto)}" alt="${escapeHtml(item.nama)}" ` +
+                // foto_url sudah disiapkan model (gambar biner dari DB atau path lama).
+                if (item.foto_url) {
+                    heroEl.innerHTML = `<img src="${escapeHtml(item.foto_url)}" alt="${escapeHtml(item.nama)}" ` +
                         `style="width:100%;height:100%;object-fit:cover;">`;
                 } else {
                     heroEl.innerHTML = `<span>${escapeHtml(item.icon || '🎯')}</span>`;

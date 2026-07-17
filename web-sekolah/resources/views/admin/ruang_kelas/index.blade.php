@@ -19,7 +19,7 @@
         transition: box-shadow .2s;
         border-top: 3px solid var(--accent);
     }
-    .rk-item:hover { box-shadow: 0 6px 20px rgba(0,43,91,.12); }
+    .rk-item:hover { box-shadow: 0 6px 20px rgba(40,40,40,.12); }
     .rk-thumb {
         height: 120px;
         background: linear-gradient(135deg, var(--primary), var(--accent));

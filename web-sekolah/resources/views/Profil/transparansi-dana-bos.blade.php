@@ -5,9 +5,9 @@
 
 @push('styles')
 <style>
-    /* ── HEADER – hijau untuk tema keuangan/akuntabilitas ── */
+    /* ── HEADER — samakan dengan partials/page-header & halaman profil lain ── */
     .bos-header {
-        background: linear-gradient(135deg, #064e3b 0%, #065f46 45%, #047857 100%);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-ink) 100%);
         color: var(--white);
         padding: 3.5rem 1.5rem 5.5rem;
         text-align: center;
@@ -18,23 +18,13 @@
         content: '';
         position: absolute;
         width: 300px; height: 300px;
-        background: rgba(167,243,208,.1);
+        background: rgba(255,145,11,.15);
         border-radius: 50%;
         bottom: -100px; right: -60px;
         filter: blur(8px);
     }
-    .bos-header .eyebrow {
-        display: inline-block;
-        background: rgba(167,243,208,.2);
-        color: #6ee7b7;
-        padding: .3rem .9rem;
-        border-radius: 50px;
-        font-size: .8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: .8rem;
-    }
+    /* Sisanya diwarisi dari .eyebrow di style.css, sama seperti halaman lain. */
+    .bos-header .eyebrow { color: var(--accent); }
     .bos-header h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin: .4rem 0 .6rem; position: relative; }
     .bos-header p  { max-width: 640px; margin: 0 auto; color: rgba(255,255,255,.8); position: relative; }
 
@@ -45,10 +35,10 @@
     .bos-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); overflow: hidden; }
     .bos-card-head {
         display: flex; align-items: center; gap: 1rem;
-        padding: 1.2rem 1.5rem; background: #ecfdf5;
-        border-bottom: 1px solid #a7f3d0;
+        padding: 1.2rem 1.5rem; background: #fff5ea;
+        border-bottom: 1px solid #f5d9b8;
     }
-    .bos-card-head h3 { font-size: .95rem; font-weight: 700; color: #064e3b; margin: 0; }
+    .bos-card-head h3 { font-size: .95rem; font-weight: 700; color: var(--primary-dark); margin: 0; }
     .bos-card-head .ico { font-size: 1.3rem; }
     .bos-card-body { padding: 1.5rem; }
 
@@ -69,34 +59,37 @@
         box-shadow: var(--shadow-lg);
         padding: 1.25rem 1rem 1rem;
         text-align: center;
-        border-top: 4px solid #10b981;
+        border-top: 4px solid var(--accent);
     }
     .bos-stat-card .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; color: var(--muted); margin-bottom: .3rem; }
-    .bos-stat-card .value { font-size: 1.1rem; font-weight: 800; color: #064e3b; }
+    .bos-stat-card .value { font-size: 1.1rem; font-weight: 800; color: var(--primary-dark); }
 
     /* ── INFO GRID (inside card) ── */
     .bos-info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-    .bos-info-item { background: #f0fdf4; border-radius: 12px; padding: 1rem 1.25rem; border-left: 3px solid #10b981; }
-    .bos-info-item .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; color: #059669; margin-bottom: .3rem; }
-    .bos-info-item .value { font-size: 1.05rem; font-weight: 700; color: #064e3b; }
+    .bos-info-item { background: var(--accent-soft); border-radius: 12px; padding: 1rem 1.25rem; border-left: 3px solid var(--accent); }
+    .bos-info-item .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; color: var(--primary); margin-bottom: .3rem; }
+    .bos-info-item .value { font-size: 1.05rem; font-weight: 700; color: var(--primary-dark); }
 
     /* ── TABLE ── */
     .table-scroll { overflow-x: auto; }
     table.bos-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
     table.bos-table thead th {
         text-align: left; padding: .9rem 1.25rem; font-weight: 700; color: var(--text);
-        border-bottom: 2px solid #a7f3d0; white-space: nowrap;
-        background: #f0fdf4;
+        border-bottom: 2px solid #f5d9b8; white-space: nowrap;
+        background: var(--accent-soft);
     }
     table.bos-table th.num, table.bos-table td.num { text-align: right; }
-    table.bos-table tbody td { padding: .8rem 1.25rem; color: var(--text); border-bottom: 1px solid rgba(0,43,91,.05); vertical-align: top; }
-    table.bos-table tbody tr:nth-child(even) { background: #f9fffe; }
-    table.bos-table tbody tr:hover { background: #ecfdf5; }
+    table.bos-table tbody td { padding: .8rem 1.25rem; color: var(--text); border-bottom: 1px solid rgba(40,40,40,.05); vertical-align: top; }
+    table.bos-table tbody tr:nth-child(even) { background: var(--bg); }
+    table.bos-table tbody tr:hover { background: #fff5ea; }
     table.bos-table tfoot td {
-        padding: .9rem 1.25rem; font-weight: 800; color: #064e3b;
-        border-top: 2px solid #a7f3d0; background: #d1fae5;
+        padding: .9rem 1.25rem; font-weight: 800; color: var(--primary-dark);
+        border-top: 2px solid #f5d9b8; background: #ffe6cc;
     }
 
+    /* Badge status SENGAJA di luar palet oranye: hijau/biru/amber di sini
+       membawa makna (Terlaksana / Berjalan / Direncanakan), bukan hiasan tema.
+       Menyeragamkannya jadi oranye justru menghapus pembeda antarstatus. */
     .bos-badge { display: inline-block; padding: .2rem .7rem; border-radius: 50px; font-size: .72rem; font-weight: 700; }
     .bos-badge-green  { background: #dcfce7; color: #15803d; }
     .bos-badge-blue   { background: #dbeafe; color: #1d4ed8; }
@@ -105,30 +98,31 @@
     /* ── DOCUMENTS ── */
     .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
     .doc-item {
-        background: #f0fdf4; border-radius: 12px; padding: 1rem 1.25rem;
-        border: 1.5px solid #a7f3d0;
+        background: var(--accent-soft); border-radius: 12px; padding: 1rem 1.25rem;
+        border: 1.5px solid #f5d9b8;
         display: flex; align-items: flex-start; gap: .75rem;
     }
     .doc-item .doc-ico { font-size: 1.5rem; flex-shrink: 0; }
-    .doc-item .doc-label { font-size: .78rem; font-weight: 700; color: #064e3b; margin-bottom: .2rem; }
+    .doc-item .doc-label { font-size: .78rem; font-weight: 700; color: var(--primary-dark); margin-bottom: .2rem; }
     .doc-item .doc-status { font-size: .75rem; color: var(--muted); }
 
     /* ── NOTICE ── */
     .bos-notice {
         display: flex; gap: .85rem; align-items: flex-start;
-        background: #f0fdf4; border: 1px solid #a7f3d0;
+        background: var(--accent-soft); border: 1px solid #f5d9b8;
         border-radius: 12px; padding: 1rem 1.25rem;
-        font-size: .88rem; color: #064e3b; line-height: 1.6;
+        font-size: .88rem; color: var(--primary-dark); line-height: 1.6;
     }
     .bos-notice .ico { font-size: 1.2rem; flex-shrink: 0; margin-top: .05rem; }
 
+    /* Beda dari halaman profil lain: di sini link jatuh DI BAWAH header (di atas
+       latar terang), bukan menumpang gradient — teks putih jadi tak terlihat. */
     .back-link {
         display: inline-flex; align-items: center; gap: .4rem;
-        font-size: .85rem; color: #fff; text-decoration: none;
+        font-size: .85rem; color: var(--primary); text-decoration: none;
         margin-bottom: 1.25rem; font-weight: 600;
-        text-shadow: 0 1px 6px rgba(0,0,0,.35);
     }
-    .back-link:hover { color: rgba(255,255,255,.75); }
+    .back-link:hover { color: var(--primary-ink); }
 
     @media (max-width: 768px) {
         .bos-stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -263,7 +257,7 @@
             <p style="margin-top:1rem;font-size:.85rem;color:var(--muted);">
                 Untuk mengakses laporan lengkap Dana BOS, silakan datang langsung ke kantor sekolah pada jam kerja
                 (Senin–Jumat, 07.00–15.00 WIB) atau akses melalui portal
-                <a href="https://raporpendidikan.kemdikbud.go.id/" target="_blank" rel="noopener" style="color:#059669;font-weight:600;">Rapor Pendidikan Kemdikbud</a>.
+                <a href="https://raporpendidikan.kemdikbud.go.id/" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Rapor Pendidikan Kemdikbud</a>.
             </p>
         </div>
     </div>

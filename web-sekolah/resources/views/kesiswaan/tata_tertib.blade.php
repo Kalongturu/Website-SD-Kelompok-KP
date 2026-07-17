@@ -7,7 +7,7 @@
 @push('styles')
     <style>
         .page-header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #2a8aa3 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-ink) 100%);
             color: var(--white);
             padding: 3.5rem 1.5rem 5rem;
             text-align: center;

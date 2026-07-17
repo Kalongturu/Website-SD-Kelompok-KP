@@ -32,7 +32,7 @@
                     {{ $pesan->email }}
                 </a>
             </div>
-            <span style="margin-left:auto;font-size:.74rem;color:#94a3b8;">
+            <span style="margin-left:auto;font-size:.74rem;color:#756d66;">
                 {{ $pesan->created_at?->translatedFormat('l, d F Y • H:i') }}
             </span>
         </div>

@@ -5,7 +5,7 @@
 
 @section('styles')
 <style>
-    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(0,43,91,.06); overflow:hidden; }
+    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(40,40,40,.06); overflow:hidden; }
     .form-card-header { display:flex; align-items:center; gap:.75rem; padding:1.1rem 1.5rem; border-bottom:1px solid #f1f5f9; }
     .form-card-header .hico { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-size:1rem; flex-shrink:0; }
     .form-card-header h6 { font-size:.9rem; font-weight:600; color:var(--primary-dark); margin:0; }
@@ -27,7 +27,7 @@
     .upload-zone input { display: none; }
     .upload-zone .upload-icon { font-size: 2rem; color: var(--primary); margin-bottom: .5rem; }
     .upload-zone p { font-size: .82rem; color: var(--primary); margin: 0; font-weight: 500; }
-    .upload-zone small { font-size: .72rem; color: #94a3b8; }
+    .upload-zone small { font-size: .72rem; color: #756d66; }
     .img-preview { width:100%; border-radius:12px; object-fit:cover; border:1px solid #e2e8f0; max-height:240px; }
 </style>
 @endsection
@@ -76,9 +76,16 @@
                         </div>
                         <div class="col-sm-7">
                             <label class="form-label">Kelas</label>
-                            <input type="text" name="kelas" class="form-control @error('kelas') is-invalid @enderror"
+                            <input type="text" name="kelas" list="kelasOptions"
+                                   class="form-control @error('kelas') is-invalid @enderror"
                                    value="{{ old('kelas', $item?->kelas) }}" maxlength="255"
-                                   placeholder="Contoh: Kelas 5A">
+                                   placeholder="Pilih kelas, mis. Kelas 5A" autocomplete="off">
+                            <datalist id="kelasOptions">
+                                @foreach ($kelasList as $namaKelas)
+                                    <option value="{{ $namaKelas }}"></option>
+                                @endforeach
+                            </datalist>
+                            <small class="text-muted" style="font-size:.72rem;">Pilih dari daftar agar siswa langsung terhitung di ruang kelas tujuan.</small>
                             @error('kelas') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>

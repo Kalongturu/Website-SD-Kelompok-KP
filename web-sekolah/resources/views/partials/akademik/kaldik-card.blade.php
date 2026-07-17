@@ -28,7 +28,7 @@
                 font-size: .9rem;
                 text-align: center;
                 padding: 1rem 1.5rem;
-                border-bottom: 1px solid rgba(0, 43, 91, .06);
+                border-bottom: 1px solid rgba(40, 40, 40, .06);
             }
 
             .kaldik-list {
@@ -46,7 +46,7 @@
                 gap: 1rem;
                 flex-wrap: wrap;
                 padding-bottom: 1.25rem;
-                border-bottom: 1px solid rgba(0, 43, 91, .06);
+                border-bottom: 1px solid rgba(40, 40, 40, .06);
             }
 
             .kaldik-item:last-child {
@@ -75,7 +75,7 @@
 
             .kaldik-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(0, 43, 91, .25);
+                box-shadow: 0 8px 20px rgba(40, 40, 40, .25);
             }
         </style>
     @endpush
@@ -88,9 +88,13 @@
             @forelse ($kaldik as $i => $item)
                 <li class="kaldik-item">
                     <span>{{ $i + 1 }}. KALDIK TP {{ $item->tahun_ajaran }}</span>
-                    <a class="kaldik-btn" href="{{ $item->fileUrl() }}" target="_blank" rel="noopener">
-                        Lihat Kalender
-                    </a>
+                    @if ($item->hasFile())
+                        <a class="kaldik-btn" href="{{ $item->fileUrl() }}" target="_blank" rel="noopener">
+                            Lihat Kalender
+                        </a>
+                    @else
+                        <span style="font-size:.8rem;color:#94a3b8;">Belum ada file</span>
+                    @endif
                 </li>
             @empty
                 <li style="padding:1.25rem;text-align:center;color:#64748b;">

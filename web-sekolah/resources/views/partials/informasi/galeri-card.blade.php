@@ -52,8 +52,8 @@
             /* Placeholder gradien bila foto belum ada */
             .galeri-media.ph0 { background: linear-gradient(135deg, var(--primary), var(--accent)); }
             .galeri-media.ph1 { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); }
-            .galeri-media.ph2 { background: linear-gradient(135deg, #2a8aa3, var(--accent)); }
-            .galeri-media.ph3 { background: linear-gradient(135deg, #1a5f7a, #57c5b6); }
+            .galeri-media.ph2 { background: linear-gradient(135deg, var(--primary-ink), var(--accent)); }
+            .galeri-media.ph3 { background: linear-gradient(135deg, var(--primary), var(--primary)); }
 
             .galeri-overlay {
                 position: absolute;
@@ -63,7 +63,7 @@
                 justify-content: flex-end;
                 gap: .3rem;
                 padding: 1rem 1.1rem;
-                background: linear-gradient(to top, rgba(0, 43, 91, .82) 0%, rgba(0, 43, 91, .25) 45%, transparent 75%);
+                background: linear-gradient(to top, rgba(40, 40, 40, .82) 0%, rgba(40, 40, 40, .25) 45%, transparent 75%);
                 color: var(--white);
                 text-align: left;
             }
@@ -84,6 +84,22 @@
                 font-size: 1rem;
                 font-weight: 700;
                 line-height: 1.3;
+            }
+
+            .galeri-count {
+                position: absolute;
+                top: .8rem;
+                left: .8rem;
+                background: rgba(40, 40, 40, .72);
+                color: var(--white);
+                font-size: .72rem;
+                font-weight: 700;
+                padding: .18rem .6rem;
+                border-radius: 50px;
+                display: inline-flex;
+                align-items: center;
+                gap: .3rem;
+                z-index: 1;
             }
 
             .galeri-zoom {
@@ -112,7 +128,10 @@
     @endpush
 @endonce
 
-@php $gambarUrl = $item->gambarUrl(); @endphp
+@php
+    $gambarUrl = $item->coverUrl();
+    $jumlahFoto = count($item->fotoUrls());
+@endphp
 <button type="button" class="galeri-card" data-galeri="{{ $item->id }}" aria-haspopup="dialog">
     <span class="galeri-media {{ $gambarUrl ? '' : 'ph' . ($item->id % 4) }}">
         @if ($gambarUrl)
@@ -121,6 +140,9 @@
             <span>📷</span>
         @endif
     </span>
+    @if ($jumlahFoto > 1)
+        <span class="galeri-count">🖼️ {{ $jumlahFoto }}</span>
+    @endif
     <span class="galeri-zoom">🔍</span>
     <span class="galeri-overlay">
         @if ($item->kategori)

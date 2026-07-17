@@ -13,7 +13,7 @@
         margin-bottom: 1rem;
         transition: box-shadow .2s ease;
     }
-    .tatib-admin-item:hover { box-shadow: 0 4px 16px rgba(0,43,91,.08); }
+    .tatib-admin-item:hover { box-shadow: 0 4px 16px rgba(40,40,40,.08); }
 
     .tatib-admin-head {
         display: flex;

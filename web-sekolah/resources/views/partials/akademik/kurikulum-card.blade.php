@@ -28,7 +28,7 @@
                 font-size: .9rem;
                 text-align: center;
                 padding: 1rem 1.5rem;
-                border-bottom: 1px solid rgba(0, 43, 91, .06);
+                border-bottom: 1px solid rgba(40, 40, 40, .06);
             }
 
             .kurikulum-body {

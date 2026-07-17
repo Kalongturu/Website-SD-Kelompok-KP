@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
 @section('title', 'Kontak & Footer')
-@section('page-title', 'Kontak &amp; Footer')
+@section('page-title', 'Kontak & Footer')
 
 @section('styles')
 <style>
     .form-card {
         background: #fff;
         border-radius: 16px;
-        box-shadow: 0 4px 16px rgba(0, 43, 91, .06);
+        box-shadow: 0 4px 16px rgba(40, 40, 40, .06);
         overflow: hidden;
     }
 
@@ -39,7 +39,7 @@
 
     .form-card-header p {
         font-size: .75rem;
-        color: #94a3b8;
+        color: #756d66;
         margin: 0;
     }
 
@@ -63,7 +63,7 @@
 
     .form-text {
         font-size: .72rem;
-        color: #94a3b8;
+        color: #756d66;
     }
 
     .preview-box {
@@ -83,7 +83,7 @@
     }
 
     .preview-footer {
-        background: #002b5b;
+        background: #282828;
         border-radius: 10px;
         padding: 1.25rem;
         color: rgba(255,255,255,.75);

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Galeri extends Model
@@ -38,6 +39,44 @@ class Galeri extends Model
         'id', 'judul', 'kategori', 'gambar', 'gambar_mime', 'keterangan',
         'tanggal', 'urutan', 'is_active', 'created_at', 'updated_at',
     ];
+
+    /**
+     * Foto-foto pada album ini (urut sesuai `urutan`). Sebuah galeri berperan
+     * sebagai ALBUM yang dapat memuat banyak foto.
+     */
+    public function fotos(): HasMany
+    {
+        return $this->hasMany(GaleriFoto::class)->orderBy('urutan')->orderBy('id');
+    }
+
+    /**
+     * Daftar URL semua foto album (untuk carousel). Memakai relasi `fotos` bila
+     * sudah dimuat; jatuh ke gambar tunggal lama sebagai fallback bila album belum
+     * punya baris foto (record lama). Selalu mengembalikan array (bisa kosong).
+     *
+     * @return array<int, string>
+     */
+    public function fotoUrls(): array
+    {
+        $urls = $this->fotos
+            ->map(fn (GaleriFoto $f) => $f->gambarUrl())
+            ->filter()
+            ->values()
+            ->all();
+
+        if (! empty($urls)) {
+            return $urls;
+        }
+
+        $legacy = $this->gambarUrl();
+        return $legacy ? [$legacy] : [];
+    }
+
+    /** URL foto sampul album (foto pertama) untuk kartu grid. Null bila kosong. */
+    public function coverUrl(): ?string
+    {
+        return $this->fotoUrls()[0] ?? null;
+    }
 
     /**
      * URL gambar galeri. Gambar disimpan sebagai DATA BINER (bytea) di kolom

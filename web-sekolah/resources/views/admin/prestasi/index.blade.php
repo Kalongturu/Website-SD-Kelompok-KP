@@ -59,14 +59,14 @@
                 <tbody>
                     @foreach ($items as $item)
                         <tr>
-                            <td style="padding:.6rem 1rem;color:#94a3b8;">{{ $loop->iteration + ($items->currentPage() - 1) * $items->perPage() }}</td>
+                            <td style="padding:.6rem 1rem;color:#756d66;">{{ $loop->iteration + ($items->currentPage() - 1) * $items->perPage() }}</td>
                             <td>
                                 <div style="font-weight:600;color:var(--primary-dark);max-width:220px;">{{ $item->nama_kejuaraan }}</div>
                                 @if ($item->penyelenggara)
-                                    <div style="font-size:.72rem;color:#94a3b8;">{{ $item->penyelenggara }}</div>
+                                    <div style="font-size:.72rem;color:#756d66;">{{ $item->penyelenggara }}</div>
                                 @endif
                                 @if ($item->tempat)
-                                    <div style="font-size:.72rem;color:#94a3b8;"><i class="bi bi-geo-alt"></i> {{ $item->tempat }}</div>
+                                    <div style="font-size:.72rem;color:#756d66;"><i class="bi bi-geo-alt"></i> {{ $item->tempat }}</div>
                                 @endif
                             </td>
                             <td>
@@ -96,7 +96,7 @@
                             </td>
                             <td>
                                 <div style="font-size:.82rem;">{{ $item->nama_siswa ?: '—' }}</div>
-                                @if ($item->kelas) <div style="font-size:.7rem;color:#94a3b8;">Kelas {{ $item->kelas }}</div> @endif
+                                @if ($item->kelas) <div style="font-size:.7rem;color:#756d66;">Kelas {{ $item->kelas }}</div> @endif
                             </td>
                             <td style="white-space:nowrap;font-size:.8rem;">
                                 {{ $item->tanggal ? $item->tanggal->translatedFormat('d M Y') : '—' }}

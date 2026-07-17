@@ -5,7 +5,7 @@
 
 @section('styles')
 <style>
-    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(0,43,91,.06); overflow:hidden; }
+    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(40,40,40,.06); overflow:hidden; }
     .form-card-header { display:flex; align-items:center; gap:.75rem; padding:1.1rem 1.5rem; border-bottom:1px solid #f1f5f9; }
     .form-card-header .header-icon { width:38px; height:38px; border-radius:10px; display:grid; place-items:center; background:#e0f2fe; color:#0369a1; }
     .form-card-header h6 { font-size:.9rem; font-weight:600; color:var(--primary-dark); margin:0; }
@@ -18,7 +18,7 @@
     .upload-zone input { display:none; }
     .upload-zone i { display:block; font-size:2.25rem; color:var(--primary); margin-bottom:.5rem; }
     .upload-zone strong { display:block; color:var(--primary-dark); font-size:.85rem; }
-    .upload-zone small { color:#94a3b8; font-size:.72rem; }
+    .upload-zone small { color:#756d66; font-size:.72rem; }
     .current-file { display:flex; align-items:center; gap:.75rem; padding:.85rem 1rem; border-radius:10px; background:#eff6ff; margin-bottom:1rem; }
 </style>
 @endsection
@@ -58,14 +58,14 @@
                         @error('tahun_ajaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
-                    @if ($item)
+                    @if ($item && $item->hasFile())
                         <div class="current-file">
                             <i class="bi bi-file-earmark-check-fill text-primary" style="font-size:1.4rem;"></i>
                             <div class="flex-grow-1" style="min-width:0;">
                                 <div style="font-size:.78rem;color:#64748b;">File saat ini</div>
                                 <a href="{{ $item->fileUrl() }}" target="_blank" rel="noopener"
                                    style="font-size:.84rem;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                                    {{ $item->file_name ?: basename($item->file_path) }}
+                                    {{ $item->file_name ?: ($item->file_path ? basename($item->file_path) : 'Lihat file') }}
                                 </a>
                             </div>
                         </div>

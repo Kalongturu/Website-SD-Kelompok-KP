@@ -1,0 +1,29 @@
+# Jangan ikut diupload ke Vercel — memperkecil ukuran & menghindari kebocoran rahasia.
+
+# Rahasia: kredensial diatur lewat Environment Variables di dashboard Vercel.
+.env
+.env.*
+!.env.example
+
+# Dependensi & build lokal
+node_modules
+
+# Test & tooling
+tests
+phpunit.xml
+.phpunit.result.cache
+.editorconfig
+.gitattributes
+
+# Log & file sementara lokal (di Vercel storage diarahkan ke /tmp)
+storage/logs/*.log
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+
+# Berkas pengembangan
+README.md
+DEPLOY-VERCEL.md
+.vscode
+.idea

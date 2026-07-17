@@ -5,112 +5,127 @@
     'Selamat datang di SDN Dadapsari — sekolah dasar unggulan yang membentuk generasi cerdas dan
     berkarakter.')
 
-@push('styles')
-<style>
-    /* Testing */
-    
-    /* ── VISI & MISI (Profil) ── */
-    .home-vm {
-        margin-top: 2.5rem;
-    }
-    .home-vm-title {
-        text-align: center;
-        font-size: clamp(1.2rem, 2.4vw, 1.6rem);
-        font-weight: 800;
-        color: var(--primary-dark);
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        margin-bottom: 1.75rem;
-    }
-    .home-vm-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-        align-items: stretch;
-    }
-    .home-vm-card {
-        border-radius: var(--radius);
-        padding: 2rem 1.75rem;
-        box-shadow: var(--shadow);
-    }
-    /* Visi – light card */
-    .home-vm-visi {
-        background: var(--white);
-        border: 1px solid rgba(0, 43, 91, .08);
-    }
-    .home-vm-visi .home-vm-head {
-        color: var(--primary-dark);
-    }
-    .home-vm-visi .home-vm-text {
-        color: var(--text);
-        font-style: italic;
-        line-height: 1.8;
-        font-size: 1.02rem;
-    }
-    /* Misi – brand blue card */
-    .home-vm-misi {
-        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-        color: var(--white);
-    }
-    .home-vm-misi .home-vm-head {
-        color: var(--white);
-    }
-    .home-vm-head {
-        text-align: center;
-        font-size: 1.15rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        margin: 0 0 1.25rem;
-    }
-    .home-vm-misi ol {
-        margin: 0;
-        padding-left: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        gap: .85rem;
-    }
-    .home-vm-misi li {
-        line-height: 1.6;
-        font-size: .95rem;
-        color: rgba(255, 255, 255, .92);
-        padding-left: .25rem;
-    }
-    .home-vm-misi li::marker {
-        font-weight: 700;
-        color: var(--accent);
-    }
-    @media (max-width: 768px) {
-        .home-vm-grid { grid-template-columns: 1fr; }
-    }
-</style>
-@endpush
+    @push('styles')
+        <style>
+            /* Testing */
+
+            /* ── VISI & MISI (Profil) ── */
+            .home-vm {
+                margin-top: 2.5rem;
+            }
+
+            .home-vm-title {
+                text-align: center;
+                font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+                font-weight: 800;
+                color: var(--primary-dark);
+                text-transform: uppercase;
+                letter-spacing: .5px;
+                margin-bottom: 1.75rem;
+            }
+
+            .home-vm-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                align-items: stretch;
+            }
+
+            .home-vm-card {
+                border-radius: var(--radius);
+                padding: 2rem 1.75rem;
+                box-shadow: var(--shadow);
+            }
+
+            /* Visi – light card */
+            .home-vm-visi {
+                background: var(--white);
+                border: 1px solid rgba(40, 40, 40, .08);
+            }
+
+            .home-vm-visi .home-vm-head {
+                color: var(--primary-dark);
+            }
+
+            .home-vm-visi .home-vm-text {
+                color: var(--text);
+                font-style: italic;
+                line-height: 1.8;
+                font-size: 1.02rem;
+            }
+
+            /* Misi – brand card */
+            .home-vm-misi {
+                background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+                color: var(--white);
+            }
+
+            .home-vm-misi .home-vm-head {
+                color: var(--white);
+            }
+
+            .home-vm-head {
+                text-align: center;
+                font-size: 1.15rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .5px;
+                margin: 0 0 1.25rem;
+            }
+
+            .home-vm-misi ol {
+                margin: 0;
+                padding-left: 1.25rem;
+                display: flex;
+                flex-direction: column;
+                gap: .85rem;
+            }
+
+            .home-vm-misi li {
+                line-height: 1.6;
+                font-size: .95rem;
+                color: rgba(255, 255, 255, .92);
+                padding-left: .25rem;
+            }
+
+            .home-vm-misi li::marker {
+                font-weight: 700;
+                color: var(--accent);
+            }
+
+            @media (max-width: 768px) {
+                .home-vm-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    @endpush
 
 @section('content')
 
     <!-- Ini bagian beranda ya ges -->
     {{-- ===================== HERO / BERANDA ===================== --}}
     <section id="beranda" class="hero">
-        <div class="hero-body">
-            <div class="hero-inner">
-                <span class="hero-badge">Selamat Datang di Website Resmi</span>
-                <h1>SDN <span>Dadapsari</span></h1>
-                <p class="hero-motto">"Santun dalam berperilaku, hebat dalam prestasi"</p>
-                <p>Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas dan
-                    menyenangkan.</p>
-                <div class="hero-actions">
-                    @auth
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Daftar PPDB Sekarang</a>
-                    @else
-                        <a href="#ppdb" class="btn btn-primary">Daftar PPDB Sekarang</a>
-                    @endauth
-                    <a href="#profil" class="btn btn-ghost">Kenali Kami</a>
-                </div>
-            </div>
-
-            <div class="hero-photo-wrap">
-                <div class="hero-photo-ring">
-                    <img src="{{ asset('images/sekolah-3.jpeg') }}" alt="Wali Kota Semarang" class="hero-photo">
+        {{-- Banner Wali Kota jadi latar hero; berhenti tepat di atas .hero-stats.
+             Gambar kini latar, jadi maknanya dibawa role/aria-label. --}}
+        <div class="hero-visual" role="img"
+            aria-label="Selamat dan sukses atas dilantiknya Dr. Agustina Wilujeng Pramestuti, SS, MM dan Ir. H. Iswar Aminuddin, M.T sebagai Wali Kota dan Wakil Wali Kota Semarang masa jabatan 2025–2030"
+            style="--hero-img: url('{{ asset('images/sekolah-3.jpeg') }}');">
+            <div class="hero-body">
+                <div class="hero-inner">
+                    <span class="hero-badge">Selamat Datang di Website Resmi</span>
+                    <h1>SDN <span>Dadapsari</span></h1>
+                    <p class="hero-motto">"Santun dalam berperilaku, hebat dalam prestasi"</p>
+                    <p>Membentuk generasi cerdas, berkarakter, dan berakhlak mulia melalui pendidikan dasar yang berkualitas dan
+                        menyenangkan.</p>
+                    <div class="hero-actions">
+                        @auth
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Daftar PPDB Sekarang</a>
+                        @else
+                            <a href="#ppdb" class="btn btn-primary">Daftar PPDB Sekarang</a>
+                        @endauth
+                        <a href="#profil" class="btn btn-ghost">Kenali Kami</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,6 +139,56 @@
                     class="stat-label">Ruang Kelas</span></div>
             <div class="stat"><span class="stat-num" data-target="{{ $stats['prestasi'] }}">0</span><span
                     class="stat-label">Prestasi</span></div>
+        </div>
+    </section>
+
+    {{-- ===================== BERITA TERBARU ===================== --}}
+    <section id="berita-terbaru" class="section section-alt">
+        <div class="section-head">
+            <span class="eyebrow">Kabar Terbaru</span>
+            <h2>Berita Terbaru</h2>
+            <p>Ikuti kabar dan kegiatan terkini dari SDN Dadapsari.</p>
+        </div>
+
+        {{-- Berita — 3 terbaru, klik → halaman Berita & Pengumuman --}}
+        <div id="berita"
+            style="background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">📰 Berita Terbaru</span>
+                <a href="{{ route('informasi.index') }}"
+                    style="font-size:.82rem;font-weight:600;color:var(--primary);text-decoration:none;">Lihat Semua →</a>
+            </div>
+            <div class="news-grid">
+                @forelse ($berita as $item)
+                    <a href="{{ route('informasi.index') }}" class="news-card"
+                        style="text-decoration:none;color:inherit;display:block;">
+                        <div class="news-thumb" style="--c1:#a85400;--c2:#f48000;position:relative;overflow:hidden;">
+                            <span>📰</span>
+                            @if ($item->gambar_url)
+                                <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" loading="lazy"
+                                    onerror="this.remove()"
+                                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                            @endif
+                        </div>
+                        <div class="news-body">
+                            @if ($item->tanggal)
+                                <span class="news-date">{{ $item->tanggal->translatedFormat('d F Y') }}</span>
+                            @endif
+                            <h3>{{ $item->judul }}</h3>
+                            <p>{{ $item->preview(100) }}</p>
+                        </div>
+                    </a>
+                @empty
+                    <article class="news-card">
+                        <div class="news-thumb" style="--c1:#a85400;--c2:#f48000;"><span>📰</span></div>
+                        <div class="news-body">
+                            <span class="news-date">—</span>
+                            <h3>Belum ada berita</h3>
+                            <p>Berita terbaru sekolah akan tampil di sini.</p>
+                        </div>
+                    </article>
+                @endforelse
+            </div>
         </div>
     </section>
 
@@ -216,14 +281,14 @@
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">⚽ Ekstrakurikuler</span>
                 <a href="{{ route('kesiswaan.ekstrakurikuler') }}"
-                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--primary);text-decoration:none;">Lihat Semua →</a>
             </div>
             <div class="news-grid">
                 @forelse ($ekskulPreview as $e)
                     <a href="{{ route('kesiswaan.ekstrakurikuler') }}" class="news-card"
                         style="text-decoration:none;color:inherit;display:block;">
                         <div class="news-thumb" style="--c1:#0f766e;--c2:#14b8a6;position:relative;overflow:hidden;">
-                            @if ($e->foto)
+                            @if ($e->fotoUrl())
                                 <img src="{{ $e->fotoUrl() }}" alt="{{ $e->nama }}"
                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                             @else
@@ -255,21 +320,21 @@
             </div>
         </div>
 
-        
+
         <!-- ini bagian prestasi yang preview -->
         <div id="prestasi"
             style="margin-bottom:2rem;background:var(--white);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">🏆 Prestasi Terbaru</span>
                 <a href="{{ route('kesiswaan.prestasi') }}"
-                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--primary);text-decoration:none;">Lihat Semua →</a>
             </div>
             <div class="news-grid">
                 @forelse ($prestasiPreview as $p)
                     <a href="{{ route('kesiswaan.prestasi') }}" class="news-card"
                         style="text-decoration:none;color:inherit;display:block;">
                         <div class="news-thumb" style="--c1:#78350f;--c2:#f59e0b;position:relative;overflow:hidden;">
-                            @if ($p->foto)
+                            @if ($p->fotoUrl())
                                 <img src="{{ $p->fotoUrl() }}" alt="{{ $p->nama_kejuaraan }}"
                                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                             @else
@@ -324,7 +389,7 @@
                     <p style="margin:0;font-size:.88rem;">Aturan sekolah yang menumbuhkan kedisiplinan, tanggung jawab, dan
                         akhlak mulia.</p>
                 </div>
-                <span style="margin-left:auto;font-size:1.25rem;color:var(--accent);flex-shrink:0;">→</span>
+                <span style="margin-left:auto;font-size:1.25rem;color:var(--primary);flex-shrink:0;">→</span>
             </a>
         </div>
     </section>
@@ -337,47 +402,6 @@
             <p>Berita, pendaftaran, dan dokumentasi kegiatan sekolah.</p>
         </div>
 
-        {{-- Berita — 3 terbaru, klik → halaman Berita & Pengumuman --}}
-        <div id="berita"
-            style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">📰 Berita Terbaru</span>
-                <a href="{{ route('informasi.index') }}"
-                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
-            </div>
-            <div class="news-grid">
-                @forelse ($berita as $item)
-                    <a href="{{ route('informasi.index') }}" class="news-card"
-                        style="text-decoration:none;color:inherit;display:block;">
-                        <div class="news-thumb" style="--c1:#1a5f7a;--c2:#57c5b6;position:relative;overflow:hidden;">
-                            <span>📰</span>
-                            @if ($item->gambar_url)
-                                <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" loading="lazy"
-                                    onerror="this.remove()"
-                                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-                            @endif
-                        </div>
-                        <div class="news-body">
-                            @if ($item->tanggal)
-                                <span class="news-date">{{ $item->tanggal->translatedFormat('d F Y') }}</span>
-                            @endif
-                            <h3>{{ $item->judul }}</h3>
-                            <p>{{ $item->preview(100) }}</p>
-                        </div>
-                    </a>
-                @empty
-                    <article class="news-card">
-                        <div class="news-thumb" style="--c1:#1a5f7a;--c2:#57c5b6;"><span>📰</span></div>
-                        <div class="news-body">
-                            <span class="news-date">—</span>
-                            <h3>Belum ada berita</h3>
-                            <p>Berita terbaru sekolah akan tampil di sini.</p>
-                        </div>
-                    </article>
-                @endforelse
-            </div>
-        </div>
-
         {{-- PPDB Banner — dari DB, klik → halaman PPDB --}}
         <div id="ppdb"
             style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
@@ -385,7 +409,7 @@
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">🎓 Pendaftaran Siswa Baru
                     (PPDB)</span>
                 <a href="{{ route('ppdb.index') }}"
-                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Info →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--primary);text-decoration:none;">Lihat Info →</a>
             </div>
             <div class="ppdb-banner">
                 <div>
@@ -405,15 +429,15 @@
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">📷 Galeri Kegiatan</span>
                 <a href="{{ route('informasi.galeri') }}"
-                    style="font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;">Lihat Semua →</a>
+                    style="font-size:.82rem;font-weight:600;color:var(--primary);text-decoration:none;">Lihat Semua →</a>
             </div>
             <div class="gallery">
                 @forelse ($galeriPreview as $foto)
                     <a href="{{ route('informasi.galeri') }}" class="gallery-item"
-                        style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;
+                        style="--c1:#a85400;--c2:#f48000;text-decoration:none;
                               position:relative;overflow:hidden;display:grid;place-items:center;">
-                        @if ($foto->gambarUrl())
-                            <img src="{{ $foto->gambarUrl() }}" alt="{{ $foto->judul }}"
+                        @if ($foto->coverUrl())
+                            <img src="{{ $foto->coverUrl() }}" alt="{{ $foto->judul }}"
                                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                         @else
                             <span style="position:relative;z-index:1;">📸</span>
@@ -422,7 +446,7 @@
                 @empty
                     @foreach (['📸', '🎨', '🎶', '⚽', '🔬', '📚'] as $ikon)
                         <a href="{{ route('informasi.galeri') }}" class="gallery-item"
-                            style="--c1:#1a5f7a;--c2:#57c5b6;text-decoration:none;">{{ $ikon }}</a>
+                            style="--c1:#a85400;--c2:#f48000;text-decoration:none;">{{ $ikon }}</a>
                     @endforeach
                 @endforelse
             </div>

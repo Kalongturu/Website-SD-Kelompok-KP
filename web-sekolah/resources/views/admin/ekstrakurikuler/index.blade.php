@@ -20,7 +20,7 @@
         transition: box-shadow .2s ease;
     }
 
-    .ekskul-admin-item:hover { box-shadow: 0 6px 20px rgba(0,43,91,.12); }
+    .ekskul-admin-item:hover { box-shadow: 0 6px 20px rgba(40,40,40,.12); }
 
     .ekskul-admin-thumb {
         height: 130px;
@@ -87,7 +87,7 @@
             @foreach ($items as $item)
                 <div class="ekskul-admin-item">
                     <div class="ekskul-admin-thumb">
-                        @if ($item->foto)
+                        @if ($item->fotoUrl())
                             <img src="{{ $item->fotoUrl() }}" alt="{{ $item->nama }}">
                         @else
                             <span>{{ $item->icon ?: '🎯' }}</span>

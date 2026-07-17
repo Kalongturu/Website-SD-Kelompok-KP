@@ -23,7 +23,7 @@
             .info-modal-overlay {
                 position: absolute;
                 inset: 0;
-                background: rgba(0, 43, 91, .55);
+                background: rgba(40, 40, 40, .55);
                 backdrop-filter: blur(4px);
             }
 
@@ -50,13 +50,22 @@
             .info-modal-hero {
                 height: 200px;
                 display: grid;
+                /* Baris grid default berukuran `auto` = mengikuti isi. Gambar
+                   selebar wadah (width:100%) yang rasionya persegi jadi setinggi
+                   itu pula (mis. 640px), barisnya ikut membengkak, dan height:200px
+                   di sini TIDAK mengekangnya — gambar meluber menutupi teks.
+                   minmax(0, 1fr) memaksa baris ikut tinggi wadah, bukan isi. */
+                grid-template-rows: minmax(0, 1fr);
                 place-items: center;
                 font-size: 3.4rem;
                 background: linear-gradient(135deg, var(--primary-dark), var(--accent));
                 flex-shrink: 0;
+                overflow: hidden;
             }
 
             .info-modal-hero img {
+                align-self: stretch;
+                justify-self: stretch;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
@@ -151,7 +160,7 @@
 
             .info-modal-foot a:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(0, 43, 91, .25);
+                box-shadow: 0 8px 20px rgba(40, 40, 40, .25);
             }
         </style>
     @endpush

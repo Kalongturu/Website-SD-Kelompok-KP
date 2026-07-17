@@ -26,7 +26,11 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        $galeriPreview = Galeri::where('is_active', true)
+        // select(LIST_COLUMNS) agar byte gambar (bytea) tidak ikut ditarik —
+        // view hanya memakai galeriUrl() yang menunjuk ke route galeri.gambar.
+        $galeriPreview = Galeri::select(Galeri::LIST_COLUMNS)
+            ->with(['fotos' => fn ($q) => $q->select(\App\Models\GaleriFoto::LIST_COLUMNS)])
+            ->where('is_active', true)
             ->orderBy('urutan')
             ->orderByDesc('tanggal')
             ->orderByDesc('id')
@@ -37,13 +41,16 @@ class HomeController extends Controller
 
         $profil = ProfilSetting::getData();
 
-        $ekskulPreview = Ekstrakurikuler::where('is_active', true)
+        // select(LIST_COLUMNS) agar byte gambar (bytea) tidak ikut ditarik.
+        $ekskulPreview = Ekstrakurikuler::select(Ekstrakurikuler::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderBy('urutan')
             ->orderBy('nama')
             ->limit(3)
             ->get();
 
-        $prestasiPreview = Prestasi::where('is_active', true)
+        $prestasiPreview = Prestasi::select(Prestasi::LIST_COLUMNS)
+            ->where('is_active', true)
             ->orderByDesc('tanggal')
             ->orderByDesc('id')
             ->limit(3)

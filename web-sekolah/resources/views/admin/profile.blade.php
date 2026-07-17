@@ -5,7 +5,7 @@
 
 @section('styles')
 <style>
-    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(0,43,91,.06); overflow:hidden; }
+    .form-card { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(40,40,40,.06); overflow:hidden; }
     .form-card-header { display:flex; align-items:center; gap:.75rem; padding:1.1rem 1.5rem; border-bottom:1px solid #f1f5f9; }
     .form-card-header .hico { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-size:1rem; flex-shrink:0; }
     .form-card-header h6 { font-size:.9rem; font-weight:600; color:var(--primary-dark); margin:0; }
@@ -30,7 +30,7 @@
     .upload-zone:hover { border-color: var(--accent); background: var(--accent-soft); }
     .upload-zone input { display: none; }
     .upload-zone p { font-size: .82rem; color: var(--primary); margin: 0; font-weight: 500; }
-    .upload-zone small { font-size: .72rem; color: #94a3b8; }
+    .upload-zone small { font-size: .72rem; color: #756d66; }
 </style>
 @endsection
 

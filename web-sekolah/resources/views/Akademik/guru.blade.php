@@ -6,7 +6,7 @@
 @push('styles')
 <style>
     .page-header {
-        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #2a8aa3 100%);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-ink) 100%);
         color: var(--white);
         padding: 3.5rem 1.5rem 5rem;
         text-align: center;
@@ -49,13 +49,13 @@
         font-size: .72rem; font-weight: 700;
         text-transform: uppercase; letter-spacing: .7px;
         padding: .3rem 1.1rem; border-radius: 50px;
-        box-shadow: 0 6px 16px rgba(87, 197, 182, .4);
+        box-shadow: 0 6px 16px rgba(255, 145, 11, .4);
         white-space: nowrap;
     }
     .kepala-photo {
         width: 185px; aspect-ratio: 3 / 4; margin: .5rem auto 1.3rem;
         border-radius: 14px; overflow: hidden;
-        box-shadow: 0 12px 28px rgba(0, 43, 91, .18);
+        box-shadow: 0 12px 28px rgba(40, 40, 40, .18);
     }
     .kepala-photo img { width: 100%; height: 100%; object-fit: cover; }
     .kepala-name {

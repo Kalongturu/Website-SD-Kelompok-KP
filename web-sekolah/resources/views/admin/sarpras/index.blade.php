@@ -65,8 +65,7 @@
                     <tr>
                         <th class="num" style="width:44px;">No</th>
                         <th>Jenis Sarpras</th>
-                        <th class="num">Jml Ganjil</th>
-                        <th class="num">Jml Genap</th>
+                        <th class="num">Jumlah</th>
                         <th>Keterangan</th>
                         <th class="num">Foto</th>
                         <th class="num">Urutan</th>
@@ -79,8 +78,7 @@
                     <tr>
                         <td class="num">{{ $items->firstItem() + $i }}</td>
                         <td style="font-weight:600;">{{ $item->jenis }}</td>
-                        <td class="num">{{ $item->jumlah_ganjil }}</td>
-                        <td class="num">{{ $item->jumlah_genap }}</td>
+                        <td class="num">{{ $item->jumlah }}</td>
                         <td style="max-width:200px;font-size:.82rem;color:#6b7280;">
                             {{ \Illuminate\Support\Str::limit($item->keterangan, 60) ?: '—' }}
                         </td>

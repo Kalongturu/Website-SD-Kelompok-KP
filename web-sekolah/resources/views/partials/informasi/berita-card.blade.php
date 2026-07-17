@@ -96,7 +96,7 @@
                 margin-top: .3rem;
                 font-size: .82rem;
                 font-weight: 600;
-                color: var(--accent);
+                color: var(--primary);
             }
 
             .berita-more::after {

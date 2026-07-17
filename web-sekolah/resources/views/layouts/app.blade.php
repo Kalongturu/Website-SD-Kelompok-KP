@@ -13,16 +13,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    {{-- Bar notifikasi admin: dijaga tetap satu baris & responsif di layar kecil. --}}
+    <style>
+        #admin-bar .admin-bar-msg {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        #admin-bar .admin-bar-short { display: none; }
+        /* Navbar sticky menempel tepat di bawah bar admin (bukan tertutup di baliknya). */
+        body.has-admin-bar .navbar { top: 34px; }
+        @media (max-width: 600px) {
+            #admin-bar { padding-left: .9rem; padding-right: .9rem; gap: .5rem; }
+            #admin-bar .admin-bar-full { display: none; }
+            #admin-bar .admin-bar-short { display: inline; }
+        }
+    </style>
     @stack('styles')
 </head>
 
-<body>
+<body class="@auth has-admin-bar @endauth">
 
     {{-- Admin notice bar: ditampilkan saat admin masih login dan mengunjungi situs publik --}}
     @auth
     <div id="admin-bar" style="
         position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-        background: #002b5b;
+        background: #282828;
         color: #fff;
         display: flex; align-items: center; justify-content: space-between;
         padding: .45rem 1.25rem;
@@ -31,14 +50,15 @@
         box-shadow: 0 2px 8px rgba(0,0,0,.3);
         gap: 1rem;
     ">
-        <span style="display:flex;align-items:center;gap:.5rem;opacity:.85;">
-            <span style="font-size:.95rem;">🔒</span>
-            Anda masih login sebagai <strong style="color:#57c5b6;">Admin</strong>.
-            Gunakan tombol berikut untuk kembali ke panel atau logout.
+        <span class="admin-bar-msg" style="display:flex;align-items:center;gap:.5rem;opacity:.85;">
+            <span style="font-size:.95rem;flex-shrink:0;">🔒</span>
+            <span class="admin-bar-full">Anda masih login sebagai <strong style="color:#ff910b;">Admin</strong>.
+                Gunakan tombol berikut untuk kembali ke panel atau logout.</span>
+            <span class="admin-bar-short">Login sebagai <strong style="color:#ff910b;">Admin</strong></span>
         </span>
         <div style="display:flex;align-items:center;gap:.5rem;flex-shrink:0;">
             <a href="{{ route('admin.dashboard') }}"
-               style="background:#57c5b6;color:#002b5b;font-weight:700;font-size:.75rem;
+               style="background:#ff910b;color:#282828;font-weight:700;font-size:.75rem;
                       padding:.3rem .85rem;border-radius:50px;text-decoration:none;
                       display:inline-flex;align-items:center;gap:.35rem;">
                 ← Dashboard
