@@ -364,10 +364,10 @@
                         <input type="email" id="email" name="email"
                             class="form-control @error('email') is-invalid @enderror" placeholder="admin@sekolah.com"
                             value="{{ old('email') }}" autocomplete="email" required autofocus>
-                        @error('email')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                        @enderror
                     </div>
+                    @error('email')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 {{-- Password --}}

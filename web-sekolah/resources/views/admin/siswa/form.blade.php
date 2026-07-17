@@ -76,9 +76,16 @@
                         </div>
                         <div class="col-sm-7">
                             <label class="form-label">Kelas</label>
-                            <input type="text" name="kelas" class="form-control @error('kelas') is-invalid @enderror"
+                            <input type="text" name="kelas" list="kelasOptions"
+                                   class="form-control @error('kelas') is-invalid @enderror"
                                    value="{{ old('kelas', $item?->kelas) }}" maxlength="255"
-                                   placeholder="Contoh: Kelas 5A">
+                                   placeholder="Pilih kelas, mis. Kelas 5A" autocomplete="off">
+                            <datalist id="kelasOptions">
+                                @foreach ($kelasList as $namaKelas)
+                                    <option value="{{ $namaKelas }}"></option>
+                                @endforeach
+                            </datalist>
+                            <small class="text-muted" style="font-size:.72rem;">Pilih dari daftar agar siswa langsung terhitung di ruang kelas tujuan.</small>
                             @error('kelas') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>

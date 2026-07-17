@@ -408,6 +408,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .5rem 1rem;
             padding: 1.1rem 1.5rem;
             border-bottom: 1px solid #f1f5f9;
         }

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Kelola Berita')
-@section('page-title', 'Berita &amp; Pengumuman — Berita')
+@section('page-title', 'Berita & Pengumuman — Berita')
 
 @section('content')
 

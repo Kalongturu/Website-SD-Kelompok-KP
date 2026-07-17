@@ -50,7 +50,6 @@
                     <li><a href="{{ route('home') }}#kontak">Kontak</a></li>
                 </ul>
             </li>
-            <li class="nav-cta"><a href="{{ url('admin/login') }}" class="btn-ppdb">Login</a></li>
         </ul>
     </div>
 </nav>

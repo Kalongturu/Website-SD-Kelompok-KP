@@ -44,6 +44,21 @@
             display: block;
         }
 
+        .galeri-admin-count {
+            position: absolute;
+            bottom: .5rem;
+            left: .5rem;
+            background: rgba(40, 40, 40, .72);
+            color: #fff;
+            font-size: .68rem;
+            font-weight: 600;
+            padding: .1rem .5rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: .25rem;
+        }
+
         .galeri-admin-status {
             position: absolute;
             top: .5rem;
@@ -104,10 +119,13 @@
                 @foreach ($galeri as $item)
                     <div class="galeri-admin-item">
                         <div class="galeri-admin-thumb">
-                            @if ($item->gambarUrl())
-                                <img src="{{ $item->gambarUrl() }}" alt="{{ $item->judul }}">
+                            @if ($item->coverUrl())
+                                <img src="{{ $item->coverUrl() }}" alt="{{ $item->judul }}">
                             @else
                                 <span>📷</span>
+                            @endif
+                            @if ($item->fotos_count > 1)
+                                <div class="galeri-admin-count"><i class="bi bi-images"></i> {{ $item->fotos_count }}</div>
                             @endif
                             <div class="galeri-admin-status"
                                 style="background:{{ $item->is_active ? '#22c55e' : '#ef4444' }};"></div>

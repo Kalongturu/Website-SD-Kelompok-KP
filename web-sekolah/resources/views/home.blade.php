@@ -142,6 +142,56 @@
         </div>
     </section>
 
+    {{-- ===================== BERITA TERBARU ===================== --}}
+    <section id="berita-terbaru" class="section section-alt">
+        <div class="section-head">
+            <span class="eyebrow">Kabar Terbaru</span>
+            <h2>Berita Terbaru</h2>
+            <p>Ikuti kabar dan kegiatan terkini dari SDN Dadapsari.</p>
+        </div>
+
+        {{-- Berita — 3 terbaru, klik → halaman Berita & Pengumuman --}}
+        <div id="berita"
+            style="background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">📰 Berita Terbaru</span>
+                <a href="{{ route('informasi.index') }}"
+                    style="font-size:.82rem;font-weight:600;color:var(--primary);text-decoration:none;">Lihat Semua →</a>
+            </div>
+            <div class="news-grid">
+                @forelse ($berita as $item)
+                    <a href="{{ route('informasi.index') }}" class="news-card"
+                        style="text-decoration:none;color:inherit;display:block;">
+                        <div class="news-thumb" style="--c1:#a85400;--c2:#f48000;position:relative;overflow:hidden;">
+                            <span>📰</span>
+                            @if ($item->gambar_url)
+                                <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" loading="lazy"
+                                    onerror="this.remove()"
+                                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                            @endif
+                        </div>
+                        <div class="news-body">
+                            @if ($item->tanggal)
+                                <span class="news-date">{{ $item->tanggal->translatedFormat('d F Y') }}</span>
+                            @endif
+                            <h3>{{ $item->judul }}</h3>
+                            <p>{{ $item->preview(100) }}</p>
+                        </div>
+                    </a>
+                @empty
+                    <article class="news-card">
+                        <div class="news-thumb" style="--c1:#a85400;--c2:#f48000;"><span>📰</span></div>
+                        <div class="news-body">
+                            <span class="news-date">—</span>
+                            <h3>Belum ada berita</h3>
+                            <p>Berita terbaru sekolah akan tampil di sini.</p>
+                        </div>
+                    </article>
+                @endforelse
+            </div>
+        </div>
+    </section>
+
     <!-- Ini bagaian profil sekolah ges -->
 
     {{-- ===================== PROFIL ===================== --}}
@@ -352,47 +402,6 @@
             <p>Berita, pendaftaran, dan dokumentasi kegiatan sekolah.</p>
         </div>
 
-        {{-- Berita — 3 terbaru, klik → halaman Berita & Pengumuman --}}
-        <div id="berita"
-            style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-                <span style="font-weight:700;color:var(--primary-dark);font-size:1rem;">📰 Berita Terbaru</span>
-                <a href="{{ route('informasi.index') }}"
-                    style="font-size:.82rem;font-weight:600;color:var(--primary);text-decoration:none;">Lihat Semua →</a>
-            </div>
-            <div class="news-grid">
-                @forelse ($berita as $item)
-                    <a href="{{ route('informasi.index') }}" class="news-card"
-                        style="text-decoration:none;color:inherit;display:block;">
-                        <div class="news-thumb" style="--c1:#a85400;--c2:#f48000;position:relative;overflow:hidden;">
-                            <span>📰</span>
-                            @if ($item->gambar_url)
-                                <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" loading="lazy"
-                                    onerror="this.remove()"
-                                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-                            @endif
-                        </div>
-                        <div class="news-body">
-                            @if ($item->tanggal)
-                                <span class="news-date">{{ $item->tanggal->translatedFormat('d F Y') }}</span>
-                            @endif
-                            <h3>{{ $item->judul }}</h3>
-                            <p>{{ $item->preview(100) }}</p>
-                        </div>
-                    </a>
-                @empty
-                    <article class="news-card">
-                        <div class="news-thumb" style="--c1:#a85400;--c2:#f48000;"><span>📰</span></div>
-                        <div class="news-body">
-                            <span class="news-date">—</span>
-                            <h3>Belum ada berita</h3>
-                            <p>Berita terbaru sekolah akan tampil di sini.</p>
-                        </div>
-                    </article>
-                @endforelse
-            </div>
-        </div>
-
         {{-- PPDB Banner — dari DB, klik → halaman PPDB --}}
         <div id="ppdb"
             style="margin-bottom:2rem;background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1.25rem 1.5rem;">
@@ -427,8 +436,8 @@
                     <a href="{{ route('informasi.galeri') }}" class="gallery-item"
                         style="--c1:#a85400;--c2:#f48000;text-decoration:none;
                               position:relative;overflow:hidden;display:grid;place-items:center;">
-                        @if ($foto->gambarUrl())
-                            <img src="{{ $foto->gambarUrl() }}" alt="{{ $foto->judul }}"
+                        @if ($foto->coverUrl())
+                            <img src="{{ $foto->coverUrl() }}" alt="{{ $foto->judul }}"
                                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                         @else
                             <span style="position:relative;z-index:1;">📸</span>

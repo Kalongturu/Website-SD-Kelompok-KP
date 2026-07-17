@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Concerns\HandlesDbImage;
 use App\Http\Controllers\Controller;
+use App\Models\RuangKelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class SiswaController extends Controller
 
     public function create()
     {
-        return view('admin.siswa.form', ['item' => null]);
+        return view('admin.siswa.form', ['item' => null, 'kelasList' => $this->kelasList()]);
     }
 
     public function store(Request $request)
@@ -37,7 +38,7 @@ class SiswaController extends Controller
 
     public function edit(Siswa $siswa)
     {
-        return view('admin.siswa.form', ['item' => $siswa]);
+        return view('admin.siswa.form', ['item' => $siswa, 'kelasList' => $this->kelasList()]);
     }
 
     public function update(Request $request, Siswa $siswa)
@@ -59,6 +60,12 @@ class SiswaController extends Controller
         $siswa->delete();
 
         return back()->with('success', 'Data siswa berhasil dihapus.');
+    }
+
+    /** Daftar nama kelas aktif untuk pilihan pada form siswa (agar cocok dengan ruang kelas). */
+    private function kelasList()
+    {
+        return RuangKelas::orderBy('urutan')->orderBy('nama_kelas')->pluck('nama_kelas');
     }
 
     private function validasi(Request $request): array

@@ -86,6 +86,22 @@
                 line-height: 1.3;
             }
 
+            .galeri-count {
+                position: absolute;
+                top: .8rem;
+                left: .8rem;
+                background: rgba(40, 40, 40, .72);
+                color: var(--white);
+                font-size: .72rem;
+                font-weight: 700;
+                padding: .18rem .6rem;
+                border-radius: 50px;
+                display: inline-flex;
+                align-items: center;
+                gap: .3rem;
+                z-index: 1;
+            }
+
             .galeri-zoom {
                 position: absolute;
                 top: .8rem;
@@ -112,7 +128,10 @@
     @endpush
 @endonce
 
-@php $gambarUrl = $item->gambarUrl(); @endphp
+@php
+    $gambarUrl = $item->coverUrl();
+    $jumlahFoto = count($item->fotoUrls());
+@endphp
 <button type="button" class="galeri-card" data-galeri="{{ $item->id }}" aria-haspopup="dialog">
     <span class="galeri-media {{ $gambarUrl ? '' : 'ph' . ($item->id % 4) }}">
         @if ($gambarUrl)
@@ -121,6 +140,9 @@
             <span>📷</span>
         @endif
     </span>
+    @if ($jumlahFoto > 1)
+        <span class="galeri-count">🖼️ {{ $jumlahFoto }}</span>
+    @endif
     <span class="galeri-zoom">🔍</span>
     <span class="galeri-overlay">
         @if ($item->kategori)

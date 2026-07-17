@@ -22,6 +22,34 @@ class RuangKelas extends Model
     /** Jangan pernah ikut serialisasi byte gambar ke array/JSON. */
     protected $hidden = ['gambar_data'];
 
+    protected static function booted(): void
+    {
+        // `jumlah_siswa` bersifat OTOMATIS: selalu dihitung dari data siswa nyata
+        // yang kelasnya cocok dengan `nama_kelas`. Dijalankan setiap kali record
+        // ruang kelas disimpan (mis. dibuat baru atau namanya diganti), sehingga
+        // angka pada kelas selalu terintegrasi dengan data siswa yang dimasukkan.
+        static::saving(function (RuangKelas $kelas) {
+            $kelas->jumlah_siswa = Siswa::where('kelas', $kelas->nama_kelas)->count();
+        });
+    }
+
+    /**
+     * Hitung ulang `jumlah_siswa` untuk kelas dengan nama tertentu berdasarkan
+     * jumlah data siswa nyata. Dipakai oleh event model Siswa agar penambahan/
+     * penghapusan siswa langsung tercermin pada kelas tujuan. Memakai query
+     * update langsung (bukan save model) agar tidak memicu ulang event `saving`.
+     */
+    public static function syncCountFor(?string $namaKelas): void
+    {
+        $namaKelas = trim((string) $namaKelas);
+        if ($namaKelas === '') {
+            return;
+        }
+
+        $jumlah = Siswa::where('kelas', $namaKelas)->count();
+        static::where('nama_kelas', $namaKelas)->update(['jumlah_siswa' => $jumlah]);
+    }
+
     /**
      * Kolom ringan untuk query DAFTAR. Sengaja TIDAK menyertakan `gambar_data`
      * (bytea, bisa besar) agar daftar tidak menarik byte gambar setiap record.

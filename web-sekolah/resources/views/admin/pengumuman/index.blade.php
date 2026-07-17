@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Kelola Pengumuman')
-@section('page-title', 'Berita &amp; Pengumuman — Pengumuman')
+@section('page-title', 'Berita & Pengumuman — Pengumuman')
 
 @section('content')
 

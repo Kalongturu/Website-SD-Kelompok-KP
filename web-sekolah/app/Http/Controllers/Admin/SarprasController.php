@@ -27,8 +27,7 @@ class SarprasController extends Controller
     {
         $data = $request->validate([
             'jenis'         => 'required|string|max:255',
-            'jumlah_ganjil' => 'required|integer|min:0',
-            'jumlah_genap'  => 'required|integer|min:0',
+            'jumlah'        => 'required|integer|min:0',
             'keterangan'    => 'nullable|string|max:2000',
             'gambar'        => 'nullable|image|max:3072',
             'urutan'        => 'integer|min:0',
@@ -56,8 +55,7 @@ class SarprasController extends Controller
     {
         $data = $request->validate([
             'jenis'         => 'required|string|max:255',
-            'jumlah_ganjil' => 'required|integer|min:0',
-            'jumlah_genap'  => 'required|integer|min:0',
+            'jumlah'        => 'required|integer|min:0',
             'keterangan'    => 'nullable|string|max:2000',
             'gambar'        => 'nullable|image|max:3072',
             'urutan'        => 'integer|min:0',

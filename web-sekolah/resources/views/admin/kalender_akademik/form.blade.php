@@ -58,14 +58,14 @@
                         @error('tahun_ajaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
-                    @if ($item)
+                    @if ($item && $item->hasFile())
                         <div class="current-file">
                             <i class="bi bi-file-earmark-check-fill text-primary" style="font-size:1.4rem;"></i>
                             <div class="flex-grow-1" style="min-width:0;">
                                 <div style="font-size:.78rem;color:#64748b;">File saat ini</div>
                                 <a href="{{ $item->fileUrl() }}" target="_blank" rel="noopener"
                                    style="font-size:.84rem;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                                    {{ $item->file_name ?: basename($item->file_path) }}
+                                    {{ $item->file_name ?: ($item->file_path ? basename($item->file_path) : 'Lihat file') }}
                                 </a>
                             </div>
                         </div>

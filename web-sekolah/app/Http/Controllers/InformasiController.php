@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Galeri;
+use App\Models\GaleriFoto;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -97,6 +98,26 @@ class InformasiController extends Controller
     }
 
     /**
+     * Menyajikan satu foto album galeri dari kolom biner (bytea) `galeri_foto`.
+     */
+    public function galeriFotoGambar(GaleriFoto $galeriFoto)
+    {
+        $row = DB::table('galeri_foto')
+            ->where('id', $galeriFoto->id)
+            ->selectRaw("encode(gambar_data, 'base64') as b64, gambar_mime")
+            ->first();
+
+        abort_if(! $row || empty($row->b64), 404);
+
+        $bytes = base64_decode($row->b64);
+
+        return response($bytes)
+            ->header('Content-Type', $row->gambar_mime ?: 'image/jpeg')
+            ->header('Content-Length', (string) strlen($bytes))
+            ->header('Cache-Control', 'public, max-age=86400');
+    }
+
+    /**
      * Galeri foto dengan filter kategori server-side dan pagination.
      */
     public function galeri(Request $request)
@@ -105,6 +126,9 @@ class InformasiController extends Controller
         // Tanpa ini, paginate(12) menarik 12 gambar penuh padahal kartu galeri
         // hanya memakai galeriUrl() yang menunjuk ke route galeri.gambar.
         $query = Galeri::select(Galeri::LIST_COLUMNS)
+            // Eager-load foto album (kolom ringan saja — tanpa byte gambar) untuk
+            // carousel di modal, sekaligus mencegah query N+1.
+            ->with(['fotos' => fn ($q) => $q->select(GaleriFoto::LIST_COLUMNS)])
             ->where('is_active', true)
             ->orderBy('urutan')
             ->orderByDesc('tanggal')

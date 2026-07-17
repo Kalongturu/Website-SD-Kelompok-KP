@@ -38,6 +38,14 @@ body {
     overflow-x: hidden;
 }
 
+/* Saat menu mobile terbuka, kunci scroll latar agar navbar (beserta tombol
+   tutup) tetap terlihat di tempatnya dan konten tidak bergeser di belakang
+   panel saat pengguna menggeser layar. */
+html.nav-open,
+html.nav-open body {
+    overflow: hidden;
+}
+
 a {
     text-decoration: none;
     color: inherit;
@@ -156,6 +164,7 @@ img {
     top: 120%;
     left: 0;
     min-width: 220px;
+    max-width: calc(100vw - 1.5rem);
     background: var(--white);
     list-style: none;
     border-radius: 14px;
@@ -171,6 +180,13 @@ img {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+/* Bila menu akan melewati tepi kanan layar, JS menambahkan .flip agar menu
+   dibuka ke arah kiri (rata kanan) sehingga tidak terpotong di layar sempit. */
+.dropdown-menu.flip {
+    left: auto;
+    right: 0;
 }
 
 .dropdown-menu a {
@@ -785,6 +801,9 @@ img {
 
     .nav-links > li > a { padding: 0.9rem 1rem; }
 
+    /* Accordion halus: tinggi dianimasikan via JS (0 ↔ scrollHeight), sama
+       seperti komponen collapse Bootstrap pada sidebar admin. Hanya padding
+       horizontal di sini agar tidak ada "strip" saat tertutup. */
     .dropdown-menu {
         position: static;
         opacity: 1;
@@ -792,16 +811,19 @@ img {
         transform: none;
         box-shadow: none;
         background: rgba(255, 255, 255, 0.06);
-        max-height: 0;
+        border-radius: 10px;
+        height: 0;
         overflow: hidden;
-        padding: 0;
-        transition: max-height 0.3s ease, padding 0.3s ease;
+        padding: 0 0.4rem;
+        transition: height 0.32s ease;
+        will-change: height;
     }
 
-    .dropdown.open > .dropdown-menu {
-        max-height: 400px;
-        padding: 0.4rem;
-    }
+    /* Beri jarak vertikal hanya saat terbuka (ikut teranimasi bersama tinggi). */
+    .dropdown.open > .dropdown-menu { padding: 0.3rem 0.4rem; }
+
+    /* Panah header ikut berputar saat terbuka, seperti sidebar admin. */
+    .dropdown.open > a::after { transform: rotate(180deg); }
 
     .dropdown-menu a { color: rgba(255, 255, 255, 0.85); }
     .dropdown-menu a:hover { background: rgba(255, 145, 11, 0.2); color: var(--white); }

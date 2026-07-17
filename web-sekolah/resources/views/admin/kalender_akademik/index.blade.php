@@ -65,7 +65,7 @@
                             </td>
                             <td>
                                 <div style="font-weight:500;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                                    {{ $item->file_name ?: basename($item->file_path) }}
+                                    {{ $item->file_name ?: ($item->file_path ? basename($item->file_path) : '—') }}
                                 </div>
                             </td>
                             <td class="center">{{ $item->urutan }}</td>
@@ -76,8 +76,10 @@
                             </td>
                             <td class="center">
                                 <div class="d-flex gap-1 justify-content-center">
-                                    <a href="{{ $item->fileUrl() }}" target="_blank" rel="noopener"
-                                       class="btn btn-sm btn-light" title="Lihat file"><i class="bi bi-eye-fill text-primary"></i></a>
+                                    @if ($item->hasFile())
+                                        <a href="{{ $item->fileUrl() }}" target="_blank" rel="noopener"
+                                           class="btn btn-sm btn-light" title="Lihat file"><i class="bi bi-eye-fill text-primary"></i></a>
+                                    @endif
                                     <a href="{{ route('admin.kalender-akademik.edit', $item) }}"
                                        class="btn btn-sm btn-light" title="Edit"><i class="bi bi-pencil-fill"></i></a>
                                     <form method="POST" action="{{ route('admin.kalender-akademik.toggle', $item) }}">
